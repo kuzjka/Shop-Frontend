@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   currentTypeId = 0;
   currentBrandId = 0;
   dto: ProductDto;
-
+  isLoggedIn = false;
   constructor(private service: Service, private fb: FormBuilder, private cookies: CookieService) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -33,6 +33,13 @@ export class AppComponent implements OnInit {
     this.dto = new ProductDto(0, 0, 0, '');
   }
 
+  authCodeLogin() {
+    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&scope=articles.read&client_id=app-client';
+  }
+logout(){
+
+    window.location.href='http://localhost:8080/logout';
+}
   login() {
 
     // @ts-ignore
@@ -50,7 +57,7 @@ export class AppComponent implements OnInit {
   getFilterTypes() {
     this.service.getTypes().subscribe(data => {
       this.filterTypes = data;
-    });
+    })
 
   }
 
@@ -59,6 +66,7 @@ export class AppComponent implements OnInit {
       this.filterBrands = data;
     })
   }
+
   getFormTypes() {
     this.service.getTypes().subscribe(data => {
       this.formTypes = data;
@@ -71,6 +79,7 @@ export class AppComponent implements OnInit {
       this.formBrands = data;
     })
   }
+
   getProducts(typeId: number, brandId: number) {
     this.service.getProducts(typeId, brandId).subscribe(data => {
       this.products = data;
@@ -81,25 +90,34 @@ export class AppComponent implements OnInit {
     this.getFilterBrands(this.currentTypeId);
   }
 
-  addProduct(){
-    this.service.addProduct(this.dto).subscribe(data=>{
+  addProduct() {
+    this.service.addProduct(this.dto).subscribe(data => {
       this.getProducts(0, 0);
     })
   }
-  editProduct(product:Product){
+
+  editProduct(product: Product) {
     this.dto.id = product.id;
     this.dto.name = product.name;
     this.dto.typeId = product.type.id;
     this.dto.brandId = product.brand.id;
-    this.service.editProduct(this.dto).subscribe(data=>{
+    this.service.editProduct(this.dto).subscribe(data => {
       this.getProducts(0, 0);
     })
   }
+
   ngOnInit(): void {
-    this.getFilterTypes()
-    this.getFilterBrands(0);
-    this.getFormBrands();
-    this.getFormTypes();
-    this.getProducts(0, 0);
+    let i = window.location.href.indexOf('code');
+    this.isLoggedIn = this.service.checkCredentials();
+    if (!this.isLoggedIn &&  i != -1)
+      this.service.retrieveToken(window.location.href.substring(i + 5)).subscribe(data => {
+        this.cookies.set('token', data.access_token);
+        this.getFilterTypes()
+        this.getFilterBrands(0);
+        this.getFormBrands();
+        this.getFormTypes();
+        this.getProducts(0, 0);
+      });
+
   }
 }

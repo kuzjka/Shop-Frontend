@@ -40,7 +40,8 @@
       <button class="btn btn-success" type="submit">Submit</button>
     </p>
   </form>
-
+<button class="btn btn-success" (click)="authCodeLogin()">AuthCodeLogin</button>
+  <button class="btn btn-success" (click)="logout()">logout</button>
   <form (ngSubmit)="addProduct()">
     <p><label for="typeId">select type:</label>
       <select id="typeId" class="form-control" name="typeId" [(ngModel)]="dto.typeId">

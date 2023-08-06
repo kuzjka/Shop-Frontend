@@ -24,6 +24,21 @@ export class Service {
 
     return this.http.post<Token>(this.baseUrl + '/oauth2/token', data, {headers: headers});
   }
+  checkCredentials(){
+    return this.cookies.check('token');
+  }
+  retrieveToken(code:string):Observable<Token>{
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('app-client:secret'),
+      'Content-type': 'application/x-www-form-urlencoded'
+    });
+    let params = new URLSearchParams();
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+
+
+    return this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers});
+  }
 
   getProducts(typeId: number, brandId: number): Observable<Product[]> {
     const headers = new HttpHeaders({
@@ -50,12 +65,13 @@ export class Service {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.cookies.get('token'),
     });
-    return this.http.post<any>(this.baseUrl + '/product', dto, {headers:headers})
+    return this.http.post<any>(this.baseUrl + '/product', dto, {headers: headers})
   }
+
   editProduct(dto: ProductDto): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.cookies.get('token'),
     });
-    return this.http.put<any>(this.baseUrl + '/product', dto, {headers:headers})
+    return this.http.put<any>(this.baseUrl + '/product', dto, {headers: headers})
   }
 }
