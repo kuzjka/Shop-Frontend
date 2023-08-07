@@ -47,18 +47,29 @@ export class Service {
     return this.http.get<Product[]>(this.baseUrl + '/product?typeId=' + typeId + '&brandId=' + brandId, {headers: headers});
   }
 
-  getTypes(): Observable<Type[]> {
+  getAllTypes(): Observable<Type[]> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('token'),
     });
     return this.http.get<Type[]>(this.baseUrl + '/type', {headers: headers});
   }
-
-  getBrands(typeId: number): Observable<Brand[]> {
+  getAllBrands(): Observable<Brand[]> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('token'),
     });
-    return this.http.get<Brand[]>(this.baseUrl + '/brand?typeId=' + typeId, {headers: headers});
+    return this.http.get<Brand[]>(this.baseUrl + '/brand', {headers: headers});
+  }
+  getProductTypes(): Observable<Type[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.cookies.get('token'),
+    });
+    return this.http.get<Type[]>(this.baseUrl + '/productType', {headers: headers});
+  }
+  getProductBrands(typeId: number): Observable<Brand[]> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.cookies.get('token'),
+    });
+    return this.http.get<Brand[]>(this.baseUrl + '/productBrand?typeId=' + typeId, {headers: headers});
   }
 
   addProduct(dto: ProductDto): Observable<any> {

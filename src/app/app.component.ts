@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   currentBrandId = 0;
   dto: ProductDto;
   isLoggedIn = false;
+
   constructor(private service: Service, private fb: FormBuilder, private cookies: CookieService) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -36,10 +37,12 @@ export class AppComponent implements OnInit {
   authCodeLogin() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&scope=articles.read&client_id=app-client';
   }
-logout(){
 
-    window.location.href='http://localhost:8080/logout';
-}
+  logout() {
+
+    window.location.href = 'http://localhost:8080/logout';
+  }
+
   login() {
 
     // @ts-ignore
@@ -55,27 +58,27 @@ logout(){
   }
 
   getFilterTypes() {
-    this.service.getTypes().subscribe(data => {
+    this.service.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
 
   }
 
   getFilterBrands(typeId: number) {
-    this.service.getBrands(typeId).subscribe(data => {
+    this.service.getProductBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
 
   getFormTypes() {
-    this.service.getTypes().subscribe(data => {
+    this.service.getAllTypes().subscribe(data => {
       this.formTypes = data;
     });
 
   }
 
   getFormBrands() {
-    this.service.getBrands(0).subscribe(data => {
+    this.service.getAllBrands().subscribe(data => {
       this.formBrands = data;
     })
   }
@@ -109,7 +112,7 @@ logout(){
   ngOnInit(): void {
     let i = window.location.href.indexOf('code');
     this.isLoggedIn = this.service.checkCredentials();
-    if (!this.isLoggedIn &&  i != -1)
+    if (!this.isLoggedIn && i != -1)
       this.service.retrieveToken(window.location.href.substring(i + 5)).subscribe(data => {
         this.cookies.set('token', data.access_token);
         this.getFilterTypes()
