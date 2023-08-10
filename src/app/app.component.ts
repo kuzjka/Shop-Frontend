@@ -7,6 +7,9 @@ import {Product} from "./product";
 import {Type} from "./type";
 import {Brand} from "./brand";
 import {ProductDto} from "./productDto";
+import {MatDialog} from "@angular/material/dialog";
+import {AddProductComponent} from "./add-product/add-product.component";
+import {DeleteProductComponent} from "./delete-product/delete-product.component";
 
 @Component({
   selector: 'app-root',
@@ -17,8 +20,6 @@ export class AppComponent implements OnInit {
   title = 'angularFrontend';
   loginForm!: FormGroup;
   products: Product[] = [];
-  formTypes: Type[] = [];
-  formBrands: Brand[] = [];
   filterTypes: Type[] = [];
   filterBrands: Brand[] = [];
   currentTypeId = 0;
@@ -26,7 +27,10 @@ export class AppComponent implements OnInit {
   dto: ProductDto;
   isLoggedIn = false;
 
-  constructor(private service: Service, private fb: FormBuilder, private cookies: CookieService) {
+  constructor(private service: Service,
+              private fb: FormBuilder,
+              private cookies: CookieService,
+              private dialog: MatDialog) {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
@@ -34,25 +38,38 @@ export class AppComponent implements OnInit {
     this.dto = new ProductDto(0, 0, 0, '');
   }
 
+  addProduct() {
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      height: '400px',
+      width: '600px',
+      data: {
+        product: this.dto, new: true
+      }
+    }).afterClosed().subscribe(data => {
+      this.service.addProduct(data).subscribe(data => {
+        this.getProducts(0, 0);
+        this.currentTypeId = 0;
+        this.currentBrandId = 0;
+        this.dto.id = 0;
+      })
+    })
+  }
+
   authCodeLogin() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&scope=articles.read&client_id=app-client';
   }
 
   logout() {
-
     window.location.href = 'http://localhost:8080/logout';
   }
 
   login() {
-
-    // @ts-ignore
     const body = new HttpParams()
       .set('username', this.loginForm.controls['username'].value)
       .set('password', this.loginForm.controls['password'].value)
       .set('grant_type', 'client_credentials');
     this.service.login(body).subscribe(data => {
       this.cookies.set('token', data.access_token);
-
       this.getProducts(0, 0);
     });
   }
@@ -61,25 +78,11 @@ export class AppComponent implements OnInit {
     this.service.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
-
   }
 
   getFilterBrands(typeId: number) {
     this.service.getProductBrands(typeId).subscribe(data => {
       this.filterBrands = data;
-    })
-  }
-
-  getFormTypes() {
-    this.service.getAllTypes().subscribe(data => {
-      this.formTypes = data;
-    });
-
-  }
-
-  getFormBrands() {
-    this.service.getAllBrands().subscribe(data => {
-      this.formBrands = data;
     })
   }
 
@@ -91,22 +94,45 @@ export class AppComponent implements OnInit {
     this.currentTypeId = typeId;
     this.currentBrandId = brandId;
     this.getFilterBrands(this.currentTypeId);
+
+    this.getFilterTypes();
   }
 
-  addProduct() {
-    this.service.addProduct(this.dto).subscribe(data => {
-      this.getProducts(0, 0);
-    })
-  }
 
   editProduct(product: Product) {
     this.dto.id = product.id;
     this.dto.name = product.name;
     this.dto.typeId = product.type.id;
     this.dto.brandId = product.brand.id;
-    this.service.editProduct(this.dto).subscribe(data => {
-      this.getProducts(0, 0);
+
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      height: '400px',
+      width: '600px',
+      data: {product: this.dto, new: false}
+    }).afterClosed().subscribe(data => {
+      this.service.editProduct(data).subscribe(data => {
+        this.getProducts(0, 0);
+        this.currentTypeId = 0;
+        this.currentBrandId = 0;
+        this.dto.id = 0;
+      })
     })
+  }
+
+  deleteProduct(product:Product) {
+
+    this.dialog.open(DeleteProductComponent,{
+      height: '400px',
+      width: '600px',
+      data:{
+        product:product
+      }
+    }).afterClosed().subscribe(data=>{
+      this.service.deleteProduct(data).subscribe(data => {
+        this.getProducts(0, 0);
+      })
+    })
+
   }
 
   ngOnInit(): void {
@@ -117,8 +143,7 @@ export class AppComponent implements OnInit {
         this.cookies.set('token', data.access_token);
         this.getFilterTypes()
         this.getFilterBrands(0);
-        this.getFormBrands();
-        this.getFormTypes();
+
         this.getProducts(0, 0);
       });
 

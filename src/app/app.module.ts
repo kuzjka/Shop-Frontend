@@ -5,17 +5,32 @@ import { AppComponent } from './app.component';
 import {Service} from "./service";
 import {HttpClientModule, HttpParams} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatInputModule} from "@angular/material/input";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { AddProductComponent } from './add-product/add-product.component';
+import {MatSelectModule} from "@angular/material/select";
+import { DeleteProductComponent } from './delete-product/delete-product.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AddProductComponent,
+    DeleteProductComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [Service],
   bootstrap: [AppComponent]

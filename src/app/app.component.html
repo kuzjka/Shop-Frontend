@@ -29,7 +29,9 @@
       <td>{{product.name}}</td>
       <td>{{product.type.name}}</td>
       <td>{{product.brand.name}}</td>
-      <td><button class="btn btn-success" (click)="editProduct(product)">edit product</button></td>
+      <td><button class="btn btn-success" (click)="editProduct(product)">edit</button>
+        <button class="btn btn-danger" (click)="deleteProduct(product)">delete</button>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -41,24 +43,7 @@
     </p>
   </form>
 <button class="btn btn-success" (click)="authCodeLogin()">AuthCodeLogin</button>
-  <button class="btn btn-success" (click)="logout()">logout</button>
-  <form (ngSubmit)="addProduct()">
-    <p><label for="typeId">select type:</label>
-      <select id="typeId" class="form-control" name="typeId" [(ngModel)]="dto.typeId">
-      <option *ngFor="let type of formTypes" [value]="type.id">{{type.name}}</option>
+  <button class="btn btn-success" (click)="addProduct()">Add product</button>
 
-    </select></p>
-
-    <p><label for="brandId">select brand:</label>
-      <select id="brandId" class="form-control" name="brandId" [(ngModel)]="dto.brandId">
-      <option *ngFor="let brand of formBrands" [value]="brand.id">{{brand.name}}</option>
-
-    </select>
-    </p>
-    <p><input type="hidden" name="id" [(ngModel)]="dto.id"/></p>
-    <label for="productName">enter product name:</label>
-    <p><input type="text" id="productName" class="form-control" name="name" [(ngModel)]="dto.name"/></p>
-    <p><button class="btn btn-success">Submit</button></p>
-  </form>
 </div>
 
