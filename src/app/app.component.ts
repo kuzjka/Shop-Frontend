@@ -8,6 +8,7 @@ import {ProductDto} from "./productDto";
 import {MatDialog} from "@angular/material/dialog";
 import {AddProductComponent} from "./add-product/add-product.component";
 import {DeleteProductComponent} from "./delete-product/delete-product.component";
+import {Token} from "./token";
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,13 @@ export class AppComponent implements OnInit {
   }
 
   login() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&scope=read-write&client_id=app-client';
+    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
+      '&scope=read-write&client_id=app-client';
+  }
+
+  logout() {
+    this.cookies.delete('access_token');
+    window.location.reload();
   }
   addProduct() {
     this.dto.id = 0;
@@ -53,6 +60,7 @@ export class AppComponent implements OnInit {
       })
     })
   }
+
   getFilterTypes() {
     this.service.getProductTypes().subscribe(data => {
       this.filterTypes = data;
@@ -112,20 +120,15 @@ export class AppComponent implements OnInit {
 
   }
 
-  logout() {
-    this.cookies.delete('token');
-    window.location.reload();
-  }
 
   ngOnInit(): void {
     let i = window.location.href.indexOf('code');
     this.isLoggedIn = this.service.checkCredentials();
-    if (!this.isLoggedIn && i != -1)
-      this.service.retrieveToken(window.location.href.substring(i + 5)).subscribe(data => {
-        this.cookies.set('token', data.access_token);
+
+      this.service.retrieveToken(window.location.href.substring(i + 5))
 
         this.getProducts(0, 0);
-      });
+      };
 
-  }
+
 }
