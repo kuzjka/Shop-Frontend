@@ -15,20 +15,12 @@ export class Service {
 
   baseUrl: string = 'http://localhost:8080';
 
-
-  login(data: HttpParams): Observable<Token> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa('app-client:secret'),
-      'Content-type': 'application/x-www-form-urlencoded'
-    });
-    return this.http.post<Token>(this.baseUrl + '/oauth2/token', data, {headers: headers});
-  }
-
-  checkCredentials() {
+   checkCredentials() {
     return this.cookies.check('token');
   }
 
   retrieveToken(code: string): Observable<Token> {
+
     const headers = new HttpHeaders({
       'Authorization': 'Basic ' + btoa('app-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
@@ -36,6 +28,7 @@ export class Service {
     let params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
+
     return this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers});
   }
 

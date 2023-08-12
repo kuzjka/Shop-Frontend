@@ -29,21 +29,21 @@
       <td>{{product.name}}</td>
       <td>{{product.type.name}}</td>
       <td>{{product.brand.name}}</td>
-      <td><button class="btn btn-success" (click)="editProduct(product)">edit</button>
+      <td>
+        <button class="btn btn-success" (click)="editProduct(product)">edit</button>
         <button class="btn btn-danger" (click)="deleteProduct(product)">delete</button>
       </td>
     </tr>
     </tbody>
   </table>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <p><input type="text" id="username" class="form-control " formControlName="username"/></p>
-    <p><input type="text" id="password" class="form-control" formControlName="password"/></p>
-    <p>
-      <button class="btn btn-success" type="submit">Submit</button>
-    </p>
-  </form>
-<button class="btn btn-success" (click)="authCodeLogin()">AuthCodeLogin</button>
-  <button class="btn btn-success" (click)="addProduct()">Add product</button>
-
+  <p>
+    <button class="btn btn-success" (click)="login()">Login</button>
+  </p>
+  <p>
+    <button class="btn btn-success" (click)="logout()">Logout</button>
+  </p>
+  <p>
+    <button class="btn btn-success" (click)="addProduct()">Add product</button>
+  </p>
 </div>
 

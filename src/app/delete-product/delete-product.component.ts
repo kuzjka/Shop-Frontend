@@ -8,9 +8,9 @@ import {Product} from "../product";
   styleUrls: ['./delete-product.component.css']
 })
 export class DeleteProductComponent {
-
   title = '';
-  id=0;
+  id = 0;
+
   constructor(public dialogRef: MatDialogRef<DeleteProductComponent>,
               @Inject(MAT_DIALOG_DATA) data: DeleteProductData) {
     this.title = 'delete ' + data.product.name + '?';
