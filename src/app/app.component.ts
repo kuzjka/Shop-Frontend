@@ -41,6 +41,7 @@ export class AppComponent implements OnInit {
     this.cookies.delete('access_token');
     window.location.reload();
   }
+
   addProduct() {
     this.dto.id = 0;
     this.dto.typeId = 0;
@@ -73,14 +74,37 @@ export class AppComponent implements OnInit {
     })
   }
 
+  typeFilter(typeId: number) {
+    if(typeId==this.currentTypeId){
+      typeId = 0;
+    }else if(typeId!=this.currentTypeId){
+      this.currentBrandId = 0;
+    }
+    this.getFilterBrands(typeId);
+    this.service.getProducts(typeId, this.currentBrandId).subscribe(data => {
+      this.products = data;
+      this.currentTypeId  = typeId;
+    })
+  }
+
+  brandFilter(brandId: number) {
+    if(brandId==this.currentBrandId){
+      brandId = 0;
+    }
+    this.service.getProducts(this.currentTypeId, brandId).subscribe(data => {
+      this.products = data;
+      this.currentBrandId = brandId    })
+  }
+
   getProducts(typeId: number, brandId: number) {
+
+
     this.service.getProducts(typeId, brandId).subscribe(data => {
       this.products = data;
     });
     this.currentTypeId = typeId;
     this.currentBrandId = brandId;
-    this.getFilterBrands(this.currentTypeId);
-    this.getFilterTypes();
+
 
   }
 
@@ -125,10 +149,11 @@ export class AppComponent implements OnInit {
     let i = window.location.href.indexOf('code');
     this.isLoggedIn = this.service.checkCredentials();
 
-      this.service.retrieveToken(window.location.href.substring(i + 5))
-
-        this.getProducts(0, 0);
-      };
+    this.service.retrieveToken(window.location.href.substring(i + 5))
+    this.getFilterTypes();
+    this.getFilterBrands(this.currentTypeId)
+    this.getProducts(0, 0);
+  };
 
 
 }

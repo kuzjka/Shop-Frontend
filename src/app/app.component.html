@@ -1,22 +1,11 @@
 <div class="container">
-  <p><span *ngFor="let type of filterTypes">
-  <button *ngIf="currentTypeId!=type.id" (click)="getProducts(type.id, 0)" class="btn btn-default">
-    {{type.name}}
-</button>
-  <button *ngIf="currentTypeId==type.id" (click)="getProducts(0, 0)" class="btn btn-success">
-    {{type.name}}
-</button>
-</span>
-  </p>
-  <p><span *ngFor="let brand of filterBrands">
-  <button *ngIf="currentBrandId!=brand.id" (click)="getProducts(currentTypeId, brand.id)" class="btn btn-default">
-    {{brand.name}}
-</button>
-  <button *ngIf="currentBrandId==brand.id" (click)="getProducts(currentTypeId, 0)" class="btn btn-success">
-    {{brand.name}}
-</button>
-</span>
-  </p>
+  <mat-chip-listbox>
+    <mat-chip-option (click)="typeFilter(type.id)"  *ngFor="let type of filterTypes">{{type.name}}</mat-chip-option>
+  </mat-chip-listbox>
+
+  <mat-chip-listbox>
+    <mat-chip-option (click)="brandFilter(brand.id)"  *ngFor="let brand of filterBrands">{{brand.name}}</mat-chip-option>
+  </mat-chip-listbox>
   <table class="table table-bordered">
     <thead>
     <th>Name</th>
@@ -30,20 +19,20 @@
       <td>{{product.type.name}}</td>
       <td>{{product.brand.name}}</td>
       <td>
-        <button class="btn btn-success" (click)="editProduct(product)">edit</button>
-        <button class="btn btn-danger" (click)="deleteProduct(product)">delete</button>
+        <button mat-icon-button color="primary" (click)="editProduct(product)"><mat-icon>create</mat-icon></button>
+        <button mat-icon-button color="primary" (click)="deleteProduct(product)"><mat-icon>delete</mat-icon></button>
       </td>
     </tr>
     </tbody>
   </table>
   <p>
-    <button class="btn btn-success" (click)="login()">Login</button>
+    <button mat-raised-button color="primary" (click)="login()">Login</button>
   </p>
   <p>
-    <button class="btn btn-success" (click)="logout()">Logout</button>
+    <button mat-raised-button color="primary" (click)="logout()">Logout</button>
   </p>
   <p>
-    <button class="btn btn-success" (click)="addProduct()">Add product</button>
+    <button mat-raised-button color="primary" (click)="addProduct()">Add product</button>
   </p>
 </div>
 

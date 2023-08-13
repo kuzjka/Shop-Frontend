@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {Service} from "./service";
-import {HttpClientModule, HttpParams} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import { AddProductComponent } from './add-product/add-product.component';
+import {AddProductComponent} from './add-product/add-product.component';
 import {MatSelectModule} from "@angular/material/select";
-import { DeleteProductComponent } from './delete-product/delete-product.component';
+import {DeleteProductComponent} from './delete-product/delete-product.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,9 @@ import { DeleteProductComponent } from './delete-product/delete-product.componen
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatChipsModule,
+    MatIconModule
+
   ],
   providers: [Service],
   bootstrap: [AppComponent]
