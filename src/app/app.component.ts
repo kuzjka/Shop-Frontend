@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddProductComponent} from "./add-product/add-product.component";
 import {DeleteProductComponent} from "./delete-product/delete-product.component";
 import {Token} from "./token";
+import {RegisterComponent} from "./register/register.component";
 
 @Component({
   selector: 'app-root',
@@ -75,25 +76,26 @@ export class AppComponent implements OnInit {
   }
 
   typeFilter(typeId: number) {
-    if(typeId==this.currentTypeId){
+    if (typeId == this.currentTypeId) {
       typeId = 0;
-    }else if(typeId!=this.currentTypeId){
+    } else if (typeId != this.currentTypeId) {
       this.currentBrandId = 0;
     }
     this.getFilterBrands(typeId);
     this.service.getProducts(typeId, this.currentBrandId).subscribe(data => {
       this.products = data;
-      this.currentTypeId  = typeId;
+      this.currentTypeId = typeId;
     })
   }
 
   brandFilter(brandId: number) {
-    if(brandId==this.currentBrandId){
+    if (brandId == this.currentBrandId) {
       brandId = 0;
     }
     this.service.getProducts(this.currentTypeId, brandId).subscribe(data => {
       this.products = data;
-      this.currentBrandId = brandId    })
+      this.currentBrandId = brandId
+    })
   }
 
   getProducts(typeId: number, brandId: number) {
@@ -106,6 +108,18 @@ export class AppComponent implements OnInit {
     this.currentBrandId = brandId;
 
 
+  }
+
+  register() {
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      height: '400px',
+      width: '600px',
+      data: {username: '', password: ''}
+    }).afterClosed().subscribe(data => {
+      this.service.register(data).subscribe(data => {
+        alert('success!')
+      });
+    })
   }
 
   editProduct(product: Product) {

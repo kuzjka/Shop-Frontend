@@ -7,6 +7,7 @@ import {CookieService} from "ngx-cookie-service";
 import {Type} from "./type";
 import {Brand} from "./brand";
 import {ProductDto} from "./productDto";
+import {RegisterDto} from "./registerDto";
 
 @Injectable()
 export class Service {
@@ -19,6 +20,10 @@ export class Service {
     return this.cookies.check('access_token');
   }
 
+  register(dto: RegisterDto):Observable<any> {
+    return this.http.post<any>(this.baseUrl + '/register', dto);
+  }
+
   retrieveToken(code: string) {
 
     const headers = new HttpHeaders({
@@ -29,9 +34,9 @@ export class Service {
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
 
-     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers}).subscribe(data=>{
-       this.saveToken(data);
-     })
+    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers}).subscribe(data => {
+      this.saveToken(data);
+    })
 
   }
 
