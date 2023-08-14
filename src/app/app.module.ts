@@ -16,6 +16,7 @@ import {DeleteProductComponent} from './delete-product/delete-product.component'
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import { RegisterComponent } from './register/register.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RegisterComponent } from './register/register.component';
     MatInputModule,
     MatSelectModule,
     MatChipsModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule
 
   ],
   providers: [Service],

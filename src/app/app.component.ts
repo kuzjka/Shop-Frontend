@@ -8,7 +8,7 @@ import {ProductDto} from "./productDto";
 import {MatDialog} from "@angular/material/dialog";
 import {AddProductComponent} from "./add-product/add-product.component";
 import {DeleteProductComponent} from "./delete-product/delete-product.component";
-import {Token} from "./token";
+import {MatTableModule} from '@angular/material/table';
 import {RegisterComponent} from "./register/register.component";
 
 @Component({
@@ -25,12 +25,12 @@ export class AppComponent implements OnInit {
   currentBrandId = 0;
   dto: ProductDto;
   isLoggedIn = false;
-
+  displayedColumns: string[] = ['name', 'price', 'type', 'brand', 'actions'];
   constructor(private service: Service,
               private cookies: CookieService,
               private dialog: MatDialog) {
 
-    this.dto = new ProductDto(0, 0, 0, '');
+    this.dto = new ProductDto(0, 0, 0, '', 0);
   }
 
   login() {
@@ -48,9 +48,10 @@ export class AppComponent implements OnInit {
     this.dto.typeId = 0;
     this.dto.brandId = 0;
     this.dto.name = '';
+    this.dto.price = 0;
     const dialogRef = this.dialog.open(AddProductComponent, {
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '500px',
       data: {
         product: this.dto, new: true
       }
@@ -94,7 +95,7 @@ export class AppComponent implements OnInit {
     }
     this.service.getProducts(this.currentTypeId, brandId).subscribe(data => {
       this.products = data;
-      this.currentBrandId = brandId
+      this.currentBrandId = brandId;
     })
   }
 
@@ -112,8 +113,8 @@ export class AppComponent implements OnInit {
 
   register() {
     const dialogRef = this.dialog.open(RegisterComponent, {
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '500px',
       data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
       this.service.register(data).subscribe(data => {
@@ -125,12 +126,13 @@ export class AppComponent implements OnInit {
   editProduct(product: Product) {
     this.dto.id = product.id;
     this.dto.name = product.name;
+    this.dto.price = product.price;
     this.dto.typeId = product.type.id;
     this.dto.brandId = product.brand.id;
 
     const dialogRef = this.dialog.open(AddProductComponent, {
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '500px',
       data: {product: this.dto, new: false}
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
