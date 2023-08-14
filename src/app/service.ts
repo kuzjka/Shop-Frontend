@@ -20,7 +20,7 @@ export class Service {
     return this.cookies.check('access_token');
   }
 
-  register(dto: RegisterDto):Observable<any> {
+  register(dto: RegisterDto): Observable<any> {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }
 
@@ -47,11 +47,12 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandId: number): Observable<Product[]> {
+  getProducts(typeId: number, brandId: number, sort: string, dir: string): Observable<Product[]> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
-    return this.http.get<Product[]>(this.baseUrl + '/product?typeId=' + typeId + '&brandId=' + brandId, {headers: tokenHeaders});
+    return this.http.get<Product[]>(this.baseUrl + '/product?typeId=' + typeId + '&brandId='
+      + brandId + '&sort=' + sort + '&dir=' + dir, {headers: tokenHeaders});
   }
 
   getAllTypes(): Observable<Type[]> {

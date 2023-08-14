@@ -17,6 +17,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import { RegisterComponent } from './register/register.component';
 import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {MatTableModule} from "@angular/material/table";
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule
 
   ],
   providers: [Service],

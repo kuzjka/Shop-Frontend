@@ -10,6 +10,7 @@ import {AddProductComponent} from "./add-product/add-product.component";
 import {DeleteProductComponent} from "./delete-product/delete-product.component";
 import {MatTableModule} from '@angular/material/table';
 import {RegisterComponent} from "./register/register.component";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-root',
@@ -83,7 +84,7 @@ export class AppComponent implements OnInit {
       this.currentBrandId = 0;
     }
     this.getFilterBrands(typeId);
-    this.service.getProducts(typeId, this.currentBrandId).subscribe(data => {
+    this.service.getProducts(typeId, this.currentBrandId, 'name', 'ASC').subscribe(data => {
       this.products = data;
       this.currentTypeId = typeId;
     })
@@ -93,7 +94,7 @@ export class AppComponent implements OnInit {
     if (brandId == this.currentBrandId) {
       brandId = 0;
     }
-    this.service.getProducts(this.currentTypeId, brandId).subscribe(data => {
+    this.service.getProducts(this.currentTypeId, brandId, 'name', 'ASC').subscribe(data => {
       this.products = data;
       this.currentBrandId = brandId;
     })
@@ -102,7 +103,7 @@ export class AppComponent implements OnInit {
   getProducts(typeId: number, brandId: number) {
 
 
-    this.service.getProducts(typeId, brandId).subscribe(data => {
+    this.service.getProducts(typeId, brandId, 'name', 'ASC').subscribe(data => {
       this.products = data;
     });
     this.currentTypeId = typeId;
@@ -156,6 +157,13 @@ export class AppComponent implements OnInit {
       this.service.deleteProduct(data).subscribe(data => {
         this.getProducts(0, 0);
       })
+    })
+
+  }
+  sortProducts(sortState: Sort) {
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active, sortState.direction)
+      .subscribe(data=>{
+      this.products = data;
     })
 
   }
