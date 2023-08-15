@@ -8,6 +8,7 @@ import {Type} from "./type";
 import {Brand} from "./brand";
 import {ProductDto} from "./productDto";
 import {RegisterDto} from "./registerDto";
+import {ResponseProductDto} from "./ResponseProductDto";
 
 @Injectable()
 export class Service {
@@ -47,12 +48,12 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandId: number, sort: string, dir: string): Observable<Product[]> {
+  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number): Observable<ResponseProductDto> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
-    return this.http.get<Product[]>(this.baseUrl + '/product?typeId=' + typeId + '&brandId='
-      + brandId + '&sort=' + sort + '&dir=' + dir, {headers: tokenHeaders});
+    return this.http.get<ResponseProductDto>(this.baseUrl + '/product?typeId=' + typeId + '&brandId='
+      + brandId + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: tokenHeaders});
   }
 
   getAllTypes(): Observable<Type[]> {

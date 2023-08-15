@@ -1,9 +1,9 @@
-export class ProductDto{
-  typeId:number;
-  brandId:number;
-  id:number;
-  name:string;
-  price:number;
+export class ProductDto {
+  typeId: number;
+  brandId: number;
+  id: number;
+  name: string;
+  price: number;
 
 
   constructor(typeId: number, brandId: number, id: number, name: string, price: number) {

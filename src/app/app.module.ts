@@ -15,9 +15,10 @@ import {MatSelectModule} from "@angular/material/select";
 import {DeleteProductComponent} from './delete-product/delete-product.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
-import { RegisterComponent } from './register/register.component';
+import {RegisterComponent} from './register/register.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -40,10 +41,11 @@ import {MatSortModule} from "@angular/material/sort";
     MatChipsModule,
     MatIconModule,
     MatTableModule,
-    MatSortModule
-
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [Service],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -8,9 +8,9 @@ import {ProductDto} from "./productDto";
 import {MatDialog} from "@angular/material/dialog";
 import {AddProductComponent} from "./add-product/add-product.component";
 import {DeleteProductComponent} from "./delete-product/delete-product.component";
-import {MatTableModule} from '@angular/material/table';
 import {RegisterComponent} from "./register/register.component";
 import {Sort} from "@angular/material/sort";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-root',
@@ -24,13 +24,17 @@ export class AppComponent implements OnInit {
   filterBrands: Brand[] = [];
   currentTypeId = 0;
   currentBrandId = 0;
+  pageSize = 2;
+  totalProducts = 50;
+  currentPage = 0;
+
   dto: ProductDto;
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'type', 'brand', 'actions'];
+
   constructor(private service: Service,
               private cookies: CookieService,
               private dialog: MatDialog) {
-
     this.dto = new ProductDto(0, 0, 0, '', 0);
   }
 
@@ -84,32 +88,52 @@ export class AppComponent implements OnInit {
       this.currentBrandId = 0;
     }
     this.getFilterBrands(typeId);
-    this.service.getProducts(typeId, this.currentBrandId, 'name', 'ASC').subscribe(data => {
-      this.products = data;
-      this.currentTypeId = typeId;
-    })
+    this.service.getProducts(typeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+
+        this.totalProducts = data.totalProducts;
+        this.currentTypeId = typeId;
+      })
   }
 
   brandFilter(brandId: number) {
     if (brandId == this.currentBrandId) {
       brandId = 0;
     }
-    this.service.getProducts(this.currentTypeId, brandId, 'name', 'ASC').subscribe(data => {
-      this.products = data;
-      this.currentBrandId = brandId;
-    })
+    this.service.getProducts(this.currentTypeId, brandId, 'name', 'ASC', this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+        this.pageSize = data.pageSize;
+        this.totalProducts = data.totalProducts;
+        this.currentBrandId = brandId;
+      })
   }
 
   getProducts(typeId: number, brandId: number) {
 
 
-    this.service.getProducts(typeId, brandId, 'name', 'ASC').subscribe(data => {
-      this.products = data;
-    });
+    this.service.getProducts(0, 0, 'name', 'ASC', this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+        this.pageSize = data.pageSize;
+        this.totalProducts = data.totalProducts;
+      });
     this.currentTypeId = typeId;
     this.currentBrandId = brandId;
+  }
 
+  pageChangeEvent(event: PageEvent) {
 
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.service.getProducts(0, 0, 'name', 'ASC', this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+        this.pageSize = data.pageSize;
+        this.totalProducts = data.totalProducts;
+
+      })
   }
 
   register() {
@@ -146,10 +170,9 @@ export class AppComponent implements OnInit {
   }
 
   deleteProduct(product: Product) {
-
     this.dialog.open(DeleteProductComponent, {
-      height: '400px',
-      width: '600px',
+      height: '500px',
+      width: '500px',
       data: {
         product: product
       }
@@ -158,26 +181,22 @@ export class AppComponent implements OnInit {
         this.getProducts(0, 0);
       })
     })
-
   }
+
   sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active, sortState.direction)
-      .subscribe(data=>{
-      this.products = data;
-    })
-
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active, sortState.direction, this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+        this.pageSize = data.pageSize;
+      })
   }
-
 
   ngOnInit(): void {
     let i = window.location.href.indexOf('code');
     this.isLoggedIn = this.service.checkCredentials();
-
     this.service.retrieveToken(window.location.href.substring(i + 5))
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId)
     this.getProducts(0, 0);
   };
-
-
 }
