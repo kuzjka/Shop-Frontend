@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
 
   login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
-      '&scope=read-write&client_id=app-client';
+      '&scope=write&client_id=app-client';
   }
 
   logout() {
