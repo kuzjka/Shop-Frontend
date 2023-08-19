@@ -1,7 +1,6 @@
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {Product} from "./product";
 import {Token} from "./token";
 import {CookieService} from "ngx-cookie-service";
 import {Type} from "./type";
@@ -28,17 +27,17 @@ export class Service {
   retrieveToken(code: string) {
 
     const headers = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa('app-client:secret'),
+      'Authorization': 'Basic ' + btoa('app-client:app-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
 
-    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers}).subscribe(data => {
-      this.saveToken(data);
-    })
-
+    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers})
+      .subscribe(data => {
+        this.saveToken(data);
+      })
   }
 
   saveToken(token: Token) {
@@ -48,7 +47,8 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number): Observable<ResponseProductDto> {
+  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
+    Observable<ResponseProductDto> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
