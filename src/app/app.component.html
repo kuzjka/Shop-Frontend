@@ -2,7 +2,7 @@
   <mat-chip-option (click)="typeFilter(type.id)" *ngFor="let type of filterTypes">{{type.name}}</mat-chip-option>
 </mat-chip-listbox>
 
-<mat-chip-listbox>
+<mat-chip-listbox multiple>
   <mat-chip-option (click)="brandFilter(brand.id)" *ngFor="let brand of filterBrands">{{brand.name}}</mat-chip-option>
 </mat-chip-listbox>
 

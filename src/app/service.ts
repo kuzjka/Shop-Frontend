@@ -47,13 +47,13 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
+  getProducts(typeId: number, brandIds: number[], sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
-    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandId='
-      + brandId + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: tokenHeaders});
+    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandIds='
+      + brandIds + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: tokenHeaders});
   }
 
   getAllTypes(): Observable<Type[]> {
