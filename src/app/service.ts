@@ -47,12 +47,12 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandIds: number[], sort: string, dir: string, page: number, size: number):
+  getProducts(typeIds: number[], brandIds: number[], sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
-    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandIds='
+    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeIds=' + typeIds + '&brandIds='
       + brandIds + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: tokenHeaders});
   }
 
@@ -77,11 +77,11 @@ export class Service {
     return this.http.get<Type[]>(this.baseUrl + '/api/productType', {headers: tokenHeaders});
   }
 
-  getProductBrands(typeId: number): Observable<Brand[]> {
+  getProductBrands(typeIds: number[]): Observable<Brand[]> {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
-    return this.http.get<Brand[]>(this.baseUrl + '/api/productBrand?typeId=' + typeId, {headers: tokenHeaders});
+    return this.http.get<Brand[]>(this.baseUrl + '/api/productBrand?typeIds=' + typeIds, {headers: tokenHeaders});
   }
 
   addProduct(dto: ProductDto): Observable<any> {

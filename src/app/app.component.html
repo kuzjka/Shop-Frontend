@@ -1,4 +1,4 @@
-<mat-chip-listbox>
+<mat-chip-listbox multiple>
   <mat-chip-option (click)="typeFilter(type.id)" *ngFor="let type of filterTypes">{{type.name}}</mat-chip-option>
 </mat-chip-listbox>
 
@@ -41,7 +41,7 @@
 </table>
 <mat-paginator [length]="totalProducts"
                [pageSize]="pageSize"
-               [pageSizeOptions]="[2, 5]" (page)=pageChangeEvent($event)>
+               [pageSizeOptions]="pageSizeOptions" (page)=pageChangeEvent($event)>
 </mat-paginator>
 
 <p></p>

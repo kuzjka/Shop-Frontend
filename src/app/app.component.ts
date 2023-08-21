@@ -22,12 +22,12 @@ export class AppComponent implements OnInit {
   products: Product[] = [];
   filterTypes: Type[] = [];
   filterBrands: Brand[] = [];
-  currentTypeId = 0;
+  currentTypeIds: number[] = [];
   currentBrandIds: number[] = [];
   pageSize = 5;
   totalProducts = 0;
+  pageSizeOptions = [2, 5, 10]
   currentPage = 0;
-
   dto: ProductDto;
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'type', 'brand', 'actions'];
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
         this.getProducts(0, 0);
-        this.currentTypeId = 0;
+        this.currentTypeIds = [];
         this.currentBrandIds = [];
       })
     })
@@ -75,25 +75,24 @@ export class AppComponent implements OnInit {
     })
   }
 
-  getFilterBrands(typeId: number) {
-    this.service.getProductBrands(typeId).subscribe(data => {
+  getFilterBrands(typeIds: number[]) {
+    this.service.getProductBrands(typeIds).subscribe(data => {
       this.filterBrands = data;
     })
   }
 
   typeFilter(typeId: number) {
-    if (typeId == this.currentTypeId) {
-      typeId = 0;
-    } else if (typeId != this.currentTypeId) {
-      this.currentBrandIds = [];
+    if (this.currentTypeIds.includes(typeId)) {
+      let index = this.currentTypeIds.indexOf(typeId);
+      this.currentTypeIds.splice(index, 1);
+    } else {
+      this.currentTypeIds.push(typeId);
     }
-    this.getFilterBrands(typeId);
-    this.service.getProducts(typeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.getFilterBrands(this.currentTypeIds);
+    this.service.getProducts(this.currentTypeIds, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
-
         this.totalProducts = data.totalProducts;
-        this.currentTypeId = typeId;
       })
   }
 
@@ -104,38 +103,31 @@ export class AppComponent implements OnInit {
     } else {
       this.currentBrandIds.push(brandId);
     }
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeIds, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
-
       })
   }
 
   getProducts(typeId: number, brandId: number) {
-
-
-    this.service.getProducts(0, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeIds, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
       });
-    this.currentTypeId = typeId;
-
   }
 
   pageChangeEvent(event: PageEvent) {
-
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.service.getProducts(0, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeIds, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
-
       })
   }
 
@@ -157,7 +149,6 @@ export class AppComponent implements OnInit {
     this.dto.price = product.price;
     this.dto.typeId = product.type.id;
     this.dto.brandId = product.brand.id;
-
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
@@ -165,7 +156,7 @@ export class AppComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
         this.getProducts(0, 0);
-        this.currentTypeId = 0;
+        this.currentTypeIds = [];
         this.currentBrandIds = [];
         this.dto.id = 0;
       })
@@ -187,7 +178,7 @@ export class AppComponent implements OnInit {
   }
 
   sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, sortState.active, sortState.direction, this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeIds, this.currentBrandIds, sortState.active, sortState.direction, this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -199,7 +190,7 @@ export class AppComponent implements OnInit {
     this.isLoggedIn = this.service.checkCredentials();
     this.service.retrieveToken(window.location.href.substring(i + 5))
     this.getFilterTypes();
-    this.getFilterBrands(this.currentTypeId)
+    this.getFilterBrands(this.currentTypeIds)
     this.getProducts(0, 0);
   };
 }
