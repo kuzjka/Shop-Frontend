@@ -12,6 +12,7 @@ import {RegisterComponent} from "./register/register.component";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -137,9 +138,14 @@ export class AppComponent implements OnInit {
       width: '500px',
       data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
-      this.service.register(data).subscribe(data => {
-        alert('success!')
-      });
+      this.service.register(data).subscribe(data2 => {
+          alert(data2.message)
+        },
+        error => {
+
+            alert(error.message)
+        })
+
     })
   }
 

@@ -8,6 +8,7 @@ import {Brand} from "./brand";
 import {ProductDto} from "./productDto";
 import {RegisterDto} from "./registerDto";
 import {ResponseProductDto} from "./ResponseProductDto";
+import {RegistrationResponse} from "./registrationResponse";
 
 @Injectable()
 export class Service {
