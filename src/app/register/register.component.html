@@ -10,6 +10,12 @@
     <input matInput [(ngModel)]="newUser.password">
   </mat-form-field>
 </div>
+<div align="center">
+  <mat-form-field>
+    <mat-label>Confirm password:</mat-label>
+    <input matInput [(ngModel)]="newUser.passwordConfirmed">
+  </mat-form-field>
+</div>
 <div align="center" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button [mat-dialog-close]="newUser" cdkFocusInitial>Ok</button>

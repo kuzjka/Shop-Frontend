@@ -11,6 +11,7 @@ import {DeleteProductComponent} from "./delete-product/delete-product.component"
 import {RegisterComponent} from "./register/register.component";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -35,7 +36,8 @@ export class AppComponent implements OnInit {
 
   constructor(private service: Service,
               private cookies: CookieService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
     this.dto = new ProductDto(0, 0, 0, '', 0);
   }
 
@@ -139,11 +141,11 @@ export class AppComponent implements OnInit {
       data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
       this.service.register(data).subscribe(data2 => {
-          alert(data2.message)
+          this.snackBar.open(data2.message, 'Undo', {duration: 3000})
         },
         error => {
 
-            alert(error.message)
+          this.snackBar.open(error.message, 'Undo', {duration: 3000})
         })
 
     })
