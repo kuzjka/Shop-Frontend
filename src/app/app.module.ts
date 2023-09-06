@@ -20,13 +20,17 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AddTypeComponent } from './add-type/add-type.component';
+import { AddBrandComponent } from './add-brand/add-brand.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddProductComponent,
     DeleteProductComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddTypeComponent,
+    AddBrandComponent
   ],
   imports: [
     BrowserModule,

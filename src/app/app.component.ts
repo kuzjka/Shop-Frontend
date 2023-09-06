@@ -12,6 +12,10 @@ import {RegisterComponent} from "./register/register.component";
 import {Sort} from "@angular/material/sort";
 import {PageEvent} from "@angular/material/paginator";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BrandDto} from "./brandDto";
+import {AddBrandComponent} from "./add-brand/add-brand.component";
+import {TypeDto} from "./typeDto";
+import {AddTypeComponent} from "./add-type/add-type.component";
 
 
 @Component({
@@ -31,6 +35,8 @@ export class AppComponent implements OnInit {
   pageSizeOptions = [2, 5, 10]
   currentPage = 0;
   dto: ProductDto;
+  brandDto: BrandDto;
+  typeDto: TypeDto;
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'type', 'brand', 'actions'];
 
@@ -39,6 +45,8 @@ export class AppComponent implements OnInit {
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new ProductDto(0, 0, 0, '', 0);
+    this.brandDto = new BrandDto(0, '');
+    this.typeDto = new TypeDto(0, '');
   }
 
   login() {
@@ -68,6 +76,94 @@ export class AppComponent implements OnInit {
         this.getProducts(0, 0);
         this.currentTypeIds = [];
         this.currentBrandIds = [];
+      })
+    })
+  }
+
+  addType() {
+    this.typeDto.id = 0;
+    this.typeDto.name = '';
+
+    const dialogRef = this.dialog.open(AddTypeComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        type: this.typeDto, new: true
+      }
+    }).afterClosed().subscribe(data => {
+      this.service.addType(data).subscribe(data => {
+
+        this.currentTypeIds = [];
+        this.currentBrandIds = [];
+        this.getFilterTypes();
+        this.getFilterBrands(this.currentTypeIds)
+        this.getProducts(0, 0);
+      })
+    })
+  }
+
+  editType(type: Type) {
+    this.typeDto.id = type.id;
+    this.typeDto.name = type.name;
+
+    const dialogRef = this.dialog.open(AddTypeComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        type: this.typeDto, new: false
+      }
+    }).afterClosed().subscribe(data => {
+      this.service.editType(data).subscribe(data => {
+
+        this.currentTypeIds = [];
+        this.currentBrandIds = [];
+        this.getFilterTypes();
+        this.getFilterBrands(this.currentTypeIds)
+        this.getProducts(0, 0);
+      })
+    })
+  }
+
+  addBrand() {
+    this.brandDto.id = 0;
+    this.brandDto.name = '';
+
+    const dialogRef = this.dialog.open(AddBrandComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        brand: this.brandDto, new: true
+      }
+    }).afterClosed().subscribe(data => {
+      this.service.addBrand(data).subscribe(data => {
+
+        this.currentTypeIds = [];
+        this.currentBrandIds = [];
+        this.getFilterTypes();
+        this.getFilterBrands(this.currentTypeIds)
+        this.getProducts(0, 0);
+      })
+    })
+  }
+
+  editBrand(brand: Brand) {
+    this.brandDto.id = brand.id;
+    this.brandDto.name = brand.name;
+
+    const dialogRef = this.dialog.open(AddBrandComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        brand: this.brandDto, new: false
+      }
+    }).afterClosed().subscribe(data => {
+      this.service.editBrand(data).subscribe(data => {
+
+        this.currentTypeIds = [];
+        this.currentBrandIds = [];
+        this.getFilterTypes();
+        this.getFilterBrands(this.currentTypeIds)
+        this.getProducts(0, 0);
       })
     })
   }
