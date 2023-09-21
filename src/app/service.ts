@@ -93,30 +93,35 @@ export class Service {
     })
     return this.http.post<any>(this.baseUrl + '/api/product', dto, {headers: headers});
   }
+
   addType(dto: TypeDto): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
     return this.http.post<any>(this.baseUrl + '/api/type', dto, {headers: headers});
   }
+
   addBrand(dto: BrandDto): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
     return this.http.post<any>(this.baseUrl + '/api/brand', dto, {headers: headers});
   }
+
   editType(dto: TypeDto): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
     return this.http.put<any>(this.baseUrl + '/api/type', dto, {headers: headers});
   }
+
   editBrand(dto: BrandDto): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
     return this.http.put<any>(this.baseUrl + '/api/brand', dto, {headers: headers});
   }
+
   editProduct(dto: ProductDto): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
@@ -129,5 +134,19 @@ export class Service {
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
     return this.http.delete<any>(this.baseUrl + '/api/product/' + productId, {headers: headers});
+  }
+
+  deleteType(typeId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
+    })
+    return this.http.delete<any>(this.baseUrl + '/api/type/' + typeId, {headers: headers});
+  }
+
+  deleteBrand(brandId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
+    })
+    return this.http.delete<any>(this.baseUrl + '/api/brand/' + brandId, {headers: headers});
   }
 }

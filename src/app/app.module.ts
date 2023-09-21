@@ -22,6 +22,12 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AddTypeComponent } from './add-type/add-type.component';
 import { AddBrandComponent } from './add-brand/add-brand.component';
+import { TypeListComponent } from './type-list/type-list.component';
+import { BrandListComponent } from './brand-list/brand-list.component';
+import {RouterModule} from "@angular/router";
+import { ProductListComponent } from './product-list/product-list.component';
+import { DeleteTypeComponent } from './delete-type/delete-type.component';
+import { DeleteBrandComponent } from './delete-brand/delete-brand.component';
 
 @NgModule({
   declarations: [
@@ -30,10 +36,20 @@ import { AddBrandComponent } from './add-brand/add-brand.component';
     DeleteProductComponent,
     RegisterComponent,
     AddTypeComponent,
-    AddBrandComponent
+    AddBrandComponent,
+    TypeListComponent,
+    BrandListComponent,
+    ProductListComponent,
+    DeleteTypeComponent,
+    DeleteBrandComponent
   ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot([
+      {path: '', component: ProductListComponent},
+      {path: 'types', component: TypeListComponent},
+      {path: 'brands', component: BrandListComponent},
+    ]),
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
