@@ -96,6 +96,7 @@ export class ProductListComponent implements OnInit {
       this.currentTypeId = 0;
     } else {
       this.currentTypeId = typeId;
+      this.currentBrandIds = [];
     }
 
     this.getFilterBrands(this.currentTypeId);
