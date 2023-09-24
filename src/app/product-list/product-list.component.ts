@@ -29,7 +29,7 @@ export class ProductListComponent implements OnInit {
   filterBrands: Brand[] = [];
   currentTypeId = 0;
   currentBrandIds: number[] = [];
-  pageSize = 5;
+  pageSize = 10;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10]
   currentPage = 0;
