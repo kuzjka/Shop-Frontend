@@ -10,10 +10,16 @@ import {RegisterDto} from "./registerDto";
 import {ResponseProductDto} from "./ResponseProductDto";
 import {TypeDto} from "./typeDto";
 import {BrandDto} from "./brandDto";
+import {RegistrationResponse} from "./registrationResponse";
 
 @Injectable()
 export class Service {
+  private readonly headers2;
+
   constructor(private http: HttpClient, private cookies: CookieService) {
+    this.headers2 = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
+    })
   }
 
   baseUrl: string = 'http://localhost:8080';
@@ -22,23 +28,20 @@ export class Service {
     return this.cookies.check('access_token');
   }
 
-  register(dto: RegisterDto): Observable<any> {
+  register(dto: RegisterDto): Observable<RegistrationResponse> {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }
 
   retrieveToken(code: string) {
-
-    const headers = new HttpHeaders({
+    const headers1 = new HttpHeaders({
       'Authorization': 'Basic ' + btoa('app-client:app-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
-
-    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers})
+    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: headers1})
       .subscribe(data => {
-
         this.saveToken(data);
       })
   }
@@ -46,107 +49,64 @@ export class Service {
   saveToken(token: Token) {
     let expireDate = new Date().getTime() + (1000 * token.expires_in);
     this.cookies.set("access_token", token.access_token, expireDate);
-
     window.location.href = 'http://localhost:4200';
   }
 
   getProducts(typeId: number, brandIds: number[], sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
     return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandIds='
-      + brandIds + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: headers});
+      + brandIds + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: this.headers2});
   }
 
   getAllTypes(): Observable<Type[]> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.get<Type[]>(this.baseUrl + '/api/type', {headers: headers});
+    return this.http.get<Type[]>(this.baseUrl + '/api/type', {headers: this.headers2});
   }
 
   getAllBrands(): Observable<Brand[]> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.get<Brand[]>(this.baseUrl + '/api/brand', {headers: headers});
+    return this.http.get<Brand[]>(this.baseUrl + '/api/brand', {headers: this.headers2});
   }
 
   getProductTypes(): Observable<Type[]> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.get<Type[]>(this.baseUrl + '/api/productType', {headers: headers});
+    return this.http.get<Type[]>(this.baseUrl + '/api/productType', {headers: this.headers2});
   }
 
   getProductBrands(typeId: number): Observable<Brand[]> {
-    const tokenHeaders = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.get<Brand[]>(this.baseUrl + '/api/productBrand?typeId=' + typeId, {headers: tokenHeaders});
+    return this.http.get<Brand[]>(this.baseUrl + '/api/productBrand?typeId=' + typeId, {headers: this.headers2});
   }
 
   addProduct(dto: ProductDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.post<any>(this.baseUrl + '/api/product', dto, {headers: headers});
+    return this.http.post<any>(this.baseUrl + '/api/product', dto, {headers: this.headers2});
   }
 
   addType(dto: TypeDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.post<any>(this.baseUrl + '/api/type', dto, {headers: headers});
+    return this.http.post<any>(this.baseUrl + '/api/type', dto, {headers: this.headers2});
   }
 
   addBrand(dto: BrandDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.post<any>(this.baseUrl + '/api/brand', dto, {headers: headers});
+    return this.http.post<any>(this.baseUrl + '/api/brand', dto, {headers: this.headers2});
   }
 
   editType(dto: TypeDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.put<any>(this.baseUrl + '/api/type', dto, {headers: headers});
+    return this.http.put<any>(this.baseUrl + '/api/type', dto, {headers: this.headers2});
   }
 
   editBrand(dto: BrandDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.put<any>(this.baseUrl + '/api/brand', dto, {headers: headers});
+    return this.http.put<any>(this.baseUrl + '/api/brand', dto, {headers: this.headers2});
   }
 
   editProduct(dto: ProductDto): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.put<any>(this.baseUrl + '/api/product', dto, {headers: headers});
+    return this.http.put<any>(this.baseUrl + '/api/product', dto, {headers: this.headers2});
   }
 
   deleteProduct(productId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.delete<any>(this.baseUrl + '/api/product/' + productId, {headers: headers});
+    return this.http.delete<any>(this.baseUrl + '/api/product/' + productId, {headers: this.headers2});
   }
 
   deleteType(typeId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.delete<any>(this.baseUrl + '/api/type/' + typeId, {headers: headers});
+    return this.http.delete<any>(this.baseUrl + '/api/type/' + typeId, {headers: this.headers2});
   }
 
   deleteBrand(brandId: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
-    return this.http.delete<any>(this.baseUrl + '/api/brand/' + brandId, {headers: headers});
+    return this.http.delete<any>(this.baseUrl + '/api/brand/' + brandId, {headers: this.headers2});
   }
 }

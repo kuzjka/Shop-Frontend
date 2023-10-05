@@ -152,7 +152,9 @@ export class ProductListComponent implements OnInit {
           this.snackBar.open(data2.message, 'Undo', {duration: 3000})
         },
         error => {
-          this.snackBar.open(error.message, 'Undo', {duration: 3000})
+          if (error.status === 409) {
+            this.snackBar.open('user already exists', 'Undo', {duration: 3000})
+          }
         })
     })
   }
