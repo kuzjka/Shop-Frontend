@@ -149,12 +149,12 @@ export class ProductListComponent implements OnInit {
       data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
       this.service.register(data).subscribe(data2 => {
-          this.snackBar.open(data2.message, 'Undo', {duration: 3000})
+          this.snackBar.open(data2.message, 'Undo')
         },
-        error => {
-          if (error.status === 409) {
-            this.snackBar.open('user already exists', 'Undo', {duration: 3000})
-          }
+        err => {
+
+          this.snackBar.open(err.error.message, 'Undo', {duration: 3000})
+
         })
     })
   }
