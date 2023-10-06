@@ -4,9 +4,8 @@ import {Service} from "../service";
 import {AddTypeComponent} from "../add-type/add-type.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TypeDto} from "../typeDto";
-import {Product} from "../product";
-import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-type-list',
@@ -17,7 +16,10 @@ export class TypeListComponent implements OnInit {
   types: Type[] = [];
   typeDto!: TypeDto;
 
-  constructor(private service: Service, private dialog: MatDialog) {
+  constructor(private service: Service,
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar
+  ) {
     this.typeDto = new TypeDto(0, '');
   }
 
@@ -30,7 +32,6 @@ export class TypeListComponent implements OnInit {
   addType() {
     this.typeDto.id = 0;
     this.typeDto.name = '';
-
     const dialogRef = this.dialog.open(AddTypeComponent, {
       height: '500px',
       width: '500px',
@@ -39,16 +40,18 @@ export class TypeListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.addType(data).subscribe(data => {
-        this.getTypes();
-
-      })
+          this.getTypes();
+        },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
     })
   }
 
   editType(type: Type) {
     this.typeDto.id = type.id;
     this.typeDto.name = type.name;
-
     const dialogRef = this.dialog.open(AddTypeComponent, {
       height: '500px',
       width: '500px',
@@ -62,7 +65,7 @@ export class TypeListComponent implements OnInit {
     })
   }
   deleteType(type: Type) {
-    const dialogRef= this.dialog.open(DeleteTypeComponent, {
+    const dialogRef = this.dialog.open(DeleteTypeComponent, {
       height: '500px',
       width: '500px',
       data: {
@@ -70,11 +73,13 @@ export class TypeListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.deleteType(data).subscribe(data => {
-
         this.getTypes();
+      }, error => {
+        this.snackBar.open(error.error.message, '', {duration: 3000})
       })
     })
   }
+
   ngOnInit(): void {
     this.getTypes();
   }

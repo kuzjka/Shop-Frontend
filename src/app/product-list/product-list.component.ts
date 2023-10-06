@@ -58,25 +58,27 @@ export class ProductListComponent implements OnInit {
     window.location.reload();
   }
 
-  addProduct() {
-    this.dto.id = 0;
-    this.dto.typeId = 0;
-    this.dto.brandId = 0;
-    this.dto.name = '';
-    this.dto.price = 0;
-    const dialogRef = this.dialog.open(AddProductComponent, {
+  register() {
+    const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
       width: '500px',
-      data: {
-        product: this.dto, new: true
-      }
+      data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
-      this.service.addProduct(data).subscribe(data => {
-        this.getProducts(0, 0);
-        this.currentTypeId = 0;
-        this.currentBrandIds = [];
-      })
+      this.service.register(data).subscribe(data2 => {
+          this.snackBar.open(data2.message, '', {duration: 3000})
+        },
+        err => {
+          this.snackBar.open(err.error.message, 'Undo', {duration: 3000})
+        })
     })
+  }
+
+  sortProducts(sortState: Sort) {
+    this.service.getProducts(this.currentTypeId, this.currentBrandIds, sortState.active, sortState.direction, this.currentPage, this.pageSize)
+      .subscribe(data => {
+        this.products = data.products;
+        this.pageSize = data.pageSize;
+      })
   }
 
   getFilterTypes() {
@@ -98,7 +100,6 @@ export class ProductListComponent implements OnInit {
       this.currentTypeId = typeId;
       this.currentBrandIds = [];
     }
-
     this.getFilterBrands(this.currentTypeId);
     this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
@@ -142,20 +143,28 @@ export class ProductListComponent implements OnInit {
       })
   }
 
-  register() {
-    const dialogRef = this.dialog.open(RegisterComponent, {
+  addProduct() {
+    this.dto.id = 0;
+    this.dto.typeId = 0;
+    this.dto.brandId = 0;
+    this.dto.name = '';
+    this.dto.price = 0;
+    const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {username: '', password: ''}
+      data: {
+        product: this.dto, new: true
+      }
     }).afterClosed().subscribe(data => {
-      this.service.register(data).subscribe(data2 => {
-          this.snackBar.open(data2.message, 'Undo')
+      this.service.addProduct(data).subscribe(data => {
+          this.getProducts(0, 0);
+          this.currentTypeId = 0;
+          this.currentBrandIds = [];
         },
-        err => {
-
-          this.snackBar.open(err.error.message, 'Undo', {duration: 3000})
-
-        })
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
     })
   }
 
@@ -191,14 +200,6 @@ export class ProductListComponent implements OnInit {
         this.getProducts(0, 0);
       })
     })
-  }
-
-  sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, sortState.active, sortState.direction, this.currentPage, this.pageSize)
-      .subscribe(data => {
-        this.products = data.products;
-        this.pageSize = data.pageSize;
-      })
   }
 
   ngOnInit(): void {

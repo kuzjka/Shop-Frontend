@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Type} from "../type";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-brand-list',
@@ -17,7 +18,9 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   dto: BrandDto;
 
-  constructor(private service: Service, private dialog: MatDialog) {
+  constructor(private service: Service,
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
     this.dto = new BrandDto(0, '');
   }
 
@@ -30,7 +33,6 @@ export class BrandListComponent implements OnInit {
   addBrand() {
     this.dto.id = 0;
     this.dto.name = '';
-
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
@@ -39,9 +41,12 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.addBrand(data).subscribe(data => {
-        this.getBrands();
-
-      })
+          this.getBrands();
+        },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
     })
   }
 
@@ -62,6 +67,7 @@ export class BrandListComponent implements OnInit {
       })
     })
   }
+
   deleteBrand(brand: Brand) {
     const dialogRef = this.dialog.open(DeleteBrandComponent, {
       height: '500px',
@@ -71,10 +77,14 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.deleteBrand(data).subscribe(data => {
-        this.getBrands();
-      })
+          this.getBrands();
+        }, error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
     })
   }
+
   ngOnInit(): void {
     this.getBrands();
   }
