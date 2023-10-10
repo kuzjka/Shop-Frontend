@@ -28,7 +28,7 @@ export class ProductListComponent implements OnInit {
   filterTypes: Type[] = [];
   filterBrands: Brand[] = [];
   currentTypeId = 0;
-  currentBrandIds: number[] = [];
+  currentBrandId = 0;
   pageSize = 10;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10]
@@ -74,7 +74,7 @@ export class ProductListComponent implements OnInit {
   }
 
   sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, sortState.active, sortState.direction, this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active, sortState.direction, this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -96,12 +96,13 @@ export class ProductListComponent implements OnInit {
   typeFilter(typeId: number) {
     if (typeId == this.currentTypeId) {
       this.currentTypeId = 0;
+      this.currentBrandId = 0;
     } else {
       this.currentTypeId = typeId;
-      this.currentBrandIds = [];
+
     }
     this.getFilterBrands(this.currentTypeId);
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
@@ -109,13 +110,12 @@ export class ProductListComponent implements OnInit {
   }
 
   brandFilter(brandId: number) {
-    if (this.currentBrandIds.includes(brandId)) {
-      let index = this.currentBrandIds.indexOf(brandId);
-      this.currentBrandIds.splice(index, 1);
+    if (this.currentBrandId == brandId) {
+      this.currentBrandId = 0;
     } else {
-      this.currentBrandIds.push(brandId);
+      this.currentBrandId = brandId;
     }
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -124,7 +124,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts(typeId: number, brandId: number) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -135,7 +135,7 @@ export class ProductListComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.service.getProducts(this.currentTypeId, this.currentBrandIds, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -159,7 +159,7 @@ export class ProductListComponent implements OnInit {
       this.service.addProduct(data).subscribe(data => {
           this.getProducts(0, 0);
           this.currentTypeId = 0;
-          this.currentBrandIds = [];
+          this.currentBrandId = 0;
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -182,7 +182,7 @@ export class ProductListComponent implements OnInit {
       this.service.editProduct(data).subscribe(data => {
         this.getProducts(0, 0);
         this.currentTypeId = 0;
-        this.currentBrandIds = [];
+        this.currentBrandId = 0;
         this.dto.id = 0;
       })
     })

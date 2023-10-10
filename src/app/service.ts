@@ -52,10 +52,10 @@ export class Service {
     window.location.href = 'http://localhost:4200';
   }
 
-  getProducts(typeId: number, brandIds: number[], sort: string, dir: string, page: number, size: number):
+  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
-    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandIds='
-      + brandIds + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: this.headers2});
+    return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandId='
+      + brandId + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size, {headers: this.headers2});
   }
 
   getAllTypes(): Observable<Type[]> {
