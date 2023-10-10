@@ -10,8 +10,6 @@ import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AddProductComponent} from "../add-product/add-product.component";
-import {AddTypeComponent} from "../add-type/add-type.component";
-import {AddBrandComponent} from "../add-brand/add-brand.component";
 import {PageEvent} from "@angular/material/paginator";
 import {RegisterComponent} from "../register/register.component";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
@@ -99,7 +97,7 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId = 0;
     } else {
       this.currentTypeId = typeId;
-
+      this.currentBrandId = 0;
     }
     this.getFilterBrands(this.currentTypeId);
     this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
