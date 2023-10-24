@@ -28,7 +28,10 @@
     <mat-label>Price:</mat-label>
     <input matInput [(ngModel)]="product.price">
   </mat-form-field></p>
+  <p align="center">
 
+    <input type="file" (change)="handleUpload($event)">
+  </p>
 <div align="center" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button [mat-dialog-close]="product" cdkFocusInitial>Ok</button>

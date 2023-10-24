@@ -28,6 +28,7 @@ import {RouterModule} from "@angular/router";
 import { ProductListComponent } from './product-list/product-list.component';
 import { DeleteTypeComponent } from './delete-type/delete-type.component';
 import { DeleteBrandComponent } from './delete-brand/delete-brand.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -43,29 +44,30 @@ import { DeleteBrandComponent } from './delete-brand/delete-brand.component';
     DeleteTypeComponent,
     DeleteBrandComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([
-      {path: '', component: ProductListComponent},
-      {path: 'types', component: TypeListComponent},
-      {path: 'brands', component: BrandListComponent},
-    ]),
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatIconModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot([
+            {path: '', component: ProductListComponent},
+            {path: 'types', component: TypeListComponent},
+            {path: 'brands', component: BrandListComponent},
+        ]),
+        HttpClientModule,
+        ReactiveFormsModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatChipsModule,
+        MatIconModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatSnackBarModule,
+        NgOptimizedImage
+    ],
   providers: [Service],
   bootstrap: [AppComponent]
 })

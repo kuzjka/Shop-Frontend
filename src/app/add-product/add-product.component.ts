@@ -42,7 +42,16 @@ export class AddProductComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+handleUpload(event:any){
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsBinaryString(file);
+  reader.onload = () => {
 
+    // @ts-ignore
+    this.product.photo = btoa(reader.result.toString());
+  };
+}
   ngOnInit(): void {
     this.getTypes();
     this.getBrands();

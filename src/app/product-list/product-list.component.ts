@@ -35,13 +35,13 @@ export class ProductListComponent implements OnInit {
   brandDto: BrandDto;
   typeDto: TypeDto;
   isLoggedIn = false;
-  displayedColumns: string[] = ['name', 'price', 'type', 'brand', 'actions'];
+  displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
 
   constructor(private service: Service,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new ProductDto(0, 0, 0, '', 0);
+    this.dto = new ProductDto(0, 0, 0, '', 0, '');
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
   }
