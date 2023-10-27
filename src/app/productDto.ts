@@ -4,7 +4,7 @@ export class ProductDto {
   id: number;
   name: string;
   price: number;
-  photo:string | ArrayBuffer | null;
+  photo: string;
 
 
   constructor(typeId: number, brandId: number, id: number, name: string, price: number, photo: string) {
