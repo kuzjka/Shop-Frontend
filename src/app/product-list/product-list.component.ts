@@ -156,6 +156,8 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
           this.getProducts(0, 0);
+          this.getFilterTypes();
+          this.getFilterBrands(0);
           this.currentTypeId = 0;
           this.currentBrandId = 0;
         },
