@@ -15,6 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class TypeListComponent implements OnInit {
   types: Type[] = [];
   typeDto!: TypeDto;
+  displayedColumns: string[] = ['name', 'edit', 'delete'];
 
   constructor(private service: Service,
               private dialog: MatDialog,
@@ -64,6 +65,7 @@ export class TypeListComponent implements OnInit {
       })
     })
   }
+
   deleteType(type: Type) {
     const dialogRef = this.dialog.open(DeleteTypeComponent, {
       height: '500px',

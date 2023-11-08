@@ -4,8 +4,6 @@ import {Brand} from "../brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
 import {BrandDto} from "../brandDto";
 import {MatDialog} from "@angular/material/dialog";
-import {Type} from "../type";
-import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
@@ -17,6 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   dto: BrandDto;
+  displayedColumns: string[] = ['name', 'edit', 'delete'];
 
   constructor(private service: Service,
               private dialog: MatDialog,
