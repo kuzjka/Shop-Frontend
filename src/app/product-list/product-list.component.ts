@@ -41,7 +41,7 @@ export class ProductListComponent implements OnInit {
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new ProductDto(0, 0, 0, '', 0, '');
+    this.dto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
   }
@@ -121,7 +121,7 @@ export class ProductListComponent implements OnInit {
       })
   }
 
-  getProducts(typeId: number, brandId: number) {
+  getProducts() {
     this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -155,7 +155,7 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
-          this.getProducts(0, 0);
+          this.getProducts();
           this.getFilterTypes();
           this.getFilterBrands(0);
           this.currentTypeId = 0;
@@ -180,10 +180,11 @@ export class ProductListComponent implements OnInit {
       data: {product: this.dto, new: false}
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
-        this.getProducts(0, 0);
+        this.getProducts();
         this.currentTypeId = 0;
         this.currentBrandId = 0;
         this.dto.id = 0;
+        this.dto.photos = [];
       })
     })
   }
@@ -197,7 +198,7 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.deleteProduct(data).subscribe(data => {
-        this.getProducts(0, 0);
+        this.getProducts();
       })
     })
   }
@@ -208,6 +209,6 @@ export class ProductListComponent implements OnInit {
     this.service.retrieveToken(window.location.href.substring(i + 5))
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
-    this.getProducts(0, 0);
+    this.getProducts();
   };
 }

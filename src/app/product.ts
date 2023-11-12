@@ -6,7 +6,7 @@ export interface Product {
   id: number;
   name: string;
   price: number;
-  photo: Photo;
+  photos: Photo[];
   type: Type;
   brand: Brand;
 }
