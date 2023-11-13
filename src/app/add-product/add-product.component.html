@@ -30,7 +30,7 @@
   </mat-form-field></p>
   <p align="center">
 
-    <input type="file" (change)="handleUpload($event)" multiple>
+    <input type="file" multiple (change)="handleUpload($event)" />
   </p>
 <div align="center" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>

@@ -15,6 +15,7 @@ export class AddProductComponent implements OnInit {
   title: string;
   types: Type[] = [];
   brands: Brand[] = [];
+  selectedFiles?: FileList;
 
   constructor(public service: Service, public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
@@ -43,22 +44,21 @@ export class AddProductComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  handleUpload(event: any) {this.product.photos = [];
+  handleUpload(event: any) {
+    this.product.photos = [];
 
-    let files = event.target.files;
-    const reader = new FileReader();
-    for (let i = 0; i < files.length; i++) {
+    this.selectedFiles = event.target.files;
+    if (this.selectedFiles) {
 
-      reader.readAsBinaryString(files[i]);
-      reader.onload = () => {
-        if (!reader.result) return;
-
-        this.product.photos.push(btoa(reader.result.toString()));
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        const reader = new FileReader();
+        reader.readAsBinaryString(this.selectedFiles[i]);
+        reader.onload = () => {
+          if (!reader.result) return;
+          this.product.photos.push(btoa(reader.result.toString()));
+        }
       }
-
     }
-
-
   }
 
   ngOnInit(): void {
