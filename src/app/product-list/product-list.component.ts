@@ -48,7 +48,7 @@ export class ProductListComponent implements OnInit {
 
   login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
-      '&scope=write&client_id=app-client';
+      '&scope=write&client_id=app-client&redirect_uri=http://localhost:4200';
   }
 
   logout() {
@@ -204,9 +204,11 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let i = window.location.href.indexOf('code');
     this.isLoggedIn = this.service.checkCredentials();
-    this.service.retrieveToken(window.location.href.substring(i + 5))
+    let i = window.location.href.indexOf('code');
+    if(!this.isLoggedIn && i != -1){
+      this.service.retrieveToken(window.location.href.substring(i + 5));
+    }
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();

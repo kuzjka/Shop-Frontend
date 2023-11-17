@@ -55,9 +55,11 @@
 </mat-paginator>
 
 <p></p>
-<button mat-raised-button color="primary" (click)="login()">Login</button>
-<button mat-raised-button color="primary" (click)="register()">Register</button>
-<button mat-raised-button color="primary" (click)="logout()">Logout</button>
-<button mat-raised-button color="primary" (click)="addProduct()">Add product</button>
+
+
+<button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="login()">Login</button>
+<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">Logout</button>
+<button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="register()">Register</button>
+<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="addProduct()">Add product</button>
 
 
