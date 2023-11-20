@@ -11,6 +11,7 @@ import {ResponseProductDto} from "./ResponseProductDto";
 import {TypeDto} from "./typeDto";
 import {BrandDto} from "./brandDto";
 import {RegistrationResponse} from "./registrationResponse";
+import {Username} from "./username";
 
 @Injectable()
 export class Service {
@@ -27,7 +28,9 @@ export class Service {
   checkCredentials() {
     return this.cookies.check('access_token');
   }
-
+getUser():Observable<Username>{
+    return this.http.get<Username>(this.baseUrl+'/api/user', {headers: this.headers});
+}
   register(dto: RegisterDto): Observable<RegistrationResponse> {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }

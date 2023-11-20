@@ -58,8 +58,10 @@
 
 
 <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="login()">Login</button>
-<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">Logout</button>
+<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="getUser()">username</button>
+<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">logout</button>
 <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="register()">Register</button>
 <button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="addProduct()">Add product</button>
+
 
 

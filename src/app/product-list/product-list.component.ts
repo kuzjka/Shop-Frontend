@@ -34,6 +34,7 @@ export class ProductListComponent implements OnInit {
   dto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
+  username='';
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
 
@@ -49,11 +50,19 @@ export class ProductListComponent implements OnInit {
   login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
       '&scope=write&client_id=app-client&redirect_uri=http://localhost:4200';
+
   }
 
   logout() {
     this.cookies.delete('access_token');
     window.location.reload();
+  }
+
+  getUser() {
+    this.service.getUser().subscribe(data => {
+      this.username = data.username;
+      alert(this.username);
+    });
   }
 
   register() {
@@ -206,7 +215,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.service.checkCredentials();
     let i = window.location.href.indexOf('code');
-    if(!this.isLoggedIn && i != -1){
+    if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
     }
     this.getFilterTypes();
