@@ -28,9 +28,11 @@ export class Service {
   checkCredentials() {
     return this.cookies.check('access_token');
   }
-getUser():Observable<Username>{
-    return this.http.get<Username>(this.baseUrl+'/api/user', {headers: this.headers});
-}
+
+  getUser(): Observable<Username> {
+    return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
+  }
+
   register(dto: RegisterDto): Observable<RegistrationResponse> {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }

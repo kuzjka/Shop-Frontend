@@ -34,7 +34,7 @@ export class ProductListComponent implements OnInit {
   dto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  username='';
+  username = 'login';
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
 
@@ -51,17 +51,20 @@ export class ProductListComponent implements OnInit {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
       '&scope=write&client_id=app-client&redirect_uri=http://localhost:4200';
 
+
   }
 
   logout() {
     this.cookies.delete('access_token');
+    window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
+
   }
 
   getUser() {
     this.service.getUser().subscribe(data => {
       this.username = data.username;
-      alert(this.username);
+
     });
   }
 
@@ -221,5 +224,6 @@ export class ProductListComponent implements OnInit {
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();
+    this.getUser();
   };
 }
