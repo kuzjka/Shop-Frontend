@@ -61,6 +61,8 @@ export class ProductListComponent implements OnInit {
 
   }
 
+
+
   getUser() {
     this.service.getUser().subscribe(data => {
       this.username = data.username;

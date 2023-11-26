@@ -12,6 +12,7 @@ import {TypeDto} from "./typeDto";
 import {BrandDto} from "./brandDto";
 import {RegistrationResponse} from "./registrationResponse";
 import {Username} from "./username";
+import {Email} from "./email";
 
 @Injectable()
 export class Service {
@@ -57,6 +58,7 @@ export class Service {
     this.cookies.set("access_token", token.access_token, expireDate);
     window.location.href = 'http://localhost:4200';
   }
+
 
   getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
