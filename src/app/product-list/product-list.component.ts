@@ -62,7 +62,6 @@ export class ProductListComponent implements OnInit {
   }
 
 
-
   getUser() {
     this.service.getUser().subscribe(data => {
       this.username = data.username;
@@ -220,6 +219,10 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.service.checkCredentials();
     let i = window.location.href.indexOf('code');
+    let e = window.location.href.indexOf('message');
+    if (e != -1) {
+      alert(window.location.href.substring(e + 8));
+    }
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
     }
