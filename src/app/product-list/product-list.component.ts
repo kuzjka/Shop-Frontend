@@ -37,7 +37,8 @@ export class ProductListComponent implements OnInit {
   username = 'login';
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
-token='';
+
+
   constructor(private service: Service,
               private cookies: CookieService,
               private dialog: MatDialog,
@@ -76,10 +77,10 @@ token='';
       data: {username: '', password: ''}
     }).afterClosed().subscribe(data => {
       this.service.register(data).subscribe(data2 => {
-          this.snackBar.open(data2.message, '', {duration: 3000})
+          this.snackBar.open(data2.message, 'undo', {duration: 3000})
         },
         err => {
-          this.snackBar.open(err.error.message, 'Undo', {duration: 3000})
+          this.snackBar.open(err.error.message, 'undo', {duration: 3000})
         })
     })
   }
@@ -215,16 +216,20 @@ token='';
       })
     })
   }
-resendToken(){
-    this.service.resendRegistrationToken(this.token)
-}
+
+  resendToken(token: string) {
+    this.service.resendRegistrationToken(token).subscribe(data => {
+      this.snackBar.open(data.message, 'undo', {duration: 3000});
+    })
+  }
+
   ngOnInit(): void {
     this.isLoggedIn = this.service.checkCredentials();
     let i = window.location.href.indexOf('code');
     let e = window.location.href.indexOf('token');
     if (e != -1) {
-      // alert(window.location.href.substring(e + 6));
-      this.service.resendRegistrationToken(window.location.href.substring(e + 6));
+
+      this.resendToken(window.location.href.substring(e + 6));
     }
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));

@@ -12,7 +12,7 @@ import {TypeDto} from "./typeDto";
 import {BrandDto} from "./brandDto";
 import {RegistrationResponse} from "./registrationResponse";
 import {Username} from "./username";
-import {Email} from "./email";
+
 
 @Injectable()
 export class Service {
@@ -38,10 +38,10 @@ export class Service {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }
 
-  resendRegistrationToken(token: string) {
-    alert(token);
-     this.http.get<any>(this.baseUrl + '/resendRegistrationToken?token='+token);
-    window.location.href = 'http://localhost:4200';
+  resendRegistrationToken(token: string): Observable<RegistrationResponse> {
+
+    return this.http.get<RegistrationResponse>(this.baseUrl + '/resendRegistrationToken?token=' + token);
+
   }
 
   retrieveToken(code: string) {
