@@ -38,6 +38,12 @@ export class Service {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }
 
+  resendRegistrationToken(token: string) {
+    alert(token);
+     this.http.get<any>(this.baseUrl + '/resendRegistrationToken?token='+token);
+    window.location.href = 'http://localhost:4200';
+  }
+
   retrieveToken(code: string) {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + btoa('app-client:app-secret'),
