@@ -1,14 +1,16 @@
-<mat-chip-listbox xmlns="http://www.w3.org/1999/html">
+<p align="right">
+  <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="login()">login</button>
+  <button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">logout</button>
+  <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="register()">Register</button>
+</p>
+<mat-chip-listbox>
   <mat-chip-option (click)="typeFilter(type.id)" *ngFor="let type of filterTypes">{{type.name}}</mat-chip-option>
 </mat-chip-listbox>
-
 <mat-chip-listbox>
   <mat-chip-option (click)="brandFilter(brand.id)" *ngFor="let brand of filterBrands">{{brand.name}}</mat-chip-option>
 </mat-chip-listbox>
-
 <p></p>
 <table mat-table [dataSource]="products" matSort (matSortChange)="sortProducts($event)" class="mat-elevation-z8">
-
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Name</th>
     <td mat-cell *matCellDef="let product"> {{product.name}} </td>
@@ -19,20 +21,20 @@
   </ng-container>
   <ng-container matColumnDef="photo">
     <th mat-header-cell *matHeaderCellDef> Photo</th>
-    <td mat-cell *matCellDef="let product"><span *ngFor="let anton of product.photos"><img src="{{anton.url}}"/></span>
-
+    <td mat-cell *matCellDef="let product">
+      <span *ngFor="let photo of product.photos">
+        <img src="{{photo.url}}"/>
+      </span>
     </td>
   </ng-container>
   <ng-container matColumnDef="type">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by type"> Type</th>
     <td mat-cell *matCellDef="let product"> {{product.type.name}}
-
     </td>
   </ng-container>
   <ng-container matColumnDef="brand">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by brand"> Brand</th>
     <td mat-cell *matCellDef="let product"> {{product.brand.name}}
-
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">
@@ -53,15 +55,7 @@
                [pageSize]="pageSize"
                [pageSizeOptions]="pageSizeOptions" (page)=pageChangeEvent($event)>
 </mat-paginator>
-
 <p></p>
-
-
-<button mat-raised-button color="primary" (click)="login()">{{username}}</button>
-
-<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">logout</button>
-<button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="register()">Register</button>
-
 <button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="addProduct()">Add product</button>
 
 

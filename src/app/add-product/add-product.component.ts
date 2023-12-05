@@ -16,10 +16,8 @@ export class AddProductComponent implements OnInit {
   types: Type[] = [];
   brands: Brand[] = [];
   selectedFiles?: FileList;
-
   constructor(public service: Service, public dialogRef: MatDialogRef<AddProductComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
-
+             @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
     if (data.new == true) {
       this.title = 'Add product'
     } else {
@@ -27,26 +25,21 @@ export class AddProductComponent implements OnInit {
     }
     this.product = data.product;
   }
-
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
       this.types = data;
     })
   }
-
   getBrands() {
     this.service.getAllBrands().subscribe(data => {
       this.brands = data;
     })
   }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
-
   handleUpload(event: any) {
     this.product.photos = [];
-
     this.selectedFiles = event.target.files;
     if (this.selectedFiles) {
 
@@ -60,13 +53,11 @@ export class AddProductComponent implements OnInit {
       }
     }
   }
-
   ngOnInit(): void {
     this.getTypes();
     this.getBrands();
   }
 }
-
 export interface productDialogData {
   product: ProductDto;
   new: boolean;

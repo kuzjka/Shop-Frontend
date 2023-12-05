@@ -34,7 +34,7 @@ export class ProductListComponent implements OnInit {
   dto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  username = 'login';
+
   isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
 
@@ -63,12 +63,12 @@ export class ProductListComponent implements OnInit {
   }
 
 
-  getUser() {
-    this.service.getUser().subscribe(data => {
-      this.username = data.username;
-
-    });
-  }
+  // getUser() {
+  //   this.service.getUser().subscribe(data => {
+  //     this.username = data.username;
+  //
+  //   });
+  // }
 
   register() {
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -202,7 +202,6 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -216,28 +215,24 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   resendToken(token: string) {
     this.service.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
-
   ngOnInit(): void {
     this.isLoggedIn = this.service.checkCredentials();
     let i = window.location.href.indexOf('code');
     let e = window.location.href.indexOf('token');
     if (e != -1) {
-
       this.resendToken(window.location.href.substring(e + 6));
     }
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
-
     }
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();
-    this.getUser();
+
   };
 }
