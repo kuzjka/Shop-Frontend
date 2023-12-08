@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
     this.cookies.delete('access_token');
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
-
   }
 
   register() {
@@ -47,11 +46,13 @@ export class AppComponent implements OnInit {
         })
     })
   }
+
   resendToken(token: string) {
     this.service.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
+
   ngOnInit(): void {
     let e = window.location.href.indexOf('token');
     if (e != -1) {
