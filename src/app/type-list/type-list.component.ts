@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Type} from "../type";
-import {Service} from "../service";
+import {ProductService} from "../productService";
 import {AddTypeComponent} from "../add-type/add-type.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TypeDto} from "../typeDto";
@@ -17,7 +17,7 @@ export class TypeListComponent implements OnInit {
   typeDto!: TypeDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
-  constructor(private service: Service,
+  constructor(private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {

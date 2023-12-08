@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ProductDto} from "../productDto";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Service} from "../service";
+import {ProductService} from "../productService";
 import {Brand} from "../brand";
 import {Type} from "../type";
 
@@ -16,8 +16,8 @@ export class AddProductComponent implements OnInit {
   types: Type[] = [];
   brands: Brand[] = [];
   selectedFiles?: FileList;
-  constructor(public service: Service, public dialogRef: MatDialogRef<AddProductComponent>,
-             @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
+  constructor(public service: ProductService, public dialogRef: MatDialogRef<AddProductComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
     if (data.new == true) {
       this.title = 'Add product'
     } else {

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {Service} from "./service";
+import {ProductService} from "./productService";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -29,6 +29,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { DeleteTypeComponent } from './delete-type/delete-type.component';
 import { DeleteBrandComponent } from './delete-brand/delete-brand.component';
 import {NgOptimizedImage} from "@angular/common";
+import {UserService} from "./userService";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import {NgOptimizedImage} from "@angular/common";
         MatSnackBarModule,
         NgOptimizedImage
     ],
-  providers: [Service],
+  providers: [ProductService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -5,7 +5,7 @@ import {Brand} from "../brand";
 import {ProductDto} from "../productDto";
 import {BrandDto} from "../brandDto";
 import {TypeDto} from "../typeDto";
-import {Service} from "../service";
+import {ProductService} from "../productService";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -35,7 +35,7 @@ export class ProductListComponent implements OnInit {
   typeDto: TypeDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
 
-  constructor(private service: Service,
+  constructor(private service: ProductService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
@@ -140,7 +140,6 @@ export class ProductListComponent implements OnInit {
       )
     })
   }
-
   editProduct(product: Product) {
     this.dto.id = product.id;
     this.dto.name = product.name;
@@ -161,7 +160,6 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -175,18 +173,7 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
-  resendToken(token: string) {
-    this.service.resendRegistrationToken(token).subscribe(data => {
-      this.snackBar.open(data.message, 'undo', {duration: 3000});
-    })
-  }
-
   ngOnInit(): void {
-    let e = window.location.href.indexOf('token');
-    if (e != -1) {
-      this.resendToken(window.location.href.substring(e + 6));
-    }
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Service} from "./service";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./register/register.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserService} from "./userService";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   title = 'angularFrontend';
   isLoggedIn = false;
 
-  constructor(private service: Service,
+  constructor(private service: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
@@ -47,8 +47,16 @@ export class AppComponent implements OnInit {
         })
     })
   }
-
+  resendToken(token: string) {
+    this.service.resendRegistrationToken(token).subscribe(data => {
+      this.snackBar.open(data.message, 'undo', {duration: 3000});
+    })
+  }
   ngOnInit(): void {
+    let e = window.location.href.indexOf('token');
+    if (e != -1) {
+      this.resendToken(window.location.href.substring(e + 6));
+    }
     this.isLoggedIn = this.service.checkCredentials();
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {

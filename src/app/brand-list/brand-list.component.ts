@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Service} from "../service";
+import {ProductService} from "../productService";
 import {Brand} from "../brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
 import {BrandDto} from "../brandDto";
@@ -17,7 +17,7 @@ export class BrandListComponent implements OnInit {
   dto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
-  constructor(private service: Service,
+  constructor(private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new BrandDto(0, '');

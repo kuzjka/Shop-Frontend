@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {BrandDto} from "../brandDto";
-import {Service} from "../service";
+import {ProductService} from "../productService";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -12,7 +12,7 @@ export class AddBrandComponent {
   title: string;
   brand: BrandDto;
 
-  constructor(public service: Service,
+  constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddBrandComponent>,
               @Inject(MAT_DIALOG_DATA) public data: BrandDialogData
   ) {
