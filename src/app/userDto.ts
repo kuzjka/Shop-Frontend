@@ -1,5 +1,6 @@
-export interface RegisterDto {
+export interface UserDto {
   username: string;
+  email: string;
   password: string;
   passwordConfirmed: string;
 

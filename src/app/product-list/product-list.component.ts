@@ -11,7 +11,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AddProductComponent} from "../add-product/add-product.component";
 import {PageEvent} from "@angular/material/paginator";
-import {RegisterComponent} from "../register/register.component";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
 
@@ -34,10 +33,7 @@ export class ProductListComponent implements OnInit {
   dto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
-
-  isLoggedIn = false;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
-
 
   constructor(private service: Service,
               private cookies: CookieService,
@@ -46,43 +42,6 @@ export class ProductListComponent implements OnInit {
     this.dto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
-  }
-
-  login() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
-      '&scope=write&client_id=app-client&redirect_uri=http://localhost:4200';
-
-
-  }
-
-  logout() {
-    this.cookies.delete('access_token');
-    window.location.href = 'http://localhost:8080/logout';
-    window.location.reload();
-
-  }
-
-
-  // getUser() {
-  //   this.service.getUser().subscribe(data => {
-  //     this.username = data.username;
-  //
-  //   });
-  // }
-
-  register() {
-    const dialogRef = this.dialog.open(RegisterComponent, {
-      height: '500px',
-      width: '500px',
-      data: {username: '', password: ''}
-    }).afterClosed().subscribe(data => {
-      this.service.register(data).subscribe(data2 => {
-          this.snackBar.open(data2.message, 'undo', {duration: 3000})
-        },
-        err => {
-          this.snackBar.open(err.error.message, 'undo', {duration: 3000})
-        })
-    })
   }
 
   sortProducts(sortState: Sort) {
@@ -202,6 +161,7 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -215,24 +175,20 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   resendToken(token: string) {
     this.service.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
+
   ngOnInit(): void {
-    this.isLoggedIn = this.service.checkCredentials();
-    let i = window.location.href.indexOf('code');
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
     }
-    if (!this.isLoggedIn && i != -1) {
-      this.service.retrieveToken(window.location.href.substring(i + 5));
-    }
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();
-
   };
 }

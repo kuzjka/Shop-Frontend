@@ -1,8 +1,3 @@
-<p align="right">
-  <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="login()">login</button>
-  <button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="logout()">logout</button>
-  <button *ngIf="!isLoggedIn" mat-raised-button color="primary" (click)="register()">Register</button>
-</p>
 <mat-chip-listbox>
   <mat-chip-option (click)="typeFilter(type.id)" *ngFor="let type of filterTypes">{{type.name}}</mat-chip-option>
 </mat-chip-listbox>
@@ -56,7 +51,7 @@
                [pageSizeOptions]="pageSizeOptions" (page)=pageChangeEvent($event)>
 </mat-paginator>
 <p></p>
-<button *ngIf="isLoggedIn" mat-raised-button color="primary" (click)="addProduct()">Add product</button>
+<button mat-raised-button color="primary" (click)="addProduct()">Add product</button>
 
 
 

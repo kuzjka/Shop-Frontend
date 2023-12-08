@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {RegisterDto} from "../registerDto";
+import {UserDto} from "../userDto";
 
 @Component({
   selector: 'app-register',
@@ -8,10 +8,10 @@ import {RegisterDto} from "../registerDto";
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  newUser: RegisterDto;
+  newUser: UserDto;
 
   constructor(public dialogRef: MatDialogRef<RegisterComponent>,
-              @Inject(MAT_DIALOG_DATA) data: RegisterDto) {
+              @Inject(MAT_DIALOG_DATA) data: UserDto) {
     this.newUser = data;
   }
 

@@ -6,7 +6,7 @@ import {CookieService} from "ngx-cookie-service";
 import {Type} from "./type";
 import {Brand} from "./brand";
 import {ProductDto} from "./productDto";
-import {RegisterDto} from "./registerDto";
+import {UserDto} from "./userDto";
 import {ResponseProductDto} from "./ResponseProductDto";
 import {TypeDto} from "./typeDto";
 import {BrandDto} from "./brandDto";
@@ -34,7 +34,7 @@ export class Service {
     return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
   }
 
-  register(dto: RegisterDto): Observable<RegistrationResponse> {
+  register(dto: UserDto): Observable<RegistrationResponse> {
     return this.http.post<any>(this.baseUrl + '/register', dto);
   }
 
