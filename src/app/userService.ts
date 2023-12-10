@@ -26,12 +26,16 @@ export class UserService {
     return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
   }
 
-  register(dto: UserDto): Observable<RegistrationResponse> {
-    return this.http.post<any>(this.baseUrl + '/register', dto);
+  addUser(dto: UserDto): Observable<RegistrationResponse> {
+    return this.http.post<any>(this.baseUrl + '/user', dto);
+  }
+
+  editUser(dto: UserDto): Observable<RegistrationResponse> {
+    return this.http.put<any>(this.baseUrl + '/user', dto, {headers: this.headers});
   }
 
   resendRegistrationToken(token: string): Observable<RegistrationResponse> {
-    return this.http.get<RegistrationResponse>(this.baseUrl + '/resendRegistrationToken?token=' + token);
+    return this.http.get<RegistrationResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
   }
 
   retrieveToken(code: string) {

@@ -1,13 +1,20 @@
-<div align="center">
+<h3 align="center">{{title}}</h3>
+<div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Username:</mat-label>
     <input matInput [(ngModel)]="newUser.username">
   </mat-form-field>
 </div>
-<div align="center">
+<div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Email:</mat-label>
     <input matInput [(ngModel)]="newUser.email">
+  </mat-form-field>
+</div>
+<div *ngIf="title=='change password'"align="center">
+  <mat-form-field>
+    <mat-label>Old password:</mat-label>
+    <input matInput [(ngModel)]="newUser.oldPassword">
   </mat-form-field>
 </div>
 <div align="center">

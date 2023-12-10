@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./register/register.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "./userService";
+import {UserDto} from "./userDto";
 
 @Component({
   selector: 'app-root',
@@ -13,12 +14,15 @@ import {UserService} from "./userService";
 export class AppComponent implements OnInit {
   title = 'angularFrontend';
   isLoggedIn = false;
+  dto: UserDto;
+  username = '';
 
   constructor(private service: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
+    this.dto = new UserDto('', '', '', '', '');
   }
 
   login() {
@@ -32,13 +36,39 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-  register() {
+  getUser() {
+    this.service.getUser().subscribe(data => {
+      this.username = data.username;
+    })
+  }
+
+
+  addUser() {
+
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
       width: '500px',
-      data: {username: '', password: ''}
+      data: {user: this.dto, new: true}
     }).afterClosed().subscribe(data => {
-      this.service.register(data).subscribe(data2 => {
+      this.service.addUser(data).subscribe(data2 => {
+          this.snackBar.open(data2.message, 'undo', {duration: 3000})
+        },
+        err => {
+          this.snackBar.open(err.error.message, 'undo', {duration: 3000})
+        })
+    })
+  }
+
+  editUser() {
+
+    this.dto.username = this.username;
+
+    const dialogRef = this.dialog.open(RegisterComponent, {
+      height: '500px',
+      width: '500px',
+      data: {user: this.dto, new: false}
+    }).afterClosed().subscribe(data => {
+      this.service.editUser(data).subscribe(data2 => {
           this.snackBar.open(data2.message, 'undo', {duration: 3000})
         },
         err => {
@@ -54,6 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUser();
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
@@ -62,6 +93,7 @@ export class AppComponent implements OnInit {
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
+
     }
   }
 }

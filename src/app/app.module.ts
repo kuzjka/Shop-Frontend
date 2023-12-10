@@ -20,16 +20,17 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { AddTypeComponent } from './add-type/add-type.component';
-import { AddBrandComponent } from './add-brand/add-brand.component';
-import { TypeListComponent } from './type-list/type-list.component';
-import { BrandListComponent } from './brand-list/brand-list.component';
+import {AddTypeComponent} from './add-type/add-type.component';
+import {AddBrandComponent} from './add-brand/add-brand.component';
+import {TypeListComponent} from './type-list/type-list.component';
+import {BrandListComponent} from './brand-list/brand-list.component';
 import {RouterModule} from "@angular/router";
-import { ProductListComponent } from './product-list/product-list.component';
-import { DeleteTypeComponent } from './delete-type/delete-type.component';
-import { DeleteBrandComponent } from './delete-brand/delete-brand.component';
+import {ProductListComponent} from './product-list/product-list.component';
+import {DeleteTypeComponent} from './delete-type/delete-type.component';
+import {DeleteBrandComponent} from './delete-brand/delete-brand.component';
 import {NgOptimizedImage} from "@angular/common";
 import {UserService} from "./userService";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -45,30 +46,31 @@ import {UserService} from "./userService";
     DeleteTypeComponent,
     DeleteBrandComponent
   ],
-    imports: [
-        BrowserModule,
-        RouterModule.forRoot([
-            {path: '', component: ProductListComponent},
-            {path: 'types', component: TypeListComponent},
-            {path: 'brands', component: BrandListComponent},
-        ]),
-        HttpClientModule,
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatChipsModule,
-        MatIconModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatSnackBarModule,
-        NgOptimizedImage
-    ],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot([
+      {path: '', component: ProductListComponent},
+      {path: 'types', component: TypeListComponent},
+      {path: 'brands', component: BrandListComponent},
+    ]),
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    NgOptimizedImage,
+    MatMenuModule
+  ],
   providers: [ProductService, UserService],
   bootstrap: [AppComponent]
 })
