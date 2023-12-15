@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ProductDto} from "../productDto";
+import {ProductDto} from "../dto/productDto";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ProductService} from "../productService";
-import {Brand} from "../brand";
-import {Type} from "../type";
+import {Brand} from "../model/brand";
+import {Type} from "../model/type";
 
 @Component({
   selector: 'app-add-product',

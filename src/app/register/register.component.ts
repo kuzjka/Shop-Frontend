@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UserDto} from "../userDto";
+import {UserDto} from "../dto/userDto";
 
 @Component({
   selector: 'app-register',

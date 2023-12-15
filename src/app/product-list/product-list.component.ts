@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Product} from "../product";
-import {Type} from "../type";
-import {Brand} from "../brand";
-import {ProductDto} from "../productDto";
-import {BrandDto} from "../brandDto";
-import {TypeDto} from "../typeDto";
+import {Product} from "../model/product";
+import {Type} from "../model/type";
+import {Brand} from "../model/brand";
+import {ProductDto} from "../dto/productDto";
+import {BrandDto} from "../dto/brandDto";
+import {TypeDto} from "../dto/typeDto";
 import {ProductService} from "../productService";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
@@ -13,6 +13,9 @@ import {AddProductComponent} from "../add-product/add-product.component";
 import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
+import {OrderService} from "../orderService";
+import {CartItemDto} from "../dto/cartItemDto";
+import {Cart} from "../model/cart";
 
 @Component({
   selector: 'app-product-list',
@@ -30,18 +33,22 @@ export class ProductListComponent implements OnInit {
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10]
   currentPage = 0;
-  dto: ProductDto;
+  productDto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions'];
+  cartItemDto: CartItemDto;
+  displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
+  cart!: Cart;
 
   constructor(private service: ProductService,
+              private orderService: OrderService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new ProductDto(0, 0, 0, '', 0, []);
+    this.productDto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
+    this.cartItemDto = new CartItemDto(0, 0, 0, 0);
   }
 
   sortProducts(sortState: Sort) {
@@ -115,16 +122,16 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct() {
-    this.dto.id = 0;
-    this.dto.typeId = 0;
-    this.dto.brandId = 0;
-    this.dto.name = '';
-    this.dto.price = 0;
+    this.productDto.id = 0;
+    this.productDto.typeId = 0;
+    this.productDto.brandId = 0;
+    this.productDto.name = '';
+    this.productDto.price = 0;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
       data: {
-        product: this.dto, new: true
+        product: this.cartItemDto, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
@@ -140,26 +147,28 @@ export class ProductListComponent implements OnInit {
       )
     })
   }
+
   editProduct(product: Product) {
-    this.dto.id = product.id;
-    this.dto.name = product.name;
-    this.dto.price = product.price;
-    this.dto.typeId = product.type.id;
-    this.dto.brandId = product.brand.id;
+    this.productDto.id = product.id;
+    this.productDto.name = product.name;
+    this.productDto.price = product.price;
+    this.productDto.typeId = product.type.id;
+    this.productDto.brandId = product.brand.id;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {product: this.dto, new: false}
+      data: {product: this.cartItemDto, new: false}
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
         this.getProducts();
         this.currentTypeId = 0;
         this.currentBrandId = 0;
-        this.dto.id = 0;
-        this.dto.photos = [];
+        this.productDto.id = 0;
+        this.productDto.photos = [];
       })
     })
   }
+
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -173,9 +182,31 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
+  addToCart(id: number) {
+    this.cartItemDto.productId = id;
+    this.cartItemDto.quantity = 1;
+
+    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
+      alert(data.id);
+      this.getCart();
+    })
+  }
+
+  getCart() {
+    this.orderService.getCart().subscribe(data => {
+      this.cart = data;
+      this.cartItemDto.cartId = data.id;
+
+
+    })
+
+  }
+
   ngOnInit(): void {
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();
+    this.getCart();
   };
 }

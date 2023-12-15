@@ -2,10 +2,10 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
-import {Username} from "./username";
-import {UserDto} from "./userDto";
-import {RegistrationResponse} from "./registrationResponse";
-import {Token} from "./token";
+import {Username} from "./model/username";
+import {UserDto} from "./dto/userDto";
+import {RegistrationResponse} from "./model/registrationResponse";
+import {Token} from "./model/token";
 
 @Injectable()
 export class UserService {
@@ -23,7 +23,11 @@ export class UserService {
   }
 
   getUser(): Observable<Username> {
-    return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
+    if(this.checkCredentials()){
+    return this.http.get<Username>(this.baseUrl + '/user', {headers:this.headers});}
+    else {
+      return this.http.get<Username>(this.baseUrl + '/user');
+    }
   }
 
   addUser(dto: UserDto): Observable<RegistrationResponse> {

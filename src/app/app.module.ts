@@ -31,6 +31,8 @@ import {DeleteBrandComponent} from './delete-brand/delete-brand.component';
 import {NgOptimizedImage} from "@angular/common";
 import {UserService} from "./userService";
 import {MatMenuModule} from "@angular/material/menu";
+import { CartComponent } from './cart/cart.component';
+import {OrderService} from "./orderService";
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import {MatMenuModule} from "@angular/material/menu";
     BrandListComponent,
     ProductListComponent,
     DeleteTypeComponent,
-    DeleteBrandComponent
+    DeleteBrandComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import {MatMenuModule} from "@angular/material/menu";
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
+      {path: 'cart', component: CartComponent},
     ]),
     HttpClientModule,
     ReactiveFormsModule,
@@ -71,7 +75,7 @@ import {MatMenuModule} from "@angular/material/menu";
     NgOptimizedImage,
     MatMenuModule
   ],
-  providers: [ProductService, UserService],
+  providers: [ProductService, UserService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

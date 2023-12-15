@@ -1,15 +1,18 @@
 <nav>
   <a class="button" routerLink="/">Products</a> |
   <a class="button" routerLink="/types">Types</a> |
-  <a class="button" routerLink="/brands">Brands</a>
+  <a class="button" routerLink="/brands">Brands</a> |
+  <a class="button" routerLink="/cart">Cart</a>
 </nav>
 <div align="right">
-  <button *ngIf="isLoggedIn" mat-stroked-button color="primary" [matMenuTriggerFor]="menu">{{username}}</button>
+  <button mat-stroked-button color="primary" [matMenuTriggerFor]="menu">{{username}}</button>
   <mat-menu #menu="matMenu">
     <button *ngIf="isLoggedIn" mat-stroked-button color="primary" (click)="editUser()">Change password</button>
-    <button *ngIf="isLoggedIn" mat-stroked-button color="primary" (click)="logout()"><mat-icon>logout</mat-icon>Logout</button>
+    <button *ngIf="isLoggedIn" mat-stroked-button color="primary" (click)="logout()">
+      <mat-icon>logout</mat-icon>Logout</button>
   </mat-menu>
-  <button *ngIf="!isLoggedIn" mat-stroked-button color="primary" (click)="login()"><mat-icon>login</mat-icon>Log In</button>
+  <button *ngIf="!isLoggedIn" mat-stroked-button color="primary" (click)="login()">
+    <mat-icon>login</mat-icon>Log In</button>
   <button *ngIf="!isLoggedIn" mat-stroked-button color="primary" (click)="addUser()">Sign Up</button>
 </div>
 <router-outlet></router-outlet>

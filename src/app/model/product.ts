@@ -1,6 +1,7 @@
 import {Type} from "./type";
 import {Brand} from "./brand";
 import {Photo} from "./photo";
+import {CartItem} from "./cartItem";
 
 export interface Product {
   id: number;
@@ -9,4 +10,5 @@ export interface Product {
   photos: Photo[];
   type: Type;
   brand: Brand;
+  cartItems:CartItem[];
 }

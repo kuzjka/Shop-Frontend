@@ -1,8 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DeleteBrandData} from "../delete-brand/delete-brand.component";
-import {Brand} from "../brand";
-import {Type} from "../type";
+import {Brand} from "../model/brand";
+import {Type} from "../model/type";
 
 @Component({
   selector: 'app-delete-type',

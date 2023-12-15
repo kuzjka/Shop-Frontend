@@ -4,7 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./register/register.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "./userService";
-import {UserDto} from "./userDto";
+import {UserDto} from "./dto/userDto";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   title = 'angularFrontend';
   isLoggedIn = false;
   dto: UserDto;
-  username = '';
+  username!: string;
 
   constructor(private service: UserService,
               private cookies: CookieService,
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
               private snackBar: MatSnackBar
   ) {
     this.dto = new UserDto('', '', '', '', '');
+
   }
 
   login() {

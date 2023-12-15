@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../productService";
-import {Brand} from "../brand";
+import {Brand} from "../model/brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
-import {BrandDto} from "../brandDto";
+import {BrandDto} from "../dto/brandDto";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";

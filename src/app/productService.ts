@@ -2,12 +2,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
-import {Type} from "./type";
-import {Brand} from "./brand";
-import {ProductDto} from "./productDto";
-import {ResponseProductDto} from "./ResponseProductDto";
-import {TypeDto} from "./typeDto";
-import {BrandDto} from "./brandDto";
+import {Type} from "./model/type";
+import {Brand} from "./model/brand";
+import {ProductDto} from "./dto/productDto";
+import {ResponseProductDto} from "./dto/ResponseProductDto";
+import {TypeDto} from "./dto/typeDto";
+import {BrandDto} from "./dto/brandDto";
 
 
 @Injectable()
