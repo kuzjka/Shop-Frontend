@@ -15,7 +15,8 @@ import {DeleteProductComponent} from "../delete-product/delete-product.component
 import {Sort} from "@angular/material/sort";
 import {OrderService} from "../orderService";
 import {CartItemDto} from "../dto/cartItemDto";
-import {Cart} from "../model/cart";
+
+import {CartItem} from "../model/cartItem";
 
 @Component({
   selector: 'app-product-list',
@@ -38,7 +39,8 @@ export class ProductListComponent implements OnInit {
   typeDto: TypeDto;
   cartItemDto: CartItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
-  cart!: Cart;
+  cartItems!: CartItem[];
+  totalPrice = 0;
 
   constructor(private service: ProductService,
               private orderService: OrderService,
@@ -49,6 +51,7 @@ export class ProductListComponent implements OnInit {
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.cartItemDto = new CartItemDto(0, 0, 0, 0);
+
   }
 
   sortProducts(sortState: Sort) {
@@ -184,24 +187,33 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(id: number) {
+    if (id != this.cartItemDto.productId) {
+      this.cartItemDto.cartItemId = 0;
+    }
+
     this.cartItemDto.productId = id;
-    this.cartItemDto.quantity = 1;
+
 
     this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-      alert(data.id);
-      this.getCart();
-    })
+      alert(data.cartItemId);
+
+
+      this.getCart()
+    });
   }
+
 
   getCart() {
     this.orderService.getCart().subscribe(data => {
-      this.cart = data;
-      this.cartItemDto.cartId = data.id;
+      this.cartItems = data;
 
 
-    })
-
+    });
+    for (let i = 0; i <= this.cartItems.length; i++) {
+      this.totalPrice += this.cartItems[i].product.price * this.cartItems[i].quantity;
+    }
   }
+
 
   ngOnInit(): void {
     this.getFilterTypes();

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {CartItemDto} from "../dto/cartItemDto";
 import {OrderService} from "../orderService";
-import {Cart} from "../model/cart";
+import {CartItem} from "../model/cartItem";
+
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,7 @@ import {Cart} from "../model/cart";
 })
 export class CartComponent implements OnInit {
   dto: CartItemDto;
-  cart!: Cart;
+  cartItems!: CartItem[];
 
   constructor(private service: OrderService) {
     this.dto = new CartItemDto(0, 0, 0, 0);
@@ -18,12 +19,8 @@ export class CartComponent implements OnInit {
 
   getCart() {
     this.service.getCart().subscribe(data => {
-      this.cart = data;
-      this.dto.cartId = data.id;
-      // this.dto.cartItemId = data.cartItems[0].id;
-
+      this.cartItems = data;
     })
-
   }
 
   ngOnInit(): void {

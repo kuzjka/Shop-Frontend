@@ -5,7 +5,10 @@
   <mat-chip-option (click)="brandFilter(brand.id)" *ngFor="let brand of filterBrands">{{brand.name}}</mat-chip-option>
 </mat-chip-listbox>
 <p></p>
-<div *ngIf="cart!=null"><h1 *ngFor="let item of cart.cartItems">NAME: {{item.product.name}}</h1></div>
+<div *ngIf="cartItems!=null">
+  <h1>TOTAL PRICE:{{totalPrice}}</h1>
+  <h1 *ngFor="let item of cartItems">NAME: {{item.product.name}} QUANTITY:{{item.quantity}}
+</h1></div>
 
 
 <table mat-table [dataSource]="products" matSort (matSortChange)="sortProducts($event)" class="mat-elevation-z8">

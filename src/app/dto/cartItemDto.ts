@@ -1,16 +1,15 @@
-import {CartItem} from "../model/cartItem";
-
 export class CartItemDto {
-  cartId: number;
+
   cartItemId: number;
   productId: number;
   quantity: number;
+  totalPrice: number;
 
 
-  constructor(cartId: number, cartItemId: number, productId: number, quantity: number) {
-    this.cartId = cartId;
+  constructor(cartItemId: number, productId: number, quantity: number, totalPrice: number) {
     this.cartItemId = cartItemId;
     this.productId = productId;
     this.quantity = quantity;
+    this.totalPrice = totalPrice;
   }
 }

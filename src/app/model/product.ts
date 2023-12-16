@@ -10,5 +10,5 @@ export interface Product {
   photos: Photo[];
   type: Type;
   brand: Brand;
-  cartItems:CartItem[];
+
 }

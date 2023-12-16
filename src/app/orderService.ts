@@ -2,8 +2,9 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CartItemDto} from "./dto/cartItemDto";
-import {Cart} from "./model/cart";
+
 import {CookieService} from "ngx-cookie-service";
+import {CartItem} from "./model/cartItem";
 
 @Injectable()
 export class OrderService {
@@ -15,11 +16,11 @@ export class OrderService {
     })
   }
 
-  getCart(): Observable<Cart> {
-    return this.http.get<Cart>(this.baseUrl + '/order', {headers:this.headers});
+  getCart(): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(this.baseUrl + '/order', {headers:this.headers});
   }
 
-  addCartItem(dto: CartItemDto): Observable<Cart> {
-    return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers:this.headers});
+  addCartItem(dto: CartItemDto): Observable<CartItemDto> {
+    return this.http.post<CartItemDto>(this.baseUrl + '/order', dto, {headers:this.headers});
   }
 }
