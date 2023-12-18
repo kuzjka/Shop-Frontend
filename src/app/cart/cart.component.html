@@ -1,5 +1,8 @@
 <p>cart works!</p>
-
-<div *ngIf="cartItems!=null"><h1 *ngFor="let item of cartItems">NAME: {{item.product.name}} QUANTITY:{{item.quantity}}</h1></div>
+<div *ngIf="cartItems!=null">
+  <h1 *ngFor="let item of cartItems.items">
+  NAME: {{item.product.name}} QUANTITY:{{item.quantity}}
+</h1>
+</div>
 
 

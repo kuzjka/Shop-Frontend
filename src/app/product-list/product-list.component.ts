@@ -17,6 +17,7 @@ import {OrderService} from "../orderService";
 import {CartItemDto} from "../dto/cartItemDto";
 
 import {CartItem} from "../model/cartItem";
+import {Cart} from "../model/cart";
 
 @Component({
   selector: 'app-product-list',
@@ -39,7 +40,7 @@ export class ProductListComponent implements OnInit {
   typeDto: TypeDto;
   cartItemDto: CartItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
-  cartItems!: CartItem[];
+  cart!: Cart;
   totalPrice = 0;
 
   constructor(private service: ProductService,
@@ -187,33 +188,21 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(id: number) {
-    if (id != this.cartItemDto.productId) {
-      this.cartItemDto.cartItemId = 0;
-    }
 
     this.cartItemDto.productId = id;
-
-
     this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-      alert(data.cartItemId);
 
 
       this.getCart()
     });
   }
 
-
   getCart() {
     this.orderService.getCart().subscribe(data => {
-      this.cartItems = data;
-
-
+      this.cart = data;
     });
-    for (let i = 0; i <= this.cartItems.length; i++) {
-      this.totalPrice += this.cartItems[i].product.price * this.cartItems[i].quantity;
-    }
-  }
 
+  }
 
   ngOnInit(): void {
     this.getFilterTypes();

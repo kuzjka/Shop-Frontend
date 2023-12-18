@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CartItemDto} from "../dto/cartItemDto";
 import {OrderService} from "../orderService";
 import {CartItem} from "../model/cartItem";
+import {Cart} from "../model/cart";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {CartItem} from "../model/cartItem";
 })
 export class CartComponent implements OnInit {
   dto: CartItemDto;
-  cartItems!: CartItem[];
+  cartItems!: Cart;
 
   constructor(private service: OrderService) {
     this.dto = new CartItemDto(0, 0, 0, 0);
