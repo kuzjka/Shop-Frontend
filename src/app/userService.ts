@@ -23,9 +23,9 @@ export class UserService {
   }
 
   getUser(): Observable<Username> {
-    if(this.checkCredentials()){
-    return this.http.get<Username>(this.baseUrl + '/user', {headers:this.headers});}
-    else {
+    if (this.checkCredentials()) {
+      return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
+    } else {
       return this.http.get<Username>(this.baseUrl + '/user');
     }
   }

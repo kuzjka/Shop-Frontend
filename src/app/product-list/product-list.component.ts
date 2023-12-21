@@ -15,8 +15,6 @@ import {DeleteProductComponent} from "../delete-product/delete-product.component
 import {Sort} from "@angular/material/sort";
 import {OrderService} from "../orderService";
 import {CartItemDto} from "../dto/cartItemDto";
-
-import {CartItem} from "../model/cartItem";
 import {Cart} from "../model/cart";
 
 @Component({
@@ -38,10 +36,9 @@ export class ProductListComponent implements OnInit {
   productDto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  cartItemDto: CartItemDto;
+  cartItemDto!: CartItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cart!: Cart;
-  totalPrice = 0;
 
   constructor(private service: ProductService,
               private orderService: OrderService,
@@ -51,30 +48,26 @@ export class ProductListComponent implements OnInit {
     this.productDto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
-    this.cartItemDto = new CartItemDto(0, 0, 0, 0);
-
+    this.cartItemDto = new CartItemDto(0, 0);
   }
-
   sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active, sortState.direction, this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
+      sortState.direction, this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
       })
   }
-
   getFilterTypes() {
     this.service.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
-
   getFilterBrands(typeId: number) {
     this.service.getProductBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
-
   typeFilter(typeId: number) {
     if (typeId == this.currentTypeId) {
       this.currentTypeId = 0;
@@ -84,47 +77,47 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId = 0;
     }
     this.getFilterBrands(this.currentTypeId);
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+      'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
       })
   }
-
   brandFilter(brandId: number) {
     if (this.currentBrandId == brandId) {
       this.currentBrandId = 0;
     } else {
       this.currentBrandId = brandId;
     }
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+      'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
       })
   }
-
   getProducts() {
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+      'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
       });
   }
-
   pageChangeEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name', 'ASC', this.currentPage, this.pageSize)
+    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+      'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
       })
   }
-
   addProduct() {
     this.productDto.id = 0;
     this.productDto.typeId = 0;
@@ -135,7 +128,7 @@ export class ProductListComponent implements OnInit {
       height: '500px',
       width: '500px',
       data: {
-        product: this.cartItemDto, new: true
+        product: this.productDto, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
@@ -151,7 +144,6 @@ export class ProductListComponent implements OnInit {
       )
     })
   }
-
   editProduct(product: Product) {
     this.productDto.id = product.id;
     this.productDto.name = product.name;
@@ -161,7 +153,7 @@ export class ProductListComponent implements OnInit {
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {product: this.cartItemDto, new: false}
+      data: {product: this.productDto, new: false}
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
         this.getProducts();
@@ -172,7 +164,6 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -186,24 +177,31 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   addToCart(id: number) {
-
     this.cartItemDto.productId = id;
     this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-
-
       this.getCart()
     });
   }
-
   getCart() {
     this.orderService.getCart().subscribe(data => {
       this.cart = data;
     });
-
   }
-
+  plusItem(id: number) {
+    this.cartItemDto.quantity = 1;
+    this.cartItemDto.productId = id;
+    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
+      this.cart = data;
+    })
+  }
+  minusItem(id: number) {
+    this.cartItemDto.quantity = -1;
+    this.cartItemDto.productId = id;
+    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
+      this.cart = data;
+    })
+  }
   ngOnInit(): void {
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);

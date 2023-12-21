@@ -1,8 +1,11 @@
 <p>cart works!</p>
-<div *ngIf="cartItems!=null">
-  <h1 *ngFor="let item of cartItems.items">
-  NAME: {{item.product.name}} QUANTITY:{{item.quantity}}
-</h1>
+<div *ngIf="cart!=null">
+  <h1>TOTAL PRICE:{{cart.totalPrice}}</h1>
+  <h1 *ngFor="let item of cart.items">
+    <button (click)="minusItem(item.product.id)">-</button>
+    NAME: {{item.product.name}} QUANTITY:{{item.quantity}}
+    <button (click)="plusItem(item.product.id)">+</button>
+  </h1>
 </div>
 
 

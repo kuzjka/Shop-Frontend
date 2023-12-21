@@ -22,7 +22,7 @@ export class OrderService {
     return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
 
-  addCartItem(dto: CartItemDto): Observable<CartItem> {
-    return this.http.post<CartItem>(this.baseUrl + '/order', dto, {headers: this.headers});
+  addCartItem(dto: CartItemDto): Observable<Cart> {
+    return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 }
