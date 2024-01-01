@@ -2,31 +2,31 @@
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Username:</mat-label>
-    <input matInput [(ngModel)]="newUser.username">
+    <input id="username" matInput [(ngModel)]="newUser.username">
   </mat-form-field>
 </div>
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Email:</mat-label>
-    <input matInput [(ngModel)]="newUser.email">
+    <input id="email" matInput [(ngModel)]="newUser.email">
   </mat-form-field>
 </div>
-<div *ngIf="title=='change password'"align="center">
+<div *ngIf="title=='change password'" align="center">
   <mat-form-field>
     <mat-label>Old password:</mat-label>
-    <input matInput [(ngModel)]="newUser.oldPassword">
+    <input id="oldPassword" matInput [(ngModel)]="newUser.oldPassword">
   </mat-form-field>
 </div>
 <div align="center">
   <mat-form-field>
     <mat-label>Password:</mat-label>
-    <input matInput [(ngModel)]="newUser.password">
+    <input id="password" matInput [(ngModel)]="newUser.password">
   </mat-form-field>
 </div>
 <div align="center">
   <mat-form-field>
     <mat-label>Confirm password:</mat-label>
-    <input matInput [(ngModel)]="newUser.passwordConfirmed">
+    <input id="passwordConfirmed" matInput [(ngModel)]="newUser.passwordConfirmed">
   </mat-form-field>
 </div>
 <div align="center" mat-dialog-actions>
