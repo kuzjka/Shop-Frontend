@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   dto: UserDto;
   username!: string;
-
+  roles!: string[];
+isAdmin=false;
   constructor(private service: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
@@ -33,17 +34,28 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.cookies.delete('access_token');
+    this.cookies.delete('role');
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
   }
 
   getUser() {
+
     this.service.getUser().subscribe(data => {
       this.username = data.username;
+      this.roles = data.roles;
+      this.isUserAdmin();
     })
   }
 
-
+isUserAdmin(){
+    if(this.roles.includes('admin')){
+      this.isAdmin = true;
+    }
+    else{
+      this.isAdmin = false;
+    }
+}
   addUser() {
 
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -86,15 +98,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
     }
     this.isLoggedIn = this.service.checkCredentials();
+
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
 
     }
+
   }
 }
