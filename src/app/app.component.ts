@@ -29,7 +29,7 @@ isAdmin=false;
 
   login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
-      '&scope=write&client_id=app-client&redirect_uri=http://localhost:4200';
+      '&client_id=app-client&redirect_uri=http://localhost:4200';
   }
 
   logout() {
