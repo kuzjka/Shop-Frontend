@@ -16,6 +16,7 @@ import {Sort} from "@angular/material/sort";
 import {OrderService} from "../orderService";
 import {CartItemDto} from "../dto/cartItemDto";
 import {Cart} from "../model/cart";
+import {UserService} from "../userService";
 
 @Component({
   selector: 'app-product-list',
@@ -40,8 +41,10 @@ export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cart!: Cart;
 
+
   constructor(private service: ProductService,
               private orderService: OrderService,
+              private userService: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
@@ -50,6 +53,11 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, '');
     this.cartItemDto = new CartItemDto(0, 0);
   }
+
+  isUserAdmin() {
+    return this.userService.isAdmin();
+  }
+
   sortProducts(sortState: Sort) {
     this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
       sortState.direction, this.currentPage, this.pageSize)
@@ -58,16 +66,19 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
       })
   }
+
   getFilterTypes() {
     this.service.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
+
   getFilterBrands(typeId: number) {
     this.service.getProductBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
+
   typeFilter(typeId: number) {
     if (typeId == this.currentTypeId) {
       this.currentTypeId = 0;
@@ -84,6 +95,7 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
+
   brandFilter(brandId: number) {
     if (this.currentBrandId == brandId) {
       this.currentBrandId = 0;
@@ -98,6 +110,7 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
+
   getProducts() {
     this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
@@ -107,6 +120,7 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       });
   }
+
   pageChangeEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
@@ -118,6 +132,7 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
+
   addProduct() {
     this.productDto.id = 0;
     this.productDto.typeId = 0;
@@ -144,6 +159,7 @@ export class ProductListComponent implements OnInit {
       )
     })
   }
+
   editProduct(product: Product) {
     this.productDto.id = product.id;
     this.productDto.name = product.name;
@@ -164,6 +180,7 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -177,17 +194,20 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   addToCart(id: number) {
     this.cartItemDto.productId = id;
     this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
       this.getCart()
     });
   }
+
   getCart() {
     this.orderService.getCart().subscribe(data => {
       this.cart = data;
     });
   }
+
   plusItem(id: number) {
     this.cartItemDto.quantity = 1;
     this.cartItemDto.productId = id;
@@ -195,6 +215,7 @@ export class ProductListComponent implements OnInit {
       this.cart = data;
     })
   }
+
   minusItem(id: number) {
     this.cartItemDto.quantity = -1;
     this.cartItemDto.productId = id;
@@ -202,6 +223,7 @@ export class ProductListComponent implements OnInit {
       this.cart = data;
     })
   }
+
   ngOnInit(): void {
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);

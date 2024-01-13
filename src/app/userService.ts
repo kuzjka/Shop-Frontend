@@ -12,6 +12,7 @@ export class UserService {
   private readonly headers;
   baseUrl: string = 'http://localhost:8080';
 
+
   constructor(private http: HttpClient, private cookies: CookieService) {
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
@@ -22,9 +23,12 @@ export class UserService {
     return this.cookies.check('access_token');
   }
 
+  isAdmin() {
+    return this.cookies.check("admin");
+  }
+
   getUser(): Observable<Username> {
     if (this.checkCredentials()) {
-
       return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
     } else {
       return this.http.get<Username>(this.baseUrl + '/user');
@@ -59,7 +63,6 @@ export class UserService {
   }
 
   saveToken(token: Token) {
-    alert(token.access_token)
     let expireDate = new Date().getTime() + (1000 * token.expires_in);
     this.cookies.set("access_token", token.access_token, expireDate);
     window.location.href = 'http://localhost:4200/';

@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {TypeDto} from "../dto/typeDto";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserService} from "../userService";
 
 @Component({
   selector: 'app-type-list',
@@ -17,13 +18,16 @@ export class TypeListComponent implements OnInit {
   typeDto!: TypeDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
-  constructor(private service: ProductService,
+  constructor(private userService: UserService,
+              private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
     this.typeDto = new TypeDto(0, '');
   }
-
+  isUserAdmin(){
+    return this.userService.isAdmin();
+  }
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
       this.types = data;

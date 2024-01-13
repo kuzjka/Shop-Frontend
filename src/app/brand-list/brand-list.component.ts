@@ -6,6 +6,7 @@ import {BrandDto} from "../dto/brandDto";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {UserService} from "../userService";
 
 @Component({
   selector: 'app-brand-list',
@@ -17,10 +18,15 @@ export class BrandListComponent implements OnInit {
   dto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
 
-  constructor(private service: ProductService,
+  constructor(private userService: UserService,
+              private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new BrandDto(0, '');
+  }
+
+  isUserAdmin() {
+    return this.userService.isAdmin();
   }
 
   getBrands() {
@@ -66,7 +72,6 @@ export class BrandListComponent implements OnInit {
       })
     })
   }
-
   deleteBrand(brand: Brand) {
     const dialogRef = this.dialog.open(DeleteBrandComponent, {
       height: '500px',
@@ -83,7 +88,6 @@ export class BrandListComponent implements OnInit {
       )
     })
   }
-
   ngOnInit(): void {
     this.getBrands();
   }

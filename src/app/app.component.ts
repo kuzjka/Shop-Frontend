@@ -17,14 +17,14 @@ export class AppComponent implements OnInit {
   dto: UserDto;
   username!: string;
   roles!: string[];
-isAdmin=false;
+
+
   constructor(private service: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
     this.dto = new UserDto('', '', '', '', '');
-
   }
 
   login() {
@@ -34,30 +34,28 @@ isAdmin=false;
 
   logout() {
     this.cookies.delete('access_token');
-    this.cookies.delete('role');
+    this.cookies.delete('admin');
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
   }
 
   getUser() {
-
     this.service.getUser().subscribe(data => {
       this.username = data.username;
       this.roles = data.roles;
-      this.isUserAdmin();
+      if(this.roles.includes('admin')){
+
+        this.cookies.set('admin', 'admin');
+      }
+
     })
   }
 
-isUserAdmin(){
-    if(this.roles.includes('admin')){
-      this.isAdmin = true;
-    }
-    else{
-      this.isAdmin = false;
-    }
-}
-  addUser() {
+  isUserAdmin() {
+   return this.service.isAdmin();
+  }
 
+  addUser() {
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
       width: '500px',
@@ -73,9 +71,7 @@ isUserAdmin(){
   }
 
   editUser() {
-
     this.dto.username = this.username;
-
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
       width: '500px',
@@ -98,7 +94,6 @@ isUserAdmin(){
 
   ngOnInit(): void {
     this.getUser();
-
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
@@ -108,8 +103,6 @@ isUserAdmin(){
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {
       this.service.retrieveToken(window.location.href.substring(i + 5));
-
     }
-
   }
 }
