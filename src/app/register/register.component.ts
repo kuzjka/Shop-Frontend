@@ -20,10 +20,12 @@ export class RegisterComponent {
       this.title = 'change password';
     }
   }
+
   onNoClick() {
     this.dialogRef.close();
   }
 }
+
 export interface UserDialogData {
   user: UserDto;
   new: boolean;

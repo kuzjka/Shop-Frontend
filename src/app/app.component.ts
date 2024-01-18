@@ -16,15 +16,15 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   dto: UserDto;
   username!: string;
-  roles!: string[];
+  role!: string;
 
 
-  constructor(private service: UserService,
+  constructor(private userService: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
-    this.dto = new UserDto('', '', '', '', '');
+    this.dto = new UserDto('', '', '', '', '', '');
   }
 
   login() {
@@ -34,25 +34,23 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.cookies.delete('access_token');
-    this.cookies.delete('admin');
+    this.cookies.delete('role');
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
   }
 
   getUser() {
-    this.service.getUser().subscribe(data => {
-      this.username = data.username;
-      this.roles = data.roles;
-      if(this.roles.includes('admin')){
-
-        this.cookies.set('admin', 'admin');
+    this.userService.getUser().subscribe(data => {
+        this.username = data.username;
+        this.role = data.role;
+        this.cookies.set('role', data.role);
+        this.getRole();
       }
-
-    })
+    )
   }
 
-  isUserAdmin() {
-   return this.service.isAdmin();
+  getRole() {
+    return this.userService.getRole();
   }
 
   addUser() {
@@ -61,7 +59,7 @@ export class AppComponent implements OnInit {
       width: '500px',
       data: {user: this.dto, new: true}
     }).afterClosed().subscribe(data => {
-      this.service.addUser(data).subscribe(data2 => {
+      this.userService.addUser(data).subscribe(data2 => {
           this.snackBar.open(data2.message, 'undo', {duration: 3000})
         },
         err => {
@@ -77,7 +75,7 @@ export class AppComponent implements OnInit {
       width: '500px',
       data: {user: this.dto, new: false}
     }).afterClosed().subscribe(data => {
-      this.service.editUser(data).subscribe(data2 => {
+      this.userService.editUser(data).subscribe(data2 => {
           this.snackBar.open(data2.message, 'undo', {duration: 3000})
         },
         err => {
@@ -87,22 +85,25 @@ export class AppComponent implements OnInit {
   }
 
   resendToken(token: string) {
-    this.service.resendRegistrationToken(token).subscribe(data => {
+    this.userService.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
 
   ngOnInit(): void {
     this.getUser();
+
+
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
+
     }
-    this.isLoggedIn = this.service.checkCredentials();
+    this.isLoggedIn = this.userService.checkCredentials();
 
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {
-      this.service.retrieveToken(window.location.href.substring(i + 5));
+      this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
 }

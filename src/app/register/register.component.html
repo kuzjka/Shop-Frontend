@@ -1,6 +1,16 @@
 <h3 align="center">{{title}}</h3>
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
+    <mat-label>Role:</mat-label>
+    <mat-select name="role" [(ngModel)]="newUser.role">
+      <mat-option [value]="'user'">USER</mat-option>
+      <mat-option [value]="'manager'">MANAGER</mat-option>
+      <mat-option [value]="'admin'">ADMIN</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div *ngIf="title=='register'" align="center">
+  <mat-form-field>
     <mat-label>Username:</mat-label>
     <input id="username" matInput [(ngModel)]="newUser.username">
   </mat-form-field>

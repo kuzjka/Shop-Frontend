@@ -17,6 +17,7 @@ export class TypeListComponent implements OnInit {
   types: Type[] = [];
   typeDto!: TypeDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
+  role!: string;
 
   constructor(private userService: UserService,
               private service: ProductService,
@@ -25,9 +26,11 @@ export class TypeListComponent implements OnInit {
   ) {
     this.typeDto = new TypeDto(0, '');
   }
-  isUserAdmin(){
-    return this.userService.isAdmin();
+
+  getRole() {
+    this.role = this.userService.getRole();
   }
+
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
       this.types = data;
@@ -87,6 +90,7 @@ export class TypeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRole();
     this.getTypes();
   }
 }

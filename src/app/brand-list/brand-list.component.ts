@@ -17,6 +17,7 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   dto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
+  role!: string
 
   constructor(private userService: UserService,
               private service: ProductService,
@@ -25,8 +26,8 @@ export class BrandListComponent implements OnInit {
     this.dto = new BrandDto(0, '');
   }
 
-  isUserAdmin() {
-    return this.userService.isAdmin();
+  getRole() {
+    this.role = this.userService.getRole();
   }
 
   getBrands() {
@@ -72,6 +73,7 @@ export class BrandListComponent implements OnInit {
       })
     })
   }
+
   deleteBrand(brand: Brand) {
     const dialogRef = this.dialog.open(DeleteBrandComponent, {
       height: '500px',
@@ -88,7 +90,9 @@ export class BrandListComponent implements OnInit {
       )
     })
   }
+
   ngOnInit(): void {
+    this.getRole();
     this.getBrands();
   }
 }

@@ -40,6 +40,7 @@ export class ProductListComponent implements OnInit {
   cartItemDto!: CartItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cart!: Cart;
+  role!:string;
 
 
   constructor(private service: ProductService,
@@ -54,8 +55,8 @@ export class ProductListComponent implements OnInit {
     this.cartItemDto = new CartItemDto(0, 0);
   }
 
-  isUserAdmin() {
-    return this.userService.isAdmin();
+  getRole() {
+    this.role =  this.userService.getRole();
   }
 
   sortProducts(sortState: Sort) {
@@ -118,6 +119,7 @@ export class ProductListComponent implements OnInit {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
+        this.getRole();
       });
   }
 
@@ -225,6 +227,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();

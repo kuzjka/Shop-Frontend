@@ -23,8 +23,8 @@ export class UserService {
     return this.cookies.check('access_token');
   }
 
-  isAdmin() {
-    return this.cookies.check("admin");
+  getRole(){
+    return this.cookies.get('role');
   }
 
   getUser(): Observable<Username> {
