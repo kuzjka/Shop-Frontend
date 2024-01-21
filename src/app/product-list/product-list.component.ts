@@ -197,11 +197,10 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  addToCart(id: number) {
-    this.cartItemDto.productId = id;
-    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-      this.getCart()
-    });
+  removeFromCart(id:number){
+    this.orderService.removeFromCart(id).subscribe(data=>{
+      this.getCart();
+    })
   }
 
   getCart() {

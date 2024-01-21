@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
   username!: string;
   role!: string;
 
-
   constructor(private userService: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
@@ -92,15 +91,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-
-
     let e = window.location.href.indexOf('token');
     if (e != -1) {
       this.resendToken(window.location.href.substring(e + 6));
-
     }
     this.isLoggedIn = this.userService.checkCredentials();
-
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
