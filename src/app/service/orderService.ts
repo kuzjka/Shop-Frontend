@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CartItemDto} from "./dto/cartItemDto";
+import {CartItemDto} from "../dto/cartItemDto";
 
 import {CookieService} from "ngx-cookie-service";
-import {Cart} from "./model/cart";
-import {CartItem} from "./model/cartItem";
+import {Cart} from "../model/cart";
+import {CartItem} from "../model/cartItem";
 
 @Injectable()
 export class OrderService {

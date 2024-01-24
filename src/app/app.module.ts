@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {ProductService} from "./productService";
+import {ProductService} from "./service/productService";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -29,10 +29,10 @@ import {ProductListComponent} from './product-list/product-list.component';
 import {DeleteTypeComponent} from './delete-type/delete-type.component';
 import {DeleteBrandComponent} from './delete-brand/delete-brand.component';
 import {NgOptimizedImage} from "@angular/common";
-import {UserService} from "./userService";
+import {UserService} from "./service/userService";
 import {MatMenuModule} from "@angular/material/menu";
 import { CartComponent } from './cart/cart.component';
-import {OrderService} from "./orderService";
+import {OrderService} from "./service/orderService";
 
 @NgModule({
   declarations: [

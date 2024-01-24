@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Type} from "../model/type";
-import {ProductService} from "../productService";
+import {ProductService} from "../service/productService";
 import {AddTypeComponent} from "../add-type/add-type.component";
 import {MatDialog} from "@angular/material/dialog";
 import {TypeDto} from "../dto/typeDto";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "../userService";
+import {UserService} from "../service/userService";
 
 @Component({
   selector: 'app-type-list',

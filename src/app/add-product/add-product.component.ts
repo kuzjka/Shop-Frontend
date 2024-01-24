@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ProductDto} from "../dto/productDto";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProductService} from "../productService";
+import {ProductService} from "../service/productService";
 import {Brand} from "../model/brand";
 import {Type} from "../model/type";
 

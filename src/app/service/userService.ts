@@ -2,10 +2,10 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
-import {Username} from "./model/username";
-import {UserDto} from "./dto/userDto";
-import {RegistrationResponse} from "./model/registrationResponse";
-import {Token} from "./model/token";
+import {Username} from "../model/username";
+import {UserDto} from "../dto/userDto";
+import {SuccessResponse} from "../model/successResponse";
+import {Token} from "../model/token";
 
 @Injectable()
 export class UserService {
@@ -35,16 +35,16 @@ export class UserService {
     }
   }
 
-  addUser(dto: UserDto): Observable<RegistrationResponse> {
+  addUser(dto: UserDto): Observable<SuccessResponse> {
     return this.http.post<any>(this.baseUrl + '/user', dto);
   }
 
-  editUser(dto: UserDto): Observable<RegistrationResponse> {
+  editUser(dto: UserDto): Observable<SuccessResponse> {
     return this.http.put<any>(this.baseUrl + '/user', dto, {headers: this.headers});
   }
 
-  resendRegistrationToken(token: string): Observable<RegistrationResponse> {
-    return this.http.get<RegistrationResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
+  resendRegistrationToken(token: string): Observable<SuccessResponse> {
+    return this.http.get<SuccessResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
   }
 
   retrieveToken(code: string) {

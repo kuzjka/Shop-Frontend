@@ -5,7 +5,7 @@ import {Brand} from "../model/brand";
 import {ProductDto} from "../dto/productDto";
 import {BrandDto} from "../dto/brandDto";
 import {TypeDto} from "../dto/typeDto";
-import {ProductService} from "../productService";
+import {ProductService} from "../service/productService";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -13,10 +13,10 @@ import {AddProductComponent} from "../add-product/add-product.component";
 import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
-import {OrderService} from "../orderService";
+import {OrderService} from "../service/orderService";
 import {CartItemDto} from "../dto/cartItemDto";
 import {Cart} from "../model/cart";
-import {UserService} from "../userService";
+import {UserService} from "../service/userService";
 
 @Component({
   selector: 'app-product-list',
@@ -40,7 +40,7 @@ export class ProductListComponent implements OnInit {
   cartItemDto!: CartItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cart!: Cart;
-  role!:string;
+  role!: string;
 
 
   constructor(private service: ProductService,
@@ -56,7 +56,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getRole() {
-    this.role =  this.userService.getRole();
+    this.role = this.userService.getRole();
   }
 
   sortProducts(sortState: Sort) {
@@ -197,8 +197,8 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  removeFromCart(id:number){
-    this.orderService.removeFromCart(id).subscribe(data=>{
+  removeFromCart(id: number) {
+    this.orderService.removeFromCart(id).subscribe(data => {
       this.getCart();
     })
   }
@@ -226,7 +226,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.getRole();
     this.getFilterTypes();
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();

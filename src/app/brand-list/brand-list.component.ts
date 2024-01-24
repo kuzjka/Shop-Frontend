@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from "../productService";
+import {ProductService} from "../service/productService";
 import {Brand} from "../model/brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
 import {BrandDto} from "../dto/brandDto";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "../userService";
+import {UserService} from "../service/userService";
 
 @Component({
   selector: 'app-brand-list',

@@ -3,7 +3,7 @@ import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./register/register.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "./userService";
+import {UserService} from "./service/userService";
 import {UserDto} from "./dto/userDto";
 
 @Component({

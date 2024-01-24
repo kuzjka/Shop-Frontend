@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {BrandDto} from "../dto/brandDto";
-import {ProductService} from "../productService";
+import {ProductService} from "../service/productService";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
