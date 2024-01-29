@@ -41,6 +41,7 @@ export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cart!: Cart;
   role!: string;
+  cartProductsIds!: number[];
 
 
   constructor(private service: ProductService,
@@ -52,7 +53,7 @@ export class ProductListComponent implements OnInit {
     this.productDto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
-    this.cartItemDto = new CartItemDto(0, 0);
+    this.cartItemDto = new CartItemDto(0, 0, 0);
   }
 
   getRole() {
@@ -204,25 +205,38 @@ export class ProductListComponent implements OnInit {
   }
 
   getCart() {
+    this.cartProductsIds = [];
     this.orderService.getCart().subscribe(data => {
       this.cart = data;
+      for (let i = 0; i < this.cart.items.length; i++) {
+        this.cartProductsIds.push(this.cart.items[i].product.id);
+      }
     });
   }
 
-  plusItem(id: number) {
-    this.cartItemDto.quantity = 1;
-    this.cartItemDto.productId = id;
+  addToCart(productId: number) {
+    this.cartItemDto.productId = productId;
     this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-      this.cart = data;
+      this.getCart();
     })
   }
 
-  minusItem(id: number) {
+  plusItem(itemId: number) {
+    this.cartItemDto.quantity = 1;
+    this.cartItemDto.productId = 0;
+    this.cartItemDto.itemId = itemId;
+    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+      this.getCart();
+    });
+  }
+
+  minusItem(itemId: number) {
     this.cartItemDto.quantity = -1;
-    this.cartItemDto.productId = id;
-    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
-      this.cart = data;
-    })
+    this.cartItemDto.productId = 0;
+    this.cartItemDto.itemId = itemId;
+    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+      this.getCart();
+    });
   }
 
   ngOnInit(): void {
