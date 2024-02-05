@@ -12,7 +12,6 @@ export class UserService {
   private readonly headers;
   baseUrl: string = 'http://localhost:8080';
 
-
   constructor(private http: HttpClient, private cookies: CookieService) {
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
@@ -23,7 +22,7 @@ export class UserService {
     return this.cookies.check('access_token');
   }
 
-  getRole(){
+  getRole() {
     return this.cookies.get('role');
   }
 

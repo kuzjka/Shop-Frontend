@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ProductDto} from "../dto/productDto";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ProductService} from "../service/productService";
 import {Brand} from "../model/brand";
 import {Type} from "../model/type";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-add-product',
@@ -11,19 +11,18 @@ import {Type} from "../model/type";
   styleUrls: ['./add-product.component.css']
 })
 export class AddProductComponent implements OnInit {
-  product: ProductDto;
   title: string;
   types: Type[] = [];
   brands: Brand[] = [];
-  selectedFiles?: FileList;
-  constructor(public service: ProductService, public dialogRef: MatDialogRef<AddProductComponent>,
+  selectedFiles!: FileList;
+  constructor(public service: ProductService, public fb: FormBuilder,
+              public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
     if (data.new == true) {
       this.title = 'Add product'
     } else {
       this.title = 'Edit product'
     }
-    this.product = data.product;
   }
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
@@ -39,19 +38,8 @@ export class AddProductComponent implements OnInit {
     this.dialogRef.close();
   }
   handleUpload(event: any) {
-    this.product.photos = [];
-    this.selectedFiles = event.target.files;
-    if (this.selectedFiles) {
-
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        const reader = new FileReader();
-        reader.readAsBinaryString(this.selectedFiles[i]);
-        reader.onload = () => {
-          if (!reader.result) return;
-          this.product.photos.push(btoa(reader.result.toString()));
-        }
-      }
-    }
+    const file = event.target.files;
+    this.service.setFiles(file);
   }
   ngOnInit(): void {
     this.getTypes();
@@ -59,6 +47,6 @@ export class AddProductComponent implements OnInit {
   }
 }
 export interface productDialogData {
-  product: ProductDto;
+  productForm: FormGroup;
   new: boolean;
 }

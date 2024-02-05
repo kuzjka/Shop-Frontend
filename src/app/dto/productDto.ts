@@ -1,18 +1,18 @@
 export class ProductDto {
+  productId: number;
   typeId: number;
   brandId: number;
-  id: number;
   name: string;
   price: number;
-  photos: string[];
+  photo: File;
 
 
-  constructor(typeId: number, brandId: number, id: number, name: string, price: number, photos: string[]) {
+  constructor(typeId: number, brandId: number, productId: number, name: string, price: number, photo: File) {
     this.typeId = typeId;
     this.brandId = brandId;
-    this.id = id;
+    this.productId = productId;
     this.name = name;
     this.price = price;
-    this.photos = photos;
+    this.photo = photo;
   }
 }

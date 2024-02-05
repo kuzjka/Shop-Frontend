@@ -4,24 +4,26 @@ import {Observable} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
-import {ProductDto} from "../dto/productDto";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
 import {TypeDto} from "../dto/typeDto";
 import {BrandDto} from "../dto/brandDto";
 
-
 @Injectable()
 export class ProductService {
   private readonly headers;
-
+  fileArray!: File[];
   constructor(private http: HttpClient, private cookies: CookieService) {
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
+    });
   }
-
   baseUrl: string = 'http://localhost:8080';
-
+  setFiles(file: FileList) {
+    this.fileArray = Array.from(file);
+  }
+  deleteFiles() {
+    this.fileArray = [];
+  }
   getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
     Observable<ResponseProductDto> {
     return this.http.get<ResponseProductDto>(this.baseUrl + '/api/product?typeId=' + typeId + '&brandId='
@@ -44,8 +46,34 @@ export class ProductService {
     return this.http.get<Brand[]>(this.baseUrl + '/api/productBrand?typeId=' + typeId, {headers: this.headers});
   }
 
-  addProduct(dto: ProductDto): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/api/product', dto, {headers: this.headers});
+  addProduct(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('productId', data.controls.productId.value);
+    formData.append('typeId', data.controls.typeId.value);
+    formData.append('brandId', data.controls.brandId.value);
+    formData.append('name', data.controls.name.value);
+    formData.append('price', data.controls.price.value);
+    for (let i = 0; i < this.fileArray.length; i++) {
+      formData.append('photo', this.fileArray[i]);
+    }
+    this.deleteFiles();
+    return this.http.post<any>(this.baseUrl +
+      '/api/product', formData, {headers: this.headers});
+  }
+
+  editProduct(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('productId', data.controls.productId.value);
+    formData.append('typeId', data.controls.typeId.value);
+    formData.append('brandId', data.controls.brandId.value);
+    formData.append('name', data.controls.name.value);
+    formData.append('price', data.controls.price.value);
+    for (let i = 0; i < this.fileArray.length; i++) {
+      formData.append('photo', this.fileArray[i]);
+    }
+    this.deleteFiles();
+    return this.http.put<any>(this.baseUrl
+      + '/api/product', formData, {headers: this.headers});
   }
 
   addType(dto: TypeDto): Observable<any> {
@@ -64,9 +92,6 @@ export class ProductService {
     return this.http.put<any>(this.baseUrl + '/api/brand', dto, {headers: this.headers});
   }
 
-  editProduct(dto: ProductDto): Observable<any> {
-    return this.http.put<any>(this.baseUrl + '/api/product', dto, {headers: this.headers});
-  }
 
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete<any>(this.baseUrl + '/api/product/' + productId, {headers: this.headers});

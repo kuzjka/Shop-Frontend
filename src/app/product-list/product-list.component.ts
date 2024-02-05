@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from "../model/product";
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
-import {ProductDto} from "../dto/productDto";
 import {BrandDto} from "../dto/brandDto";
 import {TypeDto} from "../dto/typeDto";
 import {ProductService} from "../service/productService";
@@ -17,6 +16,7 @@ import {OrderService} from "../service/orderService";
 import {CartItemDto} from "../dto/cartItemDto";
 import {Cart} from "../model/cart";
 import {UserService} from "../service/userService";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-product-list',
@@ -32,9 +32,8 @@ export class ProductListComponent implements OnInit {
   currentBrandId = 0;
   pageSize = 10;
   totalProducts = 0;
-  pageSizeOptions = [2, 5, 10]
+  pageSizeOptions = [2, 5, 10];
   currentPage = 0;
-  productDto: ProductDto;
   brandDto: BrandDto;
   typeDto: TypeDto;
   cartItemDto!: CartItemDto;
@@ -42,15 +41,15 @@ export class ProductListComponent implements OnInit {
   cart!: Cart;
   role!: string;
   cartProductsIds!: number[];
+  productForm!: FormGroup;
 
-
-  constructor(private service: ProductService,
+  constructor(private fb: FormBuilder,
+              private service: ProductService,
               private orderService: OrderService,
               private userService: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.productDto = new ProductDto(0, 0, 0, '', 0, []);
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.cartItemDto = new CartItemDto(0, 0, 0);
@@ -137,16 +136,19 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct() {
-    this.productDto.id = 0;
-    this.productDto.typeId = 0;
-    this.productDto.brandId = 0;
-    this.productDto.name = '';
-    this.productDto.price = 0;
+    this.productForm = this.fb.group({
+      productId: [0],
+      typeId: [1],
+      brandId: [1],
+      name: ['A'],
+      price: [0],
+      photo: [null]
+    })
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
       data: {
-        product: this.productDto, new: true
+        productForm: this.productForm, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addProduct(data).subscribe(data => {
@@ -164,22 +166,21 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-    this.productDto.id = product.id;
-    this.productDto.name = product.name;
-    this.productDto.price = product.price;
-    this.productDto.typeId = product.type.id;
-    this.productDto.brandId = product.brand.id;
+    this.productForm = this.fb.group({
+      productId: [product.id],
+      typeId: [product.type.id],
+      brandId: [product.brand.id],
+      name: [product.name],
+      price: [product.price],
+      photo: [null]
+    });
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {product: this.productDto, new: false}
+      data: {productForm: this.productForm, new: false}
     }).afterClosed().subscribe(data => {
       this.service.editProduct(data).subscribe(data => {
         this.getProducts();
-        this.currentTypeId = 0;
-        this.currentBrandId = 0;
-        this.productDto.id = 0;
-        this.productDto.photos = [];
       })
     })
   }
@@ -245,5 +246,5 @@ export class ProductListComponent implements OnInit {
     this.getFilterBrands(this.currentTypeId);
     this.getProducts();
     this.getCart();
-  };
+  }
 }
