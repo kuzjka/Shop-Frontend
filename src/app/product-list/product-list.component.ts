@@ -44,7 +44,7 @@ export class ProductListComponent implements OnInit {
   productForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private service: ProductService,
+              private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
               private cookies: CookieService,
@@ -60,7 +60,7 @@ export class ProductListComponent implements OnInit {
   }
 
   sortProducts(sortState: Sort) {
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
       sortState.direction, this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -69,13 +69,13 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterTypes() {
-    this.service.getProductTypes().subscribe(data => {
+    this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
 
   getFilterBrands(typeId: number) {
-    this.service.getProductBrands(typeId).subscribe(data => {
+    this.productService.getProductBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
@@ -89,7 +89,7 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId = 0;
     }
     this.getFilterBrands(this.currentTypeId);
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -103,7 +103,7 @@ export class ProductListComponent implements OnInit {
     } else {
       this.currentBrandId = brandId;
     }
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -113,7 +113,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -126,7 +126,7 @@ export class ProductListComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.service.getProducts(this.currentTypeId, this.currentBrandId, 'name',
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -151,7 +151,7 @@ export class ProductListComponent implements OnInit {
         productForm: this.productForm, new: true
       }
     }).afterClosed().subscribe(data => {
-      this.service.addProduct(data).subscribe(data => {
+      this.productService.addProduct(data).subscribe(data => {
           this.getProducts();
           this.getFilterTypes();
           this.getFilterBrands(0);
@@ -179,7 +179,7 @@ export class ProductListComponent implements OnInit {
       width: '500px',
       data: {productForm: this.productForm, new: false}
     }).afterClosed().subscribe(data => {
-      this.service.editProduct(data).subscribe(data => {
+      this.productService.editProduct(data).subscribe(data => {
         this.getProducts();
       })
     })
@@ -193,12 +193,16 @@ export class ProductListComponent implements OnInit {
         product: product
       }
     }).afterClosed().subscribe(data => {
-      this.service.deleteProduct(data).subscribe(data => {
+      this.productService.deleteProduct(data).subscribe(data => {
         this.getProducts();
       })
     })
   }
-
+  deletePhoto(photoId: number) {
+   this.productService.deletePhoto(photoId).subscribe(data=>{
+     this.getProducts();
+   })
+  }
   removeFromCart(id: number) {
     this.orderService.removeFromCart(id).subscribe(data => {
       this.getCart();

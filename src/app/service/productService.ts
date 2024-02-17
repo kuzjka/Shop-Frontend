@@ -96,7 +96,9 @@ export class ProductService {
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete<any>(this.baseUrl + '/api/product/' + productId, {headers: this.headers});
   }
-
+  deletePhoto(photoId: number): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + '/api/photo/' + photoId, {headers: this.headers});
+  }
   deleteType(typeId: number): Observable<any> {
     return this.http.delete<any>(this.baseUrl + '/api/type/' + typeId, {headers: this.headers});
   }

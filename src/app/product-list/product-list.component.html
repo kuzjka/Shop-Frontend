@@ -36,6 +36,9 @@
     <td mat-cell *matCellDef="let product">
       <span *ngFor="let photo of product.photos">
         <img src="{{photo.url}}"/>
+        <button *ngIf="role=='admin'" mat-icon-button color="primary" (click)="deletePhoto(photo.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
       </span>
     </td>
   </ng-container>
