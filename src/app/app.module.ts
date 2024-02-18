@@ -33,6 +33,7 @@ import {UserService} from "./service/userService";
 import {MatMenuModule} from "@angular/material/menu";
 import { CartComponent } from './cart/cart.component';
 import {OrderService} from "./service/orderService";
+import { AddPhotoComponent } from './add-photo/add-photo.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {OrderService} from "./service/orderService";
     ProductListComponent,
     DeleteTypeComponent,
     DeleteBrandComponent,
-    CartComponent
+    CartComponent,
+    AddPhotoComponent
   ],
   imports: [
     BrowserModule,

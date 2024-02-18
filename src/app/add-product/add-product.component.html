@@ -1,37 +1,34 @@
 <h1 align="center">{{title}}</h1>
 <form [formGroup]="data.productForm">
-  <input type="hidden"  formControlName="productId"/>
-<p align="center">
-  <mat-form-field>
-    <mat-label>Type:</mat-label>
-    <mat-select formControlName="typeId">
-      <mat-option [value]="type.id" *ngFor="let type of types">{{type.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-</p>
-<p align="center">
-  <mat-form-field>
-    <mat-label>Brand:</mat-label>
-    <mat-select formControlName="brandId">
-      <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-</p>
-<p align="center">
-  <mat-form-field>
-    <mat-label>Name:</mat-label>
-    <input matInput formControlName="name">
-  </mat-form-field>
-</p>
-<p align="center">
-  <mat-form-field>
-    <mat-label>Price:</mat-label>
-    <input matInput formControlName="price">
-  </mat-form-field>
-</p>
-<p align="center">
-  <input type="file" formControlName="photo" multiple (change)="handleUpload($event)"/>
-</p>
+  <input type="hidden" formControlName="productId"/>
+  <p align="center">
+    <mat-form-field>
+      <mat-label>Type:</mat-label>
+      <mat-select formControlName="typeId">
+        <mat-option [value]="type.id" *ngFor="let type of types">{{type.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
+  <p align="center">
+    <mat-form-field>
+      <mat-label>Brand:</mat-label>
+      <mat-select formControlName="brandId">
+        <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
+  <p align="center">
+    <mat-form-field>
+      <mat-label>Name:</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+  </p>
+  <p align="center">
+    <mat-form-field>
+      <mat-label>Price:</mat-label>
+      <input matInput formControlName="price">
+    </mat-form-field>
+  </p>
 </form>
 <div align="center" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>

@@ -40,6 +40,9 @@
         <mat-icon>delete</mat-icon>
       </button>
       </span>
+      <button *ngIf="role=='admin'" mat-icon-button color="primary" (click)="addPhoto(product.id)">
+        <mat-icon>add</mat-icon>
+      </button>
     </td>
   </ng-container>
   <ng-container matColumnDef="type">

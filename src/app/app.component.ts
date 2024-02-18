@@ -21,8 +21,7 @@ export class AppComponent implements OnInit {
   constructor(private userService: UserService,
               private cookies: CookieService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar
-  ) {
+              private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 

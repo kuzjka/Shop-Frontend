@@ -17,6 +17,7 @@ import {CartItemDto} from "../dto/cartItemDto";
 import {Cart} from "../model/cart";
 import {UserService} from "../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {AddPhotoComponent} from "../add-photo/add-photo.component";
 
 @Component({
   selector: 'app-product-list',
@@ -42,6 +43,7 @@ export class ProductListComponent implements OnInit {
   role!: string;
   cartProductsIds!: number[];
   productForm!: FormGroup;
+  photoForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -141,8 +143,7 @@ export class ProductListComponent implements OnInit {
       typeId: [1],
       brandId: [1],
       name: ['A'],
-      price: [0],
-      photo: [null]
+      price: [0]
     })
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
@@ -165,14 +166,39 @@ export class ProductListComponent implements OnInit {
     })
   }
 
+  addPhoto(productId: number) {
+    this.photoForm = this.fb.group({
+      productId: [productId],
+      photo: [null]
+    })
+    const dialogRef = this.dialog.open(AddPhotoComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        photoForm: this.photoForm
+      }
+    }).afterClosed().subscribe(data => {
+      this.productService.addPhoto(data).subscribe(data => {
+          this.getProducts();
+          this.getFilterTypes();
+          this.getFilterBrands(0);
+          this.currentTypeId = 0;
+          this.currentBrandId = 0;
+        },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
+    })
+  }
+
   editProduct(product: Product) {
     this.productForm = this.fb.group({
       productId: [product.id],
       typeId: [product.type.id],
       brandId: [product.brand.id],
       name: [product.name],
-      price: [product.price],
-      photo: [null]
+      price: [product.price]
     });
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
@@ -184,7 +210,6 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
-
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -198,11 +223,13 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   deletePhoto(photoId: number) {
-   this.productService.deletePhoto(photoId).subscribe(data=>{
-     this.getProducts();
-   })
+    this.productService.deletePhoto(photoId).subscribe(data => {
+      this.getProducts();
+    })
   }
+
   removeFromCart(id: number) {
     this.orderService.removeFromCart(id).subscribe(data => {
       this.getCart();
