@@ -184,6 +184,7 @@ export class ProductListComponent implements OnInit {
           this.getFilterBrands(0);
           this.currentTypeId = 0;
           this.currentBrandId = 0;
+
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
