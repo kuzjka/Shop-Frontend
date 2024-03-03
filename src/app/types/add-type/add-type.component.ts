@@ -1,8 +1,8 @@
 import {Component, Inject} from '@angular/core';
-import {BrandDto} from "../dto/brandDto";
-import {ProductService} from "../service/productService";
+import {BrandDto} from "../../dto/brandDto";
+import {ProductService} from "../../service/productService";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TypeDto} from "../dto/typeDto";
+import {TypeDto} from "../../dto/typeDto";
 
 @Component({
   selector: 'app-add-type',

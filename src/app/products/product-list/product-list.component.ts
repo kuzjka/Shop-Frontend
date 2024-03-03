@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Product} from "../model/product";
-import {Type} from "../model/type";
-import {Brand} from "../model/brand";
-import {BrandDto} from "../dto/brandDto";
-import {TypeDto} from "../dto/typeDto";
-import {ProductService} from "../service/productService";
+import {Product} from "../../model/product";
+import {Type} from "../../model/type";
+import {Brand} from "../../model/brand";
+import {BrandDto} from "../../dto/brandDto";
+import {TypeDto} from "../../dto/typeDto";
+import {ProductService} from "../../service/productService";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -12,12 +12,14 @@ import {AddProductComponent} from "../add-product/add-product.component";
 import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
-import {OrderService} from "../service/orderService";
-import {CartItemDto} from "../dto/cartItemDto";
-import {Cart} from "../model/cart";
-import {UserService} from "../service/userService";
+import {OrderService} from "../../service/orderService";
+import {CartItemDto} from "../../dto/cartItemDto";
+import {Cart} from "../../model/cart";
+import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AddPhotoComponent} from "../add-photo/add-photo.component";
+import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
+import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
+import {Photo} from "../../model/photo";
 
 @Component({
   selector: 'app-product-list',
@@ -211,6 +213,7 @@ export class ProductListComponent implements OnInit {
       })
     })
   }
+
   deleteProduct(product: Product) {
     this.dialog.open(DeleteProductComponent, {
       height: '500px',
@@ -225,9 +228,17 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  deletePhoto(photoId: number) {
-    this.productService.deletePhoto(photoId).subscribe(data => {
-      this.getProducts();
+  deletePhoto(photo: Photo) {
+    this.dialog.open(DeletePhotoComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        photo: photo
+      }
+    }).afterClosed().subscribe(data => {
+      this.productService.deletePhoto(data).subscribe(data => {
+        this.getProducts();
+      })
     })
   }
 

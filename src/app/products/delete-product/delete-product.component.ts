@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Product} from "../model/product";
+import {Product} from "../../model/product";
 
 @Component({
   selector: 'app-delete-product',
@@ -11,9 +11,9 @@ export class DeleteProductComponent {
   title = '';
   id = 0;
 
-  constructor(public dialogRef: MatDialogRef<DeleteProductComponent>,
+  constructor(private dialogRef: MatDialogRef<DeleteProductComponent>,
               @Inject(MAT_DIALOG_DATA) data: DeleteProductData) {
-    this.title = 'delete ' + data.product.name + '?';
+    this.title = 'delete product with name: ' + data.product.name + ' ?';
     this.id = data.product.id;
   }
 
