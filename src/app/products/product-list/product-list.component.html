@@ -8,7 +8,6 @@
 <div *ngIf="cart!=null" align="center">
   <h2>Total price: {{cart.totalPrice}};</h2>
   <h2 *ngFor="let item of cart.items">
-
     <p align="center">Product: {{item.product.name}}</p>
     <button mat-icon-button color="primary" (click)="minusItem(item.id)">
       <mat-icon>remove</mat-icon>

@@ -53,7 +53,6 @@ export class ProductService {
 
   addProduct(data: any): Observable<any> {
     const formData = new FormData();
-    formData.append('productId', data.controls.productId.value);
     formData.append('typeId', data.controls.typeId.value);
     formData.append('brandId', data.controls.brandId.value);
     formData.append('name', data.controls.name.value);
