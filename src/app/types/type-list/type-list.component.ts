@@ -30,13 +30,11 @@ export class TypeListComponent implements OnInit {
   getRole() {
     this.role = this.userService.getRole();
   }
-
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
       this.types = data;
     })
   }
-
   addType() {
     this.typeDto.id = 0;
     this.typeDto.name = '';
@@ -56,7 +54,6 @@ export class TypeListComponent implements OnInit {
       )
     })
   }
-
   editType(type: Type) {
     this.typeDto.id = type.id;
     this.typeDto.name = type.name;
@@ -69,6 +66,8 @@ export class TypeListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.service.editType(data).subscribe(data => {
         this.getTypes();
+      }, error => {
+        this.snackBar.open(error.error.message, '', {duration: 3000})
       })
     })
   }

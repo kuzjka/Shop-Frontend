@@ -4,6 +4,7 @@ import {ProductService} from "../../service/productService";
 import {Brand} from "../../model/brand";
 import {Type} from "../../model/type";
 import {FormGroup} from "@angular/forms";
+import {ProductDto} from "../../dto/productDto";
 
 @Component({
   selector: 'app-add-product',
@@ -12,17 +13,19 @@ import {FormGroup} from "@angular/forms";
 })
 export class AddProductComponent implements OnInit {
   title: string;
-  types: Type[] = [];
-  brands: Brand[] = [];
+  types!: Type[];
+  brands!: Brand[];
+  productDto: ProductDto;
 
   constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: productDialogData) {
+              @Inject(MAT_DIALOG_DATA) public data: ProductDialogData) {
     if (data.new) {
       this.title = 'Add product'
     } else {
       this.title = 'Edit product'
     }
+    this.productDto = data.product;
   }
 
   getTypes() {
@@ -47,7 +50,7 @@ export class AddProductComponent implements OnInit {
   }
 }
 
-export interface productDialogData {
-  productForm: FormGroup;
+export interface ProductDialogData {
+  product: ProductDto;
   new: boolean;
 }

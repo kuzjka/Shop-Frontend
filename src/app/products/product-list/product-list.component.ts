@@ -20,6 +20,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
+import {ProductDto} from "../../dto/productDto";
 
 @Component({
   selector: 'app-product-list',
@@ -44,7 +45,7 @@ export class ProductListComponent implements OnInit {
   cart!: Cart;
   role!: string;
   cartProductsIds!: number[];
-  productForm!: FormGroup;
+  productDto!: ProductDto;
   photoForm!: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -56,6 +57,7 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
+    this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.cartItemDto = new CartItemDto(0, 0, 0);
   }
 
@@ -139,35 +141,6 @@ export class ProductListComponent implements OnInit {
       })
   }
 
-  addProduct() {
-    this.productForm = this.fb.group({
-      productId: [0],
-      typeId: [1],
-      brandId: [1],
-      name: ['A'],
-      price: [0]
-    })
-    const dialogRef = this.dialog.open(AddProductComponent, {
-      height: '500px',
-      width: '500px',
-      data: {
-        productForm: this.productForm, new: true
-      }
-    }).afterClosed().subscribe(data => {
-      this.productService.addProduct(data).subscribe(data => {
-          this.getProducts();
-          this.getFilterTypes();
-          this.getFilterBrands(0);
-          this.currentTypeId = 0;
-          this.currentBrandId = 0;
-        },
-        error => {
-          this.snackBar.open(error.error.message, '', {duration: 3000})
-        }
-      )
-    })
-  }
-
   addPhoto(productId: number) {
     this.photoForm = this.fb.group({
       productId: [productId],
@@ -186,7 +159,29 @@ export class ProductListComponent implements OnInit {
           this.getFilterBrands(0);
           this.currentTypeId = 0;
           this.currentBrandId = 0;
+        },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        }
+      )
+    })
+  }
 
+  addProduct() {
+    this.productDto.id = 0;
+    this.productDto.name = '';
+    this.productDto.typeId = 1;
+    this.productDto.brandId = 1;
+    this.productDto.price = 0;
+    const dialogRef = this.dialog.open(AddProductComponent, {
+      height: '500px',
+      width: '500px',
+      data: {
+        product: this.productDto, new: true
+      }
+    }).afterClosed().subscribe(data => {
+      this.productService.addProduct(data).subscribe(data => {
+          this.getProducts();
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -196,21 +191,23 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-    this.productForm = this.fb.group({
-      productId: [product.id],
-      typeId: [product.type.id],
-      brandId: [product.brand.id],
-      name: [product.name],
-      price: [product.price]
-    });
+    this.productDto.id = product.id;
+    this.productDto.typeId = product.type.id;
+    this.productDto.brandId = product.brand.id;
+    this.productDto.name = product.name;
+    this.productDto.price = product.price;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {productForm: this.productForm, new: false}
+      data: {product: this.productDto, new: false}
     }).afterClosed().subscribe(data => {
+
       this.productService.editProduct(data).subscribe(data => {
         this.getProducts();
-      })
+      },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        })
     })
   }
 

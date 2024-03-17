@@ -16,7 +16,7 @@ export class AddBrandComponent {
               public dialogRef: MatDialogRef<AddBrandComponent>,
               @Inject(MAT_DIALOG_DATA) public data: BrandDialogData
   ) {
-    if (data.new == true) {
+    if (data.new) {
       this.title = "Add brand"
     } else {
       this.title = "Edit brand"

@@ -59,7 +59,6 @@ export class BrandListComponent implements OnInit {
   editBrand(brand: Brand) {
     this.dto.id = brand.id;
     this.dto.name = brand.name;
-
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
@@ -68,9 +67,11 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.service.editBrand(data).subscribe(data => {
-        this.getBrands();
-
-      })
+          this.getBrands();
+        },
+        error => {
+          this.snackBar.open(error.error.message, '', {duration: 3000})
+        })
     })
   }
 
