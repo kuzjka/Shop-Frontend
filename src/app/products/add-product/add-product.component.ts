@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ProductService} from "../../service/productService";
 import {Brand} from "../../model/brand";
 import {Type} from "../../model/type";
-import {FormGroup} from "@angular/forms";
 import {ProductDto} from "../../dto/productDto";
 
 @Component({
@@ -34,8 +33,8 @@ export class AddProductComponent implements OnInit {
     })
   }
 
-  getBrands() {
-    this.service.getAllBrands().subscribe(data => {
+  getBrands(event: any) {
+    this.service.getAllBrands(event).subscribe(data => {
       this.brands = data;
     })
   }
@@ -46,7 +45,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTypes();
-    this.getBrands();
+    this.getBrands(1);
   }
 }
 

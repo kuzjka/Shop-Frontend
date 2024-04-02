@@ -1,9 +1,16 @@
 <h1 align="center">{{title}}</h1>
-
+<p align="center">
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select name="typeId" [(ngModel)]="brand.typeId">
+      <mat-option [value]="type.id" *ngFor="let type of types">{{type.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</p>
 <p align="center">
   <mat-form-field>
     <mat-label>Name:</mat-label>
-    <input matInput [(ngModel)]="brand.name">
+    <input matInput  [(ngModel)]="brand.name">
   </mat-form-field>
 </p>
 

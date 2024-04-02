@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0, '');
+    this.brandDto = new BrandDto(0, 1, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.cartItemDto = new CartItemDto(0, 0, 0);
@@ -81,7 +81,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterBrands(typeId: number) {
-    this.productService.getProductBrands(typeId).subscribe(data => {
+    this.productService.getAllBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
@@ -94,13 +94,18 @@ export class ProductListComponent implements OnInit {
       this.currentTypeId = typeId;
       this.currentBrandId = 0;
     }
-    this.getFilterBrands(this.currentTypeId);
+    if (this.currentTypeId > 0) {
+      this.getFilterBrands(this.currentTypeId);
+    } else {
+      this.filterBrands = [];
+    }
     this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
       })
+
   }
 
   brandFilter(brandId: number) {
@@ -109,6 +114,7 @@ export class ProductListComponent implements OnInit {
     } else {
       this.currentBrandId = brandId;
     }
+
     this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
@@ -203,8 +209,8 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
 
       this.productService.editProduct(data).subscribe(data => {
-        this.getProducts();
-      },
+          this.getProducts();
+        },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         })
@@ -283,7 +289,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
     this.getRole();
     this.getFilterTypes();
-    this.getFilterBrands(this.currentTypeId);
+
     this.getProducts();
     this.getCart();
   }
