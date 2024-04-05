@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0, 1, '');
+    this.brandDto = new BrandDto(0,  '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.cartItemDto = new CartItemDto(0, 0, 0);

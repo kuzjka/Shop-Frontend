@@ -23,7 +23,6 @@ export class AddBrandComponent implements OnInit {
     } else {
       this.title = "Edit brand"
     }
-
     this.brand = data.brand;
   }
 

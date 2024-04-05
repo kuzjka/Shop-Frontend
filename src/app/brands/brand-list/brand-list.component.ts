@@ -23,7 +23,7 @@ export class BrandListComponent implements OnInit {
               private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new BrandDto(0,  1, '');
+    this.dto = new BrandDto(0,   '');
   }
 
   getRole() {
@@ -38,7 +38,7 @@ export class BrandListComponent implements OnInit {
 
   addBrand() {
     this.dto.id = 0;
-    this.dto.typeId = 1;
+
     this.dto.name = '';
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
@@ -59,7 +59,7 @@ export class BrandListComponent implements OnInit {
 
   editBrand(brand: Brand) {
     this.dto.id = brand.id;
-    this.dto.typeId = 1;
+
     this.dto.name = brand.name;
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
