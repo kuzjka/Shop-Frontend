@@ -114,7 +114,9 @@ export class ProductListComponent implements OnInit {
     } else {
       this.currentBrandId = brandId;
     }
-
+    if(this.currentTypeId == 0){
+      this.filterBrands = [];
+    }
     this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
       'ASC', this.currentPage, this.pageSize)
       .subscribe(data => {
