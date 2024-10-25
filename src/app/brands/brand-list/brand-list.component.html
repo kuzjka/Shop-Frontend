@@ -23,5 +23,5 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <p></p>
-<button *ngIf="role=='admin' || role=='manager'" mat-raised-button color="primary" (click)="addBrand()">Add brand
+<button *ngIf="role=='admin'" mat-raised-button color="primary" (click)="addBrand()">Add brand
 </button>
