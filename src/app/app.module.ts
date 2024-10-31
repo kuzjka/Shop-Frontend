@@ -35,6 +35,8 @@ import { CartComponent } from './cart/cart.component';
 import {OrderService} from "./service/orderService";
 import { AddPhotoComponent } from './photos/add-photo/add-photo.component';
 import { DeletePhotoComponent } from './photos/delete-photo/delete-photo.component';
+import { ListOrdersComponent } from './orders/list-orders/list-orders.component';
+import { AddOrderComponent } from './orders/add-order/add-order.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { DeletePhotoComponent } from './photos/delete-photo/delete-photo.compone
     DeleteBrandComponent,
     CartComponent,
     AddPhotoComponent,
-    DeletePhotoComponent
+    DeletePhotoComponent,
+    ListOrdersComponent,
+    AddOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +64,7 @@ import { DeletePhotoComponent } from './photos/delete-photo/delete-photo.compone
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
       {path: 'cart', component: CartComponent},
+      {path: 'order', component: ListOrdersComponent},
     ]),
     HttpClientModule,
     ReactiveFormsModule,

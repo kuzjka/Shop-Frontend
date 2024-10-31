@@ -21,6 +21,7 @@ import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
+import {OrderDto} from "../../dto/orderDto";
 
 @Component({
   selector: 'app-product-list',
@@ -47,7 +48,7 @@ export class ProductListComponent implements OnInit {
   cartProductsIds!: number[];
   productDto!: ProductDto;
   photoForm!: FormGroup;
-
+orderDto!: OrderDto;
   constructor(private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService,
@@ -148,7 +149,11 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
-
+  addOrder(cart: Cart){
+    this.orderDto = new OrderDto(cart);
+    this.orderService.addOrder(this.orderDto).subscribe(data=>{
+      alert(data);
+    });}
   addPhoto(productId: number) {
     this.photoForm = this.fb.group({
       productId: [productId],
