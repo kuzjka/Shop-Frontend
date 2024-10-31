@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CartItemDto} from "../dto/cartItemDto";
+import {CartDto} from "../dto/cartDto";
 import {OrderService} from "../service/orderService";
 import {Cart} from "../model/cart";
 
@@ -10,51 +10,50 @@ import {Cart} from "../model/cart";
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  cartItemDto!: CartItemDto;
-  cart!: Cart;
-  cartProductsIds!: number[];
+
+  carts!: Cart[];
+  dto!:CartDto;
 
   constructor(private orderService: OrderService) {
-    this.cartItemDto = new CartItemDto(0, 0, 0);
+    this.dto = new CartDto(0, 0, 0);
   }
 
   getCart() {
-    this.cartProductsIds = [];
+    this.carts = [];
     this.orderService.getCart().subscribe(data => {
-      this.cart = data;
-      for (let i = 0; i < this.cart.items.length; i++) {
-        this.cartProductsIds.push(this.cart.items[i].product.id);
-      }
+      this.carts = data;
+
     });
   }
+
   addToCart(productId: number) {
-    this.cartItemDto.productId = productId;
-    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
+    this.dto.productId = productId;
+    this.dto.cartId = 0;
+    this.orderService.addCart(this.dto).subscribe(data => {
       this.getCart();
     })
   }
-  plusItem(itemId: number) {
-    this.cartItemDto.quantity = 1;
-    this.cartItemDto.productId = 0;
-    this.cartItemDto.itemId = itemId;
-    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+
+  plusItem(cartId: number) {
+    this.dto.quantity = 1;
+
+    this.dto.cartId = cartId;
+    this.orderService.addCart(this.dto).subscribe(data => {
       this.getCart();
     });
   }
 
-  minusItem(itemId: number) {
-    this.cartItemDto.quantity = -1;
-    this.cartItemDto.productId = 0;
-    this.cartItemDto.itemId = itemId;
-    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+  minusItem(cartId: number) {
+    this.dto.quantity = -1;
+
+    this.dto.cartId = cartId;
+    this.orderService.addCart(this.dto).subscribe(data => {
       this.getCart();
     });
   }
-  removeFromCart(id: number) {
-    this.orderService.removeFromCart(id).subscribe(data => {
-      this.getCart();
-    })
-  }
+
+
+
   ngOnInit(): void {
     this.getCart();
   }

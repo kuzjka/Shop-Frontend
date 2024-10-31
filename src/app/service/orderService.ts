@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CartItemDto} from "../dto/cartItemDto";
+import {CartDto} from "../dto/cartDto";
 
 import {CookieService} from "ngx-cookie-service";
 import {Cart} from "../model/cart";
@@ -18,8 +18,8 @@ export class OrderService {
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
   }
-  getCart(): Observable<Cart> {
-    return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
+  getCart(): Observable<Cart[]> {
+    return this.http.get<Cart[]>(this.baseUrl + '/order', {headers: this.headers});
   }
   getOrder(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl + '/order/order', {headers: this.headers});
@@ -27,11 +27,11 @@ export class OrderService {
   addOrder(dto: OrderDto): Observable<any>{
     return this.http.post<Cart>(this.baseUrl+ '/order/order', dto, {headers: this.headers});
   }
-  addCartItem(dto: CartItemDto): Observable<Cart> {
+  addCart(dto: CartDto): Observable<Cart> {
     return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
-  editCartItem(dto: CartItemDto): Observable<Cart> {
+  editCartItem(dto: CartDto): Observable<Cart> {
     return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 

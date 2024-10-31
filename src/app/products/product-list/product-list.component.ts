@@ -13,7 +13,7 @@ import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
 import {OrderService} from "../../service/orderService";
-import {CartItemDto} from "../../dto/cartItemDto";
+import {CartDto} from "../../dto/cartDto";
 import {Cart} from "../../model/cart";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -41,14 +41,13 @@ export class ProductListComponent implements OnInit {
   currentPage = 0;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  cartItemDto!: CartItemDto;
+  cartDto!: CartDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
-  cart!: Cart;
+  carts!: Cart[];
   role!: string;
-  cartProductsIds!: number[];
   productDto!: ProductDto;
   photoForm!: FormGroup;
-orderDto!: OrderDto;
+  orderDto!: OrderDto;
   constructor(private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService,
@@ -59,7 +58,7 @@ orderDto!: OrderDto;
     this.brandDto = new BrandDto(0,  '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
-    this.cartItemDto = new CartItemDto(0, 0, 0);
+    this.cartDto = new CartDto(0, 0, 0);
   }
 
   getRole() {
@@ -259,36 +258,34 @@ orderDto!: OrderDto;
   }
 
   getCart() {
-    this.cartProductsIds = [];
+    this.carts = [];
     this.orderService.getCart().subscribe(data => {
-      this.cart = data;
-      for (let i = 0; i < this.cart.items.length; i++) {
-        this.cartProductsIds.push(this.cart.items[i].product.id);
-      }
+      this.carts = data;
     });
   }
 
   addToCart(productId: number) {
-    this.cartItemDto.productId = productId;
-    this.orderService.addCartItem(this.cartItemDto).subscribe(data => {
+    this.cartDto.productId = productId;
+    this.cartDto.cartId = 0;
+    this.orderService.addCart(this.cartDto).subscribe(data => {
       this.getCart();
     })
   }
 
-  plusItem(itemId: number) {
-    this.cartItemDto.quantity = 1;
-    this.cartItemDto.productId = 0;
-    this.cartItemDto.itemId = itemId;
-    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+  plusItem(cartId: number) {
+    this.cartDto.quantity = 1;
+
+    this.cartDto.cartId = cartId;
+    this.orderService.addCart(this.cartDto).subscribe(data => {
       this.getCart();
     });
   }
 
-  minusItem(itemId: number) {
-    this.cartItemDto.quantity = -1;
-    this.cartItemDto.productId = 0;
-    this.cartItemDto.itemId = itemId;
-    this.orderService.editCartItem(this.cartItemDto).subscribe(data => {
+  minusItem(cartId: number) {
+    this.cartDto.quantity = -1;
+
+    this.cartDto.cartId = cartId;
+    this.orderService.addCart(this.cartDto).subscribe(data => {
       this.getCart();
     });
   }
@@ -296,7 +293,6 @@ orderDto!: OrderDto;
   ngOnInit(): void {
     this.getRole();
     this.getFilterTypes();
-
     this.getProducts();
     this.getCart();
   }
