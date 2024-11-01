@@ -35,7 +35,7 @@ export class OrderService {
     return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
-  removeFromCart(itemId: number): Observable<any> {
+  removeFromCart(itemId:number): Observable<any> {
     return this.http.delete<any>(this.baseUrl + '/order?itemId=' + itemId, {headers: this.headers});
   }
 }

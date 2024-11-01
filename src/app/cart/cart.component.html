@@ -6,10 +6,10 @@
     <p align="center">{{cart.products[0].name}}</p>
     <button mat-icon-button color="primary" (click)="minusItem(cart.id)">-</button>
     {{cart.quantity}}
-    <button mat-icon-button color="primary" (click)="plusItem(cart.id)">+</button>
-<!--    <button mat-icon-button color="primary" (click)="removeFromCart(item.product.id)">-->
-<!--      <mat-icon>delete</mat-icon>-->
-<!--    </button>-->
+    <button mat-icon-button color="primary" (click)="plusItem(cart.id)"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button color="primary" (click)="removeFromCart(cart.id)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </h2>
 </div>
 

@@ -44,10 +44,12 @@ export class ProductListComponent implements OnInit {
   cartDto!: CartDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   carts!: Cart[];
+  cartProductIds!: number[];
   role!: string;
   productDto!: ProductDto;
   photoForm!: FormGroup;
   orderDto!: OrderDto;
+
   constructor(private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService,
@@ -55,7 +57,7 @@ export class ProductListComponent implements OnInit {
               private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0,  '');
+    this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.cartDto = new CartDto(0, 0, 0);
@@ -114,7 +116,7 @@ export class ProductListComponent implements OnInit {
     } else {
       this.currentBrandId = brandId;
     }
-    if(this.currentTypeId == 0){
+    if (this.currentTypeId == 0) {
       this.filterBrands = [];
     }
     this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
@@ -148,11 +150,14 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
-  addOrder(cart: Cart){
+
+  addOrder(cart: Cart) {
     this.orderDto = new OrderDto(cart);
-    this.orderService.addOrder(this.orderDto).subscribe(data=>{
+    this.orderService.addOrder(this.orderDto).subscribe(data => {
       alert(data);
-    });}
+    });
+  }
+
   addPhoto(productId: number) {
     this.photoForm = this.fb.group({
       productId: [productId],
@@ -259,8 +264,12 @@ export class ProductListComponent implements OnInit {
 
   getCart() {
     this.carts = [];
+    this.cartProductIds = [];
     this.orderService.getCart().subscribe(data => {
       this.carts = data;
+      for (let i = 0; i < this.carts.length; i++) {
+        this.cartProductIds.push(this.carts[i].products[0].id);
+      }
     });
   }
 
@@ -283,7 +292,6 @@ export class ProductListComponent implements OnInit {
 
   minusItem(cartId: number) {
     this.cartDto.quantity = -1;
-
     this.cartDto.cartId = cartId;
     this.orderService.addCart(this.cartDto).subscribe(data => {
       this.getCart();

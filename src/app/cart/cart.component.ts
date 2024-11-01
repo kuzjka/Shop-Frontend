@@ -12,7 +12,7 @@ import {Cart} from "../model/cart";
 export class CartComponent implements OnInit {
 
   carts!: Cart[];
-  dto!:CartDto;
+  dto!: CartDto;
 
   constructor(private orderService: OrderService) {
     this.dto = new CartDto(0, 0, 0);
@@ -26,6 +26,12 @@ export class CartComponent implements OnInit {
     });
   }
 
+  removeFromCart(id: number) {
+    this.orderService.removeFromCart(id).subscribe(data => {
+      this.getCart();
+    })
+  }
+
   addToCart(productId: number) {
     this.dto.productId = productId;
     this.dto.cartId = 0;
@@ -36,7 +42,6 @@ export class CartComponent implements OnInit {
 
   plusItem(cartId: number) {
     this.dto.quantity = 1;
-
     this.dto.cartId = cartId;
     this.orderService.addCart(this.dto).subscribe(data => {
       this.getCart();
@@ -45,13 +50,11 @@ export class CartComponent implements OnInit {
 
   minusItem(cartId: number) {
     this.dto.quantity = -1;
-
     this.dto.cartId = cartId;
     this.orderService.addCart(this.dto).subscribe(data => {
       this.getCart();
     });
   }
-
 
 
   ngOnInit(): void {
