@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Cart} from "../../model/cart";
+import {Item} from "../../model/item";
 import {OrderService} from "../../service/orderService";
 
 @Component({
@@ -12,7 +12,7 @@ export class AddOrderComponent {
   constructor(private service: OrderService) {
 
   }
-  //   addOrder(cart: Cart){
+  //   addOrder(cart: Item){
   //   this.service.addOrder(cart).subscribe(data=>{
   //     alert(data);
   //   });

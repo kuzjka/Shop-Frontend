@@ -6,20 +6,20 @@
 </mat-chip-listbox>
 <p></p>
 <div align="center">
-  <h2>Total price: </h2>
-  <h2 *ngFor="let cart of carts">
-    <p align="center">Product: {{ cart.products[0].name }}</p>
-    <button (click)="minusItem(cart.id)" color="primary" mat-icon-button>
-      -
+  <h2>Total price: {{totalPrice}} </h2>
+  <h2 *ngFor="let item of items">
+    <p align="center">Price: {{ item.totalPrice }}</p>
+    <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
+      <mat-icon>remove</mat-icon>
     </button>
-    {{ cart.quantity }}
-    <button (click)="plusItem(cart.id)" color="primary" mat-icon-button>
+    {{ item.quantity }}
+    <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
       <mat-icon>add</mat-icon>
     </button>
-    <button (click)="removeFromCart(cart.id)" color="primary" mat-icon-button>
+    <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
       <mat-icon>delete</mat-icon>
     </button>
-    <button (click)="addOrder(cart)" color="primary" mat-icon-button>Make Order</button>
+<!--    <button (click)="addOrder(item)" color="primary" mat-icon-button>Make Cart</button>-->
   </h2>
 
 </div>
@@ -68,7 +68,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="cart">
-    <th *matHeaderCellDef mat-header-cell> Cart</th>
+    <th *matHeaderCellDef mat-header-cell> Item</th>
     <td *matCellDef="let product" mat-cell>
       <button (click)="addToCart(product.id)"
               *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)" color="primary" mat-icon-button>

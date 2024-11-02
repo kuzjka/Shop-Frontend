@@ -1,13 +1,13 @@
 <p>cart works!</p>
 <div>
   <h2>Total price: </h2>
-  <h2 *ngFor="let cart of carts">
+  <h2 *ngFor="let item of items">
 
-    <p align="center">{{cart.products[0].name}}</p>
-    <button mat-icon-button color="primary" (click)="minusItem(cart.id)">-</button>
-    {{cart.quantity}}
-    <button mat-icon-button color="primary" (click)="plusItem(cart.id)"><mat-icon>add</mat-icon></button>
-    <button mat-icon-button color="primary" (click)="removeFromCart(cart.id)">
+    <p align="center">{{item.product.name}}</p>
+    <button mat-icon-button color="primary" (click)="minusItem(item.id)">-</button>
+<!--    {{item.quantity}}-->
+    <button mat-icon-button color="primary" (click)="plusItem(item.id)"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button color="primary" (click)="removeFromCart(item.id)">
       <mat-icon>delete</mat-icon>
     </button>
   </h2>

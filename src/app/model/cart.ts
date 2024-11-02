@@ -1,9 +1,7 @@
-
-import {Product} from "./product";
+import {Item} from "./item";
 
 export interface Cart {
-  id: number;
-  products: Product[];
-  quantity: number;
-
+  items: Item[];
+  name: string;
+  totalPrice: number;
 }

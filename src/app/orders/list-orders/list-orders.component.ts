@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderService} from "../../service/orderService";
-import {Order} from "../../model/order";
+import {Cart} from "../../model/cart";
 
 @Component({
   selector: 'app-list-orders',
@@ -8,12 +8,12 @@ import {Order} from "../../model/order";
   styleUrls: ['./list-orders.component.css']
 })
 export class ListOrdersComponent implements OnInit{
-orders!: Order[];
+orders!: Cart[];
   constructor(private service:OrderService) {
   }
 getOrders(){
     this.orders = [];
-    this.service.getOrder().subscribe(data=>{this.orders = data})
+    this.service.getCart().subscribe(data=>{this.orders = data})
 }
   ngOnInit(): void {
 

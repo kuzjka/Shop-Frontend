@@ -13,15 +13,15 @@ import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
 import {OrderService} from "../../service/orderService";
-import {CartDto} from "../../dto/cartDto";
-import {Cart} from "../../model/cart";
+import {ItemDto} from "../../dto/itemDto";
+import {Item} from "../../model/item";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
-import {OrderDto} from "../../dto/orderDto";
+import {CartDto} from "../../dto/cartDto";
 
 @Component({
   selector: 'app-product-list',
@@ -41,14 +41,15 @@ export class ProductListComponent implements OnInit {
   currentPage = 0;
   brandDto: BrandDto;
   typeDto: TypeDto;
-  cartDto!: CartDto;
+  itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
-  carts!: Cart[];
+  items!: Item[];
   cartProductIds!: number[];
   role!: string;
   productDto!: ProductDto;
   photoForm!: FormGroup;
-  orderDto!: OrderDto;
+  cartDto!: CartDto;
+  totalPrice!: number;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -60,7 +61,7 @@ export class ProductListComponent implements OnInit {
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
-    this.cartDto = new CartDto(0, 0, 0);
+    this.itemDto = new ItemDto(0, 0, 0);
   }
 
   getRole() {
@@ -151,12 +152,12 @@ export class ProductListComponent implements OnInit {
       })
   }
 
-  addOrder(cart: Cart) {
-    this.orderDto = new OrderDto(cart);
-    this.orderService.addOrder(this.orderDto).subscribe(data => {
-      alert(data);
-    });
-  }
+  // addOrder(cart: Item) {
+  //   this.cartDto = new CartDto(cart);
+  //   this.orderService.addCart(this.cartDto).subscribe(data => {
+  //     alert(data);
+  //   });
+  // }
 
   addPhoto(productId: number) {
     this.photoForm = this.fb.group({
@@ -257,44 +258,47 @@ export class ProductListComponent implements OnInit {
   }
 
   removeFromCart(id: number) {
-    this.orderService.removeFromCart(id).subscribe(data => {
-      this.getCart();
+    this.orderService.removeItem(id).subscribe(data => {
+      this.getItem();
     })
   }
 
-  getCart() {
-    this.carts = [];
+  getItem() {
+    this.items = [];
     this.cartProductIds = [];
-    this.orderService.getCart().subscribe(data => {
-      this.carts = data;
-      for (let i = 0; i < this.carts.length; i++) {
-        this.cartProductIds.push(this.carts[i].products[0].id);
+    this.totalPrice = 0;
+    this.orderService.getItem().subscribe(data => {
+      this.items = data;
+      for (let i = 0; i < this.items.length; i++) {
+        this.cartProductIds.push(this.items[i].product.id);
+        this.totalPrice = this.totalPrice + this.items[i].totalPrice;
       }
-    });
+          });
   }
 
+
+
   addToCart(productId: number) {
-    this.cartDto.productId = productId;
-    this.cartDto.cartId = 0;
-    this.orderService.addCart(this.cartDto).subscribe(data => {
-      this.getCart();
+    this.itemDto.productId = productId;
+    this.itemDto.itemId = 0;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.getItem();
     })
   }
 
   plusItem(cartId: number) {
-    this.cartDto.quantity = 1;
-
-    this.cartDto.cartId = cartId;
-    this.orderService.addCart(this.cartDto).subscribe(data => {
-      this.getCart();
+    this.itemDto.quantity = 1;
+    this.itemDto.itemId = cartId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.getItem();
     });
   }
 
   minusItem(cartId: number) {
-    this.cartDto.quantity = -1;
-    this.cartDto.cartId = cartId;
-    this.orderService.addCart(this.cartDto).subscribe(data => {
-      this.getCart();
+    this.itemDto.quantity = -1;
+    this.itemDto.itemId = cartId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.getItem();
     });
   }
 
@@ -302,6 +306,6 @@ export class ProductListComponent implements OnInit {
     this.getRole();
     this.getFilterTypes();
     this.getProducts();
-    this.getCart();
+    this.getItem();
   }
 }

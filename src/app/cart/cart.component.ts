@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {CartDto} from "../dto/cartDto";
+import {ItemDto} from "../dto/itemDto";
 import {OrderService} from "../service/orderService";
-import {Cart} from "../model/cart";
+import {Item} from "../model/item";
 
 
 @Component({
@@ -11,47 +11,47 @@ import {Cart} from "../model/cart";
 })
 export class CartComponent implements OnInit {
 
-  carts!: Cart[];
-  dto!: CartDto;
+  items!: Item[];
+  itemDto!: ItemDto;
 
   constructor(private orderService: OrderService) {
-    this.dto = new CartDto(0, 0, 0);
+    this.itemDto = new ItemDto(0, 0, 0);
   }
 
   getCart() {
-    this.carts = [];
-    this.orderService.getCart().subscribe(data => {
-      this.carts = data;
+    this.items = [];
+    this.orderService.getItem().subscribe(data => {
+      this.items = data;
 
     });
   }
 
   removeFromCart(id: number) {
-    this.orderService.removeFromCart(id).subscribe(data => {
+    this.orderService.removeItem(id).subscribe(data => {
       this.getCart();
     })
   }
 
   addToCart(productId: number) {
-    this.dto.productId = productId;
-    this.dto.cartId = 0;
-    this.orderService.addCart(this.dto).subscribe(data => {
+    this.itemDto.productId = productId;
+    this.itemDto.itemId = 0;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
       this.getCart();
     })
   }
 
   plusItem(cartId: number) {
-    this.dto.quantity = 1;
-    this.dto.cartId = cartId;
-    this.orderService.addCart(this.dto).subscribe(data => {
+    this.itemDto.quantity = 1;
+    this.itemDto.itemId = cartId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
   }
 
   minusItem(cartId: number) {
-    this.dto.quantity = -1;
-    this.dto.cartId = cartId;
-    this.orderService.addCart(this.dto).subscribe(data => {
+    this.itemDto.quantity = -1;
+    this.itemDto.itemId = cartId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
   }
