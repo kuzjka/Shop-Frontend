@@ -15,7 +15,7 @@ export class CartComponent implements OnInit {
   itemDto!: ItemDto;
 
   constructor(private orderService: OrderService) {
-    this.itemDto = new ItemDto(0, 0, 0);
+    this.itemDto = new ItemDto(0, 0, 0, 0);
   }
 
   getCart() {

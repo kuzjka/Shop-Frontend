@@ -8,16 +8,9 @@ import {Cart} from "../../model/cart";
   styleUrls: ['./list-orders.component.css']
 })
 export class ListOrdersComponent implements OnInit{
-orders!: Cart[];
-  constructor(private service:OrderService) {
-  }
-getOrders(){
-    this.orders = [];
-    this.service.getCart().subscribe(data=>{this.orders = data})
-}
+
   ngOnInit(): void {
 
-    this.getOrders();
   }
 
 }

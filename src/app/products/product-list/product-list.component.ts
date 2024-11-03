@@ -50,6 +50,7 @@ export class ProductListComponent implements OnInit {
   photoForm!: FormGroup;
   cartDto!: CartDto;
   totalPrice!: number;
+  cartId!: number;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -61,7 +62,7 @@ export class ProductListComponent implements OnInit {
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
-    this.itemDto = new ItemDto(0, 0, 0);
+    this.itemDto = new ItemDto(0, 0, 0, 0);
   }
 
   getRole() {
@@ -151,13 +152,6 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
       })
   }
-
-  // addOrder(cart: Item) {
-  //   this.cartDto = new CartDto(cart);
-  //   this.orderService.addCart(this.cartDto).subscribe(data => {
-  //     alert(data);
-  //   });
-  // }
 
   addPhoto(productId: number) {
     this.photoForm = this.fb.group({
@@ -259,46 +253,47 @@ export class ProductListComponent implements OnInit {
 
   removeFromCart(id: number) {
     this.orderService.removeItem(id).subscribe(data => {
-      this.getItem();
+      this.getCart();
     })
   }
 
-  getItem() {
+  getCart() {
     this.items = [];
     this.cartProductIds = [];
     this.totalPrice = 0;
     this.orderService.getItem().subscribe(data => {
       this.items = data;
+      for (let i = 0; i < data.length; i++) {
+        this.totalPrice += data[i].totalPrice;
+      }
       for (let i = 0; i < this.items.length; i++) {
         this.cartProductIds.push(this.items[i].product.id);
-        this.totalPrice = this.totalPrice + this.items[i].totalPrice;
       }
-          });
-  }
-
-
-
-  addToCart(productId: number) {
-    this.itemDto.productId = productId;
-    this.itemDto.itemId = 0;
-    this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.getItem();
-    })
-  }
-
-  plusItem(cartId: number) {
-    this.itemDto.quantity = 1;
-    this.itemDto.itemId = cartId;
-    this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.getItem();
     });
   }
 
-  minusItem(cartId: number) {
-    this.itemDto.quantity = -1;
-    this.itemDto.itemId = cartId;
+  addToCart(productId: number) {
+    this.itemDto.productId = productId;
+    this.itemDto.cartId = 0;
+    this.itemDto.itemId = 0;
     this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.getItem();
+      this.getCart();
+    })
+  }
+
+  plusItem(itemId: number) {
+    this.itemDto.quantity = 1;
+    this.itemDto.itemId = itemId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.getCart();
+    });
+  }
+
+  minusItem(itemId: number) {
+    this.itemDto.quantity = -1;
+    this.itemDto.itemId = itemId;
+    this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.getCart();
     });
   }
 
@@ -306,6 +301,6 @@ export class ProductListComponent implements OnInit {
     this.getRole();
     this.getFilterTypes();
     this.getProducts();
-    this.getItem();
+    this.getCart();
   }
 }
