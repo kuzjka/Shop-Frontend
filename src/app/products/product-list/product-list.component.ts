@@ -63,6 +63,7 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0, 0);
+    this.cartId  = 0;
   }
 
   getRole() {
@@ -257,26 +258,28 @@ export class ProductListComponent implements OnInit {
     })
   }
 
+  clearIds() {
+    this.cartProductIds = [];
+    this.cartId = 0;
+  }
+
   getCart() {
     this.items = [];
-    this.cartProductIds = [];
-    this.totalPrice = 0;
     this.orderService.getItem().subscribe(data => {
       this.items = data;
-      for (let i = 0; i < data.length; i++) {
-        this.totalPrice += data[i].totalPrice;
-      }
       for (let i = 0; i < this.items.length; i++) {
-        this.cartProductIds.push(this.items[i].product.id);
+        this.totalPrice += this.items[i].totalPrice;
       }
     });
   }
 
   addToCart(productId: number) {
     this.itemDto.productId = productId;
-    this.itemDto.cartId = 0;
+    this.itemDto.cartId = this.cartId;
     this.itemDto.itemId = 0;
+    this.cartProductIds.push(productId);
     this.orderService.addItem(this.itemDto).subscribe(data => {
+      this.cartId = data.id;
       this.getCart();
     })
   }
@@ -284,6 +287,7 @@ export class ProductListComponent implements OnInit {
   plusItem(itemId: number) {
     this.itemDto.quantity = 1;
     this.itemDto.itemId = itemId;
+    this.itemDto.cartId = this.cartId;
     this.orderService.addItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
@@ -292,6 +296,7 @@ export class ProductListComponent implements OnInit {
   minusItem(itemId: number) {
     this.itemDto.quantity = -1;
     this.itemDto.itemId = itemId;
+    this.itemDto.cartId = this.cartId;
     this.orderService.addItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
