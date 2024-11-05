@@ -265,13 +265,12 @@ export class ProductListComponent implements OnInit {
 
   getCart() {
     this.items = [];
+    this.totalPrice = 0;
     this.orderService.getItem().subscribe(data => {
-      this.items = data;
-      for (let i = 0; i < this.items.length; i++) {
-        this.totalPrice += this.items[i].totalPrice;
-      }
-    });
-  }
+      this.items = data.items;
+      this.totalPrice = data.totalPrice;
+
+  })}
 
   addToCart(productId: number) {
     this.itemDto.productId = productId;
@@ -280,6 +279,7 @@ export class ProductListComponent implements OnInit {
     this.cartProductIds.push(productId);
     this.orderService.addItem(this.itemDto).subscribe(data => {
       this.cartId = data.id;
+
       this.getCart();
     })
   }

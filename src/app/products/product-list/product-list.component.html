@@ -10,8 +10,7 @@
   <h2 *ngFor="let item of items">
     <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
       <mat-icon>remove</mat-icon>
-    </button>
-    {{ item.quantity }}
+    </button> {{item.product.name}} : {{ item.quantity }}
     <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
       <mat-icon>add</mat-icon>
     </button>

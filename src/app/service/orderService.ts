@@ -19,12 +19,12 @@ export class OrderService {
     })
   }
 
-  getItem(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl + '/order', {headers: this.headers});
+  getItem(): Observable<Cart> {
+    return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
 
-  getCart(): Observable<Cart[]> {
-    return this.http.get<Cart[]>(this.baseUrl + '/order/order', {headers: this.headers});
+  getCart(cartId: number): Observable<Cart> {
+    return this.http.get<Cart>(this.baseUrl + '/order/test?cartId=' + cartId, {headers: this.headers});
   }
 
   addCart(dto: CartDto): Observable<any> {
