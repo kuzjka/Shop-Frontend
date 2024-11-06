@@ -63,7 +63,7 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0, 0);
-    this.cartId  = 0;
+    this.cartId = 0;
   }
 
   getRole() {
@@ -260,7 +260,6 @@ export class ProductListComponent implements OnInit {
 
   clearIds() {
     this.cartProductIds = [];
-    this.cartId = 0;
   }
 
   getCart() {
@@ -269,8 +268,8 @@ export class ProductListComponent implements OnInit {
     this.orderService.getItem().subscribe(data => {
       this.items = data.items;
       this.totalPrice = data.totalPrice;
-
-  })}
+    })
+  }
 
   addToCart(productId: number) {
     this.itemDto.productId = productId;
@@ -279,7 +278,6 @@ export class ProductListComponent implements OnInit {
     this.cartProductIds.push(productId);
     this.orderService.addItem(this.itemDto).subscribe(data => {
       this.cartId = data.id;
-
       this.getCart();
     })
   }
@@ -288,7 +286,7 @@ export class ProductListComponent implements OnInit {
     this.itemDto.quantity = 1;
     this.itemDto.itemId = itemId;
     this.itemDto.cartId = this.cartId;
-    this.orderService.addItem(this.itemDto).subscribe(data => {
+    this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
   }
@@ -297,7 +295,7 @@ export class ProductListComponent implements OnInit {
     this.itemDto.quantity = -1;
     this.itemDto.itemId = itemId;
     this.itemDto.cartId = this.cartId;
-    this.orderService.addItem(this.itemDto).subscribe(data => {
+    this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
   }

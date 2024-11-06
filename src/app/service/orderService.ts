@@ -6,7 +6,6 @@ import {ItemDto} from "../dto/itemDto";
 import {CookieService} from "ngx-cookie-service";
 import {Item} from "../model/item";
 import {Cart} from "../model/cart";
-import {CartDto} from "../dto/cartDto";
 
 @Injectable()
 export class OrderService {
@@ -23,19 +22,11 @@ export class OrderService {
     return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
 
-  getCart(cartId: number): Observable<Cart> {
-    return this.http.get<Cart>(this.baseUrl + '/order/test?cartId=' + cartId, {headers: this.headers});
-  }
-
-  addCart(dto: CartDto): Observable<any> {
-    return this.http.post<Item>(this.baseUrl + '/order/order', dto, {headers: this.headers});
-  }
-
   addItem(dto: ItemDto): Observable<Cart> {
     return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
-  editCartItem(dto: ItemDto): Observable<Item> {
+  editItem(dto: ItemDto): Observable<Item> {
     return this.http.put<Item>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
