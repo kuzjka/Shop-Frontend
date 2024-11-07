@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {ItemDto} from "../dto/itemDto";
 
 import {CookieService} from "ngx-cookie-service";
-import {Item} from "../model/item";
 import {Cart} from "../model/cart";
 
 @Injectable()
@@ -17,7 +16,6 @@ export class OrderService {
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
   }
-
   getItem(): Observable<Cart> {
     return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
@@ -26,8 +24,8 @@ export class OrderService {
     return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
-  editItem(dto: ItemDto): Observable<Item> {
-    return this.http.put<Item>(this.baseUrl + '/order', dto, {headers: this.headers});
+  editItem(dto: ItemDto): Observable<Cart> {
+    return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
 
   removeItem(itemId: number): Observable<any> {

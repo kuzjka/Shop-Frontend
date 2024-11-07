@@ -57,7 +57,6 @@ export class UserService {
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
-
         this.saveToken(data);
       })
   }

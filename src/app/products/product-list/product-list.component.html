@@ -18,7 +18,6 @@
       <mat-icon>delete</mat-icon>
     </button>
   </h2>
-  <button (click)="clearIds()" color="primary" mat-raised-button>Clear ids</button>
 </div>
 <table (matSortChange)="sortProducts($event)" [dataSource]="products" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">

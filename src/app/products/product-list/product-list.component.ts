@@ -21,7 +21,6 @@ import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
-import {CartDto} from "../../dto/cartDto";
 
 @Component({
   selector: 'app-product-list',
@@ -48,7 +47,6 @@ export class ProductListComponent implements OnInit {
   role!: string;
   productDto!: ProductDto;
   photoForm!: FormGroup;
-  cartDto!: CartDto;
   totalPrice!: number;
   cartId!: number;
 
@@ -258,16 +256,16 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  clearIds() {
-    this.cartProductIds = [];
-  }
-
   getCart() {
     this.items = [];
     this.totalPrice = 0;
+    this.cartProductIds = [];
     this.orderService.getItem().subscribe(data => {
       this.items = data.items;
       this.totalPrice = data.totalPrice;
+      for (let i = 0; i < data.items.length; i++) {
+        this.cartProductIds.push(data.items[i].product.id);
+      }
     })
   }
 
@@ -275,7 +273,6 @@ export class ProductListComponent implements OnInit {
     this.itemDto.productId = productId;
     this.itemDto.cartId = this.cartId;
     this.itemDto.itemId = 0;
-    this.cartProductIds.push(productId);
     this.orderService.addItem(this.itemDto).subscribe(data => {
       this.cartId = data.id;
       this.getCart();
