@@ -5,7 +5,6 @@ import {Brand} from "../../model/brand";
 import {BrandDto} from "../../dto/brandDto";
 import {TypeDto} from "../../dto/typeDto";
 import {ProductService} from "../../service/productService";
-import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AddProductComponent} from "../add-product/add-product.component";
@@ -48,20 +47,19 @@ export class ProductListComponent implements OnInit {
   productDto!: ProductDto;
   photoForm!: FormGroup;
   totalPrice!: number;
-  cartId!: number;
+
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
-              private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
-    this.itemDto = new ItemDto(0, 0, 0, 0);
-    this.cartId = 0;
+    this.itemDto = new ItemDto(0, 0, 0);
+
   }
 
   getRole() {
@@ -271,10 +269,9 @@ export class ProductListComponent implements OnInit {
 
   addToCart(productId: number) {
     this.itemDto.productId = productId;
-    this.itemDto.cartId = this.cartId;
     this.itemDto.itemId = 0;
     this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.cartId = data.id;
+
       this.getCart();
     })
   }
@@ -282,7 +279,7 @@ export class ProductListComponent implements OnInit {
   plusItem(itemId: number) {
     this.itemDto.quantity = 1;
     this.itemDto.itemId = itemId;
-    this.itemDto.cartId = this.cartId;
+
     this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
@@ -291,7 +288,7 @@ export class ProductListComponent implements OnInit {
   minusItem(itemId: number) {
     this.itemDto.quantity = -1;
     this.itemDto.itemId = itemId;
-    this.itemDto.cartId = this.cartId;
+
     this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
