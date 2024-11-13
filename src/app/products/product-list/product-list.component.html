@@ -4,21 +4,6 @@
 <mat-chip-listbox>
   <mat-chip-option (click)="brandFilter(brand.id)" *ngFor="let brand of filterBrands">{{ brand.name }}</mat-chip-option>
 </mat-chip-listbox>
-<p></p>
-<div align="center">
-  <h2>Total price: {{ totalPrice }} </h2>
-  <h2 *ngFor="let item of items">
-    <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
-      <mat-icon>remove</mat-icon>
-    </button> {{item.product.name}} : {{ item.quantity }}
-    <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
-      <mat-icon>add</mat-icon>
-    </button>
-    <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-  </h2>
-</div>
 <table (matSortChange)="sortProducts($event)" [dataSource]="products" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">
     <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by name"> Name</th>
@@ -69,7 +54,7 @@
       <button (click)="addToCart(product.id)"
               *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)" color="primary"
               mat-icon-button>
-        <mat-icon>add</mat-icon>
+        <mat-icon>shopping_cart</mat-icon>
       </button>
       <p *ngIf="(role=='user' || role=='admin') && cartProductIds.includes(product.id)">product in cart</p>
     </td>
@@ -81,7 +66,7 @@
                [length]="totalProducts"
                [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize">
 </mat-paginator>
-<p></p>
+
 <button (click)="addProduct()" *ngIf="role=='admin'" color="primary" mat-raised-button>Add product</button>
 
 

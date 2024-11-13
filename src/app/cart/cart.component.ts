@@ -11,54 +11,46 @@ import {Item} from "../model/item";
 })
 export class CartComponent implements OnInit {
 
-  // items!: Item[];
-  // itemDto!: ItemDto;
-  //
-  // constructor(private orderService: OrderService) {
-  //   this.itemDto = new ItemDto(0, 0, 0, 0);
-  // }
-  //
-  // getCart() {
-  //   this.items = [];
-  //   this.orderService.getItem().subscribe(data => {
-  //     this.items = data;
-  //
-  //   });
-  // }
-  //
-  // removeFromCart(id: number) {
-  //   this.orderService.removeItem(id).subscribe(data => {
-  //     this.getCart();
-  //   })
-  // }
-  //
-  // addToCart(productId: number) {
-  //   this.itemDto.productId = productId;
-  //   this.itemDto.itemId = 0;
-  //   this.orderService.addItem(this.itemDto).subscribe(data => {
-  //     this.getCart();
-  //   })
-  // }
-  //
-  // plusItem(cartId: number) {
-  //   this.itemDto.quantity = 1;
-  //   this.itemDto.itemId = cartId;
-  //   this.orderService.addItem(this.itemDto).subscribe(data => {
-  //     this.getCart();
-  //   });
-  // }
-  //
-  // minusItem(cartId: number) {
-  //   this.itemDto.quantity = -1;
-  //   this.itemDto.itemId = cartId;
-  //   this.orderService.addItem(this.itemDto).subscribe(data => {
-  //     this.getCart();
-  //   });
-  // }
+  items!: Item[];
+  itemDto!: ItemDto;
+  totalPrice!: number;
 
-
-  ngOnInit(): void {
-    // this.getCart();
+  constructor(private orderService: OrderService) {
+    this.itemDto = new ItemDto(0, 0, 0);
   }
 
+  getCart() {
+    this.items = [];
+    this.totalPrice = 0;
+    this.orderService.getItem().subscribe(data => {
+      this.items = data.items;
+      this.totalPrice = data.totalPrice;
+    })
+  }
+
+  plusItem(itemId: number) {
+    this.itemDto.quantity = 1;
+    this.itemDto.itemId = itemId;
+    this.orderService.editItem(this.itemDto).subscribe(data => {
+      this.getCart();
+    });
+  }
+
+  minusItem(itemId: number) {
+    this.itemDto.quantity = -1;
+    this.itemDto.itemId = itemId;
+    this.orderService.editItem(this.itemDto).subscribe(data => {
+      this.getCart();
+    });
+  }
+
+  removeFromCart(id: number) {
+    this.orderService.removeItem(id).subscribe(data => {
+      this.getCart();
+    })
+  }
+
+  ngOnInit(): void {
+    this.getCart();
+  }
 }

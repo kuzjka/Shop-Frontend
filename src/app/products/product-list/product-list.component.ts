@@ -48,7 +48,6 @@ export class ProductListComponent implements OnInit {
   photoForm!: FormGroup;
   totalPrice!: number;
 
-
   constructor(private fb: FormBuilder,
               private productService: ProductService,
               private orderService: OrderService,
@@ -59,7 +58,6 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
-
   }
 
   getRole() {
@@ -106,7 +104,6 @@ export class ProductListComponent implements OnInit {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
       })
-
   }
 
   brandFilter(brandId: number) {
@@ -248,12 +245,6 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  removeFromCart(id: number) {
-    this.orderService.removeItem(id).subscribe(data => {
-      this.getCart();
-    })
-  }
-
   getCart() {
     this.items = [];
     this.totalPrice = 0;
@@ -271,27 +262,8 @@ export class ProductListComponent implements OnInit {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
     this.orderService.addItem(this.itemDto).subscribe(data => {
-
       this.getCart();
     })
-  }
-
-  plusItem(itemId: number) {
-    this.itemDto.quantity = 1;
-    this.itemDto.itemId = itemId;
-
-    this.orderService.editItem(this.itemDto).subscribe(data => {
-      this.getCart();
-    });
-  }
-
-  minusItem(itemId: number) {
-    this.itemDto.quantity = -1;
-    this.itemDto.itemId = itemId;
-
-    this.orderService.editItem(this.itemDto).subscribe(data => {
-      this.getCart();
-    });
   }
 
   ngOnInit(): void {

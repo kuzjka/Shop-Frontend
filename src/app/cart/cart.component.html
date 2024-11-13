@@ -1,16 +1,18 @@
-<p>cart works!</p>
-<!--<div>-->
-<!--  <h2>Total price: </h2>-->
-<!--  <h2 *ngFor="let item of items">-->
-
-<!--    <p align="center">{{item.product.name}}</p>-->
-<!--    <button mat-icon-button color="primary" (click)="minusItem(item.id)">-</button>-->
-<!--&lt;!&ndash;    {{item.quantity}}&ndash;&gt;-->
-<!--    <button mat-icon-button color="primary" (click)="plusItem(item.id)"><mat-icon>add</mat-icon></button>-->
-<!--    <button mat-icon-button color="primary" (click)="removeFromCart(item.id)">-->
-<!--      <mat-icon>delete</mat-icon>-->
-<!--    </button>-->
-<!--  </h2>-->
-<!--</div>-->
+<div align="center">
+  <h2>Total price: {{ totalPrice }} </h2>
+  <h2 *ngFor="let item of items">
+    Product: {{item.product.name}};
+    <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
+      <mat-icon>remove</mat-icon>
+    </button>
+    {{ item.quantity }}
+    <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+    <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </h2>
+</div>
 
 
