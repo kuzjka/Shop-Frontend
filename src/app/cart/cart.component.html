@@ -1,18 +1,44 @@
 <div align="center">
   <h2>Total price: {{ totalPrice }} </h2>
-  <h2 *ngFor="let item of items">
-    Product: {{item.product.name}};
-    <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
-      <mat-icon>remove</mat-icon>
-    </button>
-    {{ item.quantity }}
-    <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
-      <mat-icon>add</mat-icon>
-    </button>
-    <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-  </h2>
+  <table [dataSource]="items" class="mat-elevation-z8" mat-table>
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell> Name</th>
+      <td *matCellDef="let item" mat-cell> {{ item.product.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="photo">
+      <th *matHeaderCellDef mat-header-cell> Photo</th>
+      <td *matCellDef="let item" mat-cell><img alt="no photo" src="{{item.product.photos[0].url}}"/></td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell> Actions</th>
+      <td *matCellDef="let item" mat-cell>
+        <h3>
+          <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
+            <mat-icon>remove</mat-icon>
+          </button>
+          {{ item.quantity }}
+          <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
+            <mat-icon>add</mat-icon>
+          </button>
+          <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </h3>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+  </table>
+  <form>
+    <p>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input [(ngModel)]="orderDto.description" matInput name="description">
+      </mat-form-field>
+    </p>
+    <p>
+      <button (click)="addOrder()" color="primary" mat-raised-button type="submit">add order</button>
+    </p>
+  </form>
 </div>
-
 

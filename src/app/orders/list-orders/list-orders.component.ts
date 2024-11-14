@@ -9,14 +9,11 @@ import {Order} from "../../model/order";
 })
 export class ListOrdersComponent implements OnInit {
   orders!: Order[];
+  displayedColumns: string[] = ['name', 'price', 'products'];
 
   constructor(private service: OrderService) {
   }
-  addOrder(){
-    this.service.addOrder().subscribe(data=>{
-      this.getOrders();
-    })
-  }
+
   getOrders() {
     this.service.getOrder().subscribe(data => {
       this.orders = data;
@@ -26,5 +23,4 @@ export class ListOrdersComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
   }
-
 }

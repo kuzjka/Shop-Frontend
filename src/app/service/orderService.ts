@@ -6,6 +6,7 @@ import {ItemDto} from "../dto/itemDto";
 import {CookieService} from "ngx-cookie-service";
 import {Cart} from "../model/cart";
 import {Order} from "../model/order";
+import {OrderDto} from "../dto/orderDto";
 
 @Injectable()
 export class OrderService {
@@ -26,8 +27,8 @@ export class OrderService {
   addItem(dto: ItemDto): Observable<Cart> {
     return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
-  addOrder(): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/order/order', {}, {headers: this.headers});
+  addOrder(dto: OrderDto): Observable<any> {
+    return this.http.post<any>(this.baseUrl + '/order/order', dto, {headers: this.headers});
   }
   editItem(dto: ItemDto): Observable<Cart> {
     return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});

@@ -1,3 +1,24 @@
-<p *ngFor="let order of orders">Total price: {{order.totalPrice}}</p>
+<table [dataSource]="orders" class="mat-elevation-z8" mat-table>
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell> Name</th>
+    <td *matCellDef="let order" mat-cell> {{ order.description }}</td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th *matHeaderCellDef mat-header-cell> Price</th>
+    <td *matCellDef="let order" mat-cell> {{ order.totalPrice }}</td>
+  </ng-container>
+  <ng-container matColumnDef="products">
+    <th *matHeaderCellDef mat-header-cell> Products</th>
+    <td *matCellDef="let order" mat-cell> <span *ngFor="let item of order.items">
+      <p>{{ item.product.name }}</p>
+      <p *ngIf="item.product.photos.length>0"><img alt="no photo" src="{{item.product.photos[0].url}}"/></p>
+    </span></td>
+  </ng-container>
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
 
-<button (click)="addOrder()">add order</button>
+
+
+
+

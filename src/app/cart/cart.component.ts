@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ItemDto} from "../dto/itemDto";
 import {OrderService} from "../service/orderService";
 import {Item} from "../model/item";
+import {OrderDto} from "../dto/orderDto";
 
 
 @Component({
@@ -14,9 +15,12 @@ export class CartComponent implements OnInit {
   items!: Item[];
   itemDto!: ItemDto;
   totalPrice!: number;
+  orderDto: OrderDto;
+  displayedColumns: string[] = ['name', 'photo', 'actions'];
 
   constructor(private orderService: OrderService) {
     this.itemDto = new ItemDto(0, 0, 0);
+    this.orderDto = new OrderDto('');
   }
 
   getCart() {
@@ -42,6 +46,12 @@ export class CartComponent implements OnInit {
     this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
+  }
+
+  addOrder() {
+    this.orderService.addOrder(this.orderDto).subscribe(data => {
+      this.getCart();
+    })
   }
 
   removeFromCart(id: number) {
