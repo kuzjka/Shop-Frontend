@@ -54,7 +54,7 @@ export class ProductListComponent implements OnInit {
               private userService: UserService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0, '');
+    this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
@@ -74,7 +74,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterTypes() {
-    this.productService.getProductTypes().subscribe(data => {
+    this.productService.getAllTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }

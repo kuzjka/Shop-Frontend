@@ -1,11 +1,21 @@
 <h1 align="center">{{title}}</h1>
+<form>
+  <p align="center">
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select name="typeId" [(ngModel)]="brandDto.typeId">
+        <mat-option [value]="type.id" *ngFor="let type of types">{{type.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </p>
 <p align="center">
   <mat-form-field>
     <mat-label>Name:</mat-label>
-    <input matInput [(ngModel)]="brand.name">
+    <input matInput [(ngModel)]="brandDto.name" name="name">
   </mat-form-field>
 </p>
+</form>
 <div align="center" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="brand" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="brandDto" cdkFocusInitial>Ok</button>
 </div>

@@ -11,7 +11,7 @@ import {Type} from "../../model/type";
 })
 export class AddBrandComponent implements OnInit {
   title: string;
-  brand: BrandDto;
+  brandDto: BrandDto;
   types!: Type[];
 
   constructor(public service: ProductService,
@@ -23,7 +23,7 @@ export class AddBrandComponent implements OnInit {
     } else {
       this.title = "Edit brand"
     }
-    this.brand = data.brand;
+    this.brandDto = data.brandDto;
   }
 
   onNoClick() {
@@ -42,6 +42,6 @@ export class AddBrandComponent implements OnInit {
 }
 
 export interface BrandDialogData {
-  brand: BrandDto;
+  brandDto: BrandDto;
   new: boolean;
 }

@@ -23,7 +23,7 @@ export class BrandListComponent implements OnInit {
               private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new BrandDto(0,   '');
+    this.dto = new BrandDto(0, 0, '');
   }
 
   getRole() {
@@ -38,13 +38,13 @@ export class BrandListComponent implements OnInit {
 
   addBrand() {
     this.dto.id = 0;
-
+this.dto.typeId = 0;
     this.dto.name = '';
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brand: this.dto, new: true
+        brandDto: this.dto, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addBrand(data).subscribe(data => {
@@ -59,13 +59,12 @@ export class BrandListComponent implements OnInit {
 
   editBrand(brand: Brand) {
     this.dto.id = brand.id;
-
     this.dto.name = brand.name;
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brand: this.dto, new: false
+        brandDto: this.dto, new: false
       }
     }).afterClosed().subscribe(data => {
       this.service.editBrand(data).subscribe(data => {

@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {BrandDto} from "../../dto/brandDto";
 import {ProductService} from "../../service/productService";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TypeDto} from "../../dto/typeDto";
@@ -17,12 +16,11 @@ export class AddTypeComponent {
               public dialogRef: MatDialogRef<AddTypeComponent>,
               @Inject(MAT_DIALOG_DATA) public data: TypeDialogData
   ) {
-    if (data.new == true) {
+    if (data.new) {
       this.title = "Add type"
     } else {
       this.title = "Edit type"
     }
-
     this.type = data.type;
   }
 
