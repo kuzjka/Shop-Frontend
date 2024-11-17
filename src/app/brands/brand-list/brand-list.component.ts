@@ -15,7 +15,7 @@ import {UserService} from "../../service/userService";
 })
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
-  dto: BrandDto;
+  brandDto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string
 
@@ -23,7 +23,7 @@ export class BrandListComponent implements OnInit {
               private service: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.dto = new BrandDto(0, 0, '');
+    this.brandDto = new BrandDto(0, 0, '');
   }
 
   getRole() {
@@ -37,14 +37,14 @@ export class BrandListComponent implements OnInit {
   }
 
   addBrand() {
-    this.dto.id = 0;
-this.dto.typeId = 0;
-    this.dto.name = '';
+    this.brandDto.id = 0;
+    this.brandDto.typeId = 0;
+    this.brandDto.name = '';
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brandDto: this.dto, new: true
+        brandDto: this.brandDto, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addBrand(data).subscribe(data => {
@@ -58,13 +58,13 @@ this.dto.typeId = 0;
   }
 
   editBrand(brand: Brand) {
-    this.dto.id = brand.id;
-    this.dto.name = brand.name;
+    this.brandDto.id = brand.id;
+    this.brandDto.name = brand.name;
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brandDto: this.dto, new: false
+        brandDto: this.brandDto, new: false
       }
     }).afterClosed().subscribe(data => {
       this.service.editBrand(data).subscribe(data => {

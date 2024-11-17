@@ -7,7 +7,9 @@
     </ng-container>
     <ng-container matColumnDef="photo">
       <th *matHeaderCellDef mat-header-cell> Photo</th>
-      <td *matCellDef="let item" mat-cell><img alt="no photo" src="{{item.product.photos[0].url}}"/></td>
+      <td *matCellDef="let item" mat-cell>
+        <img *ngIf="item.product.photos.length>0" alt="no photo" src="{{item.product.photos[0].url}}"/>
+      </td>
     </ng-container>
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell> Actions</th>
@@ -29,6 +31,7 @@
     <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
     <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
   </table>
+  <p></p>
   <form>
     <p>
       <mat-form-field>

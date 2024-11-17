@@ -82,7 +82,8 @@ import { AddOrderComponent } from './orders/add-order/add-order.component';
     MatPaginatorModule,
     MatSnackBarModule,
     NgOptimizedImage,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule
   ],
   providers: [ProductService, UserService, OrderService],
   bootstrap: [AppComponent]

@@ -3,6 +3,7 @@ import {ItemDto} from "../dto/itemDto";
 import {OrderService} from "../service/orderService";
 import {Item} from "../model/item";
 import {OrderDto} from "../dto/orderDto";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -18,7 +19,8 @@ export class CartComponent implements OnInit {
   orderDto: OrderDto;
   displayedColumns: string[] = ['name', 'photo', 'actions'];
 
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService,
+              private router: Router) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('');
   }
@@ -50,7 +52,7 @@ export class CartComponent implements OnInit {
 
   addOrder() {
     this.orderService.addOrder(this.orderDto).subscribe(data => {
-      this.getCart();
+      this.router.navigateByUrl('order');
     })
   }
 

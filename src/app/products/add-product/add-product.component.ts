@@ -41,10 +41,10 @@ export class AddProductComponent implements OnInit {
   }
 
   selectType(event : any) {
-
-
     this.selectedType = event.value;
-    this.getBrands();
+    this.service.getAllBrands(this.selectedType).subscribe(data=>{
+      this.brands = data;
+    })
   }
 
   onNoClick(): void {

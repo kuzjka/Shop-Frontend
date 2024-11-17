@@ -20,6 +20,7 @@ import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -53,7 +54,8 @@ export class ProductListComponent implements OnInit {
               private orderService: OrderService,
               private userService: UserService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private router: Router) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
@@ -207,7 +209,6 @@ export class ProductListComponent implements OnInit {
       width: '500px',
       data: {product: this.productDto, new: false}
     }).afterClosed().subscribe(data => {
-
       this.productService.editProduct(data).subscribe(data => {
           this.getProducts();
         },
@@ -262,7 +263,7 @@ export class ProductListComponent implements OnInit {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
     this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.getCart();
+      this.router.navigateByUrl('cart');
     })
   }
 
