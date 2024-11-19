@@ -20,7 +20,9 @@ import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
-import {Router, RouterLink, RouterOutlet} from "@angular/router";
+import {Router} from "@angular/router";
+import {CartComponent} from "../../cart/cart.component";
+import {OrderDto} from "../../dto/orderDto";
 
 @Component({
   selector: 'app-product-list',
@@ -48,6 +50,7 @@ export class ProductListComponent implements OnInit {
   productDto!: ProductDto;
   photoForm!: FormGroup;
   totalPrice!: number;
+  orderDto: OrderDto;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -60,6 +63,7 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, 0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
+    this.orderDto = new OrderDto('');
   }
 
   getRole() {
@@ -263,7 +267,18 @@ export class ProductListComponent implements OnInit {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
     this.orderService.addItem(this.itemDto).subscribe(data => {
-      this.router.navigateByUrl('cart');
+      this.dialog.open(CartComponent, {
+        height: '500px',
+        width: '500px',
+        data: {
+          orderDto: this.orderDto,
+          cart: data
+        }
+      }).afterClosed().subscribe(data=>{
+        this.orderService.addOrder(data).subscribe(data=>{
+          alert(data.description);
+        })
+      })
     })
   }
 

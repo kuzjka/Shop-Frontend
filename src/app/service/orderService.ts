@@ -27,8 +27,8 @@ export class OrderService {
   addItem(dto: ItemDto): Observable<Cart> {
     return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
-  addOrder(dto: OrderDto): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/order/order', dto, {headers: this.headers});
+  addOrder(dto: OrderDto): Observable<Order> {
+    return this.http.post<Order>(this.baseUrl + '/order/order', dto, {headers: this.headers});
   }
   editItem(dto: ItemDto): Observable<Cart> {
     return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
