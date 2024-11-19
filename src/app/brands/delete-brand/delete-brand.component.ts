@@ -1,7 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {DeleteProductData} from "../../products/delete-product/delete-product.component";
-import {Product} from "../../model/product";
 import {Brand} from "../../model/brand";
 
 @Component({
@@ -23,6 +21,7 @@ export class DeleteBrandComponent {
     this.dialogRef.close();
   }
 }
+
 export interface DeleteBrandData {
   brand: Brand;
 }

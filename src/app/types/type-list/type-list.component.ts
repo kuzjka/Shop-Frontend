@@ -24,7 +24,7 @@ export class TypeListComponent implements OnInit {
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
-    this.typeDto = new TypeDto(0, '');
+    this.typeDto = new TypeDto(0, 0, '');
   }
 
   getRole() {
@@ -42,7 +42,7 @@ export class TypeListComponent implements OnInit {
       height: '500px',
       width: '500px',
       data: {
-        type: this.typeDto, new: true
+        typeDto: this.typeDto, new: true
       }
     }).afterClosed().subscribe(data => {
       this.service.addType(data).subscribe(data => {
@@ -61,7 +61,7 @@ export class TypeListComponent implements OnInit {
       height: '500px',
       width: '500px',
       data: {
-        type: this.typeDto, new: false
+        typeDto: this.typeDto, new: false
       }
     }).afterClosed().subscribe(data => {
       this.service.editType(data).subscribe(data => {

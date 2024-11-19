@@ -20,7 +20,7 @@ export class BrandListComponent implements OnInit {
   role!: string
 
   constructor(private userService: UserService,
-              private service: ProductService,
+              private productService: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
@@ -31,7 +31,7 @@ export class BrandListComponent implements OnInit {
   }
 
   getBrands() {
-    this.service.getAllBrands(0).subscribe(data => {
+    this.productService.getAllBrands(0).subscribe(data => {
       this.brands = data;
     })
   }
@@ -47,7 +47,7 @@ export class BrandListComponent implements OnInit {
         brandDto: this.brandDto, new: true
       }
     }).afterClosed().subscribe(data => {
-      this.service.addBrand(data).subscribe(data => {
+      this.productService.addBrand(data).subscribe(data => {
           this.getBrands();
         },
         error => {
@@ -67,7 +67,7 @@ export class BrandListComponent implements OnInit {
         brandDto: this.brandDto, new: false
       }
     }).afterClosed().subscribe(data => {
-      this.service.editBrand(data).subscribe(data => {
+      this.productService.editBrand(data).subscribe(data => {
           this.getBrands();
         },
         error => {
@@ -84,7 +84,7 @@ export class BrandListComponent implements OnInit {
         brand: brand
       }
     }).afterClosed().subscribe(data => {
-      this.service.deleteBrand(data).subscribe(data => {
+      this.productService.deleteBrand(data).subscribe(data => {
           this.getBrands();
         }, error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})

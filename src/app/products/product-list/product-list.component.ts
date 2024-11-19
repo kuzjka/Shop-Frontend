@@ -57,7 +57,7 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar,
               private router: Router) {
     this.brandDto = new BrandDto(0, 0, '');
-    this.typeDto = new TypeDto(0, '');
+    this.typeDto = new TypeDto(0, 0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
   }
