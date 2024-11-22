@@ -23,6 +23,7 @@ import {ProductDto} from "../../dto/productDto";
 import {Router} from "@angular/router";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
+import {Cart} from "../../model/cart";
 
 @Component({
   selector: 'app-product-list',
@@ -51,6 +52,7 @@ export class ProductListComponent implements OnInit {
   photoForm!: FormGroup;
   totalPrice!: number;
   orderDto: OrderDto;
+  cart!: Cart;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -255,6 +257,7 @@ export class ProductListComponent implements OnInit {
     this.totalPrice = 0;
     this.cartProductIds = [];
     this.orderService.getItem().subscribe(data => {
+      this.cart = data;
       this.items = data.items;
       this.totalPrice = data.totalPrice;
       for (let i = 0; i < data.items.length; i++) {
@@ -263,23 +266,40 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  addToCart(productId: number) {
+  addItemToCart(productId: number) {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
-    this.orderService.addItem(this.itemDto).subscribe(data => {
+    this.orderService.addItemToCart(this.itemDto).subscribe(data => {
       this.dialog.open(CartComponent, {
-        height: '500px',
-        width: '500px',
+        height: '800px',
+        width: '800px',
         data: {
           orderDto: this.orderDto,
           cart: data
         }
-      }).afterClosed().subscribe(data=>{
-        this.orderService.addOrder(data).subscribe(data=>{
-          alert(data.description);
-        })
-      })
-    })
+      }).afterClosed().subscribe(data => {
+        this.orderService.addOrder(data).subscribe(data => {
+          this.getCart();
+        });
+      });
+      this.getCart();
+    });
+  }
+
+  openCart() {
+    this.dialog.open(CartComponent, {
+      height: '800px',
+      width: '800px',
+      data: {
+        orderDto: this.orderDto,
+        cart: this.cart
+      }
+    }).afterClosed().subscribe(data => {
+      this.orderService.addOrder(data).subscribe(data => {
+        this.getCart();
+      });
+    });
+    this.getCart();
   }
 
   ngOnInit(): void {

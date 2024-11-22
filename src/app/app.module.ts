@@ -31,12 +31,13 @@ import {DeleteBrandComponent} from './brands/delete-brand/delete-brand.component
 import {NgOptimizedImage} from "@angular/common";
 import {UserService} from "./service/userService";
 import {MatMenuModule} from "@angular/material/menu";
-import { CartComponent } from './cart/cart.component';
+import {CartComponent} from './cart/cart.component';
 import {OrderService} from "./service/orderService";
-import { AddPhotoComponent } from './photos/add-photo/add-photo.component';
-import { DeletePhotoComponent } from './photos/delete-photo/delete-photo.component';
-import { ListOrdersComponent } from './orders/list-orders/list-orders.component';
-import { AddOrderComponent } from './orders/add-order/add-order.component';
+import {AddPhotoComponent} from './photos/add-photo/add-photo.component';
+import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component';
+import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
+import {MatBadgeModule} from "@angular/material/badge";
+
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { AddOrderComponent } from './orders/add-order/add-order.component';
     AddPhotoComponent,
     DeletePhotoComponent,
     ListOrdersComponent,
-    AddOrderComponent
+
   ],
   imports: [
     BrowserModule,
@@ -63,7 +64,6 @@ import { AddOrderComponent } from './orders/add-order/add-order.component';
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
-      {path: 'cart', component: CartComponent},
       {path: 'order', component: ListOrdersComponent},
     ]),
     HttpClientModule,
@@ -83,7 +83,7 @@ import { AddOrderComponent } from './orders/add-order/add-order.component';
     MatSnackBarModule,
     NgOptimizedImage,
     MatMenuModule,
-    RouterModule
+    MatBadgeModule
   ],
   providers: [ProductService, UserService, OrderService],
   bootstrap: [AppComponent]
