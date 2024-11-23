@@ -11,16 +11,15 @@ import {ProductDto} from "../dto/productDto";
 
 @Injectable()
 export class ProductService {
-  private readonly headers;
   fileArray!: File[];
+  baseUrl: string = 'http://localhost:8080';
+  private readonly headers;
 
   constructor(private http: HttpClient, private cookies: CookieService) {
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.cookies.get('access_token')
     });
   }
-
-  baseUrl: string = 'http://localhost:8080';
 
   setFiles(file: FileList) {
     this.fileArray = Array.from(file);
@@ -36,10 +35,6 @@ export class ProductService {
 
   getAllBrands(typeId: number): Observable<Brand[]> {
     return this.http.get<Brand[]>(this.baseUrl + '/api/brand?typeId=' + typeId, {headers: this.headers});
-  }
-
-  getProductTypes(): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/api/productType', {headers: this.headers});
   }
 
   getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):

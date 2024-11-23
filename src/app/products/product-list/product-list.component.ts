@@ -13,14 +13,12 @@ import {DeleteProductComponent} from "../delete-product/delete-product.component
 import {Sort} from "@angular/material/sort";
 import {OrderService} from "../../service/orderService";
 import {ItemDto} from "../../dto/itemDto";
-import {Item} from "../../model/item";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
 import {ProductDto} from "../../dto/productDto";
-import {Router} from "@angular/router";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
@@ -45,7 +43,6 @@ export class ProductListComponent implements OnInit {
   typeDto: TypeDto;
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
-  items!: Item[];
   cartProductIds!: number[];
   role!: string;
   productDto!: ProductDto;
@@ -59,8 +56,7 @@ export class ProductListComponent implements OnInit {
               private orderService: OrderService,
               private userService: UserService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar,
-              private router: Router) {
+              private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, 0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
@@ -253,19 +249,16 @@ export class ProductListComponent implements OnInit {
   }
 
   getCart() {
-    this.items = [];
     this.totalPrice = 0;
     this.cartProductIds = [];
-    this.orderService.getItem().subscribe(data => {
+    this.orderService.getCart().subscribe(data => {
       this.cart = data;
-      this.items = data.items;
       this.totalPrice = data.totalPrice;
       for (let i = 0; i < data.items.length; i++) {
         this.cartProductIds.push(data.items[i].product.id);
       }
     })
   }
-
   addItemToCart(productId: number) {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
@@ -298,8 +291,8 @@ export class ProductListComponent implements OnInit {
       this.orderService.addOrder(data).subscribe(data => {
         this.getCart();
       });
+      this.getCart();
     });
-    this.getCart();
   }
 
   ngOnInit(): void {

@@ -17,7 +17,7 @@ export class CartComponent implements OnInit {
   itemDto!: ItemDto;
   totalPrice!: number;
   orderDto: OrderDto;
-  displayedColumns: string[] = ['name', 'actions'];
+  displayedColumns: string[] = ['name', 'photo', 'actions'];
 
   constructor(private orderService: OrderService,
               private dialogRef: MatDialogRef<CartComponent>,
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
   getCart() {
     this.items = [];
     this.totalPrice = 0;
-    this.orderService.getItem().subscribe(data => {
+    this.orderService.getCart().subscribe(data => {
       this.items = data.items;
       this.totalPrice = data.totalPrice;
     })

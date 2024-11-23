@@ -3,6 +3,7 @@
   <mat-form-field>
     <mat-label>Brand</mat-label>
     <mat-select name="brandId" [(ngModel)]="typeDto.brandId">
+      <mat-option [value]="0">Other</mat-option>
       <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
     </mat-select>
   </mat-form-field>

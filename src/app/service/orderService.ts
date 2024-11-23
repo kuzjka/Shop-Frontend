@@ -18,7 +18,7 @@ export class OrderService {
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
   }
-  getItem(): Observable<Cart> {
+  getCart(): Observable<Cart> {
     return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
   getOrder(): Observable<Order[]> {

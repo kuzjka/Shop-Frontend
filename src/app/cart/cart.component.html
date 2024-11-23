@@ -6,12 +6,13 @@
       <th *matHeaderCellDef mat-header-cell> Name</th>
       <td *matCellDef="let item" mat-cell> {{ item.product.name }}</td>
     </ng-container>
-    <!--    <ng-container matColumnDef="photo">-->
-    <!--      <th *matHeaderCellDef mat-header-cell> Photo</th>-->
-    <!--      <td *matCellDef="let item" mat-cell>-->
-    <!--        <img *ngIf="item.product.photos.length>0" alt="no photo" src="{{item.product.photos[0].url}}"/>-->
-    <!--      </td>-->
-    <!--    </ng-container>-->
+        <ng-container  matColumnDef="photo">
+          <th *matHeaderCellDef mat-header-cell> Photo</th>
+          <td *matCellDef="let item" mat-cell>
+            <img *ngIf="item.product.photos.length>0" alt="no photo" src="{{item.product.photos[0].url}}"/>
+            <p *ngIf="item.product.photos.length==0">no photo</p>
+          </td>
+        </ng-container>
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell> Actions</th>
       <td *matCellDef="let item" mat-cell>
@@ -42,8 +43,8 @@
     </p>
   </form>
   <div align="center" mat-dialog-actions>
-    <button (click)="onNoClick()" mat-button>No Thanks</button>
-    <button [mat-dialog-close]="orderDto" cdkFocusInitial mat-button>Ok</button>
+    <button (click)="onNoClick()" mat-button>Return to shopping</button>
+    <button [mat-dialog-close]="orderDto" cdkFocusInitial mat-button>Order</button>
   </div>
 </div>
 
