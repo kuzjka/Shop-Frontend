@@ -165,8 +165,6 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.addPhoto(data).subscribe(data => {
           this.getProducts();
-          this.getFilterTypes();
-          this.getFilterBrands(0);
           this.currentTypeId = 0;
           this.currentBrandId = 0;
         },
@@ -259,6 +257,7 @@ export class ProductListComponent implements OnInit {
       }
     })
   }
+
   addItemToCart(productId: number) {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
