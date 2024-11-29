@@ -60,8 +60,8 @@
   </div>
   <div align="center" mat-dialog-actions>
     <button (click)="onNoClick()" mat-button>Return to shopping</button>
-    <button (click)="checkout()" *ngIf="title=='cart'" mat-button>Checkout</button>
-    <button [mat-dialog-close]="orderDto" cdkFocusInitial mat-button>Confirm Order</button>
+    <button (click)="checkout()" *ngIf="title=='cart'" mat-button>Order</button>
+    <button *ngIf="title=='checkout'" [mat-dialog-close]="orderDto" mat-button>Confirm Order</button>
   </div>
 </div>
 
