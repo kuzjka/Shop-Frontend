@@ -40,8 +40,8 @@ export class AppComponent implements OnInit {
   getUser() {
     this.userService.getUser().subscribe(data => {
         this.username = data.username;
-        this.role = data.role;
-        this.cookies.set('role', data.role);
+        this.role = data.role.name;
+        this.cookies.set('role', data.role.name);
         this.getRole();
       }
     )

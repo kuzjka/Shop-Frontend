@@ -1,8 +1,8 @@
-<h3 align="center">{{title}}</h3>
+<h3 align="center">{{ title }}</h3>
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Role:</mat-label>
-    <mat-select name="role" [(ngModel)]="newUser.role">
+    <mat-select [(ngModel)]="newUser.role" name="role">
       <mat-option [value]="'user'">USER</mat-option>
       <mat-option [value]="'admin'">ADMIN</mat-option>
     </mat-select>
@@ -10,35 +10,35 @@
 </div>
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
-    <mat-label>Username:</mat-label>
-    <input id="username" matInput [(ngModel)]="newUser.username">
+    <mat-label>User:</mat-label>
+    <input [(ngModel)]="newUser.username" id="username" matInput>
   </mat-form-field>
 </div>
 <div *ngIf="title=='register'" align="center">
   <mat-form-field>
     <mat-label>Email:</mat-label>
-    <input id="email" matInput [(ngModel)]="newUser.email">
+    <input [(ngModel)]="newUser.email" id="email" matInput>
   </mat-form-field>
 </div>
 <div *ngIf="title=='change password'" align="center">
   <mat-form-field>
     <mat-label>Old password:</mat-label>
-    <input id="oldPassword" matInput [(ngModel)]="newUser.oldPassword">
+    <input [(ngModel)]="newUser.oldPassword" id="oldPassword" matInput>
   </mat-form-field>
 </div>
 <div align="center">
   <mat-form-field>
     <mat-label>Password:</mat-label>
-    <input id="password" matInput [(ngModel)]="newUser.password">
+    <input [(ngModel)]="newUser.password" id="password" matInput>
   </mat-form-field>
 </div>
 <div align="center">
   <mat-form-field>
     <mat-label>Confirm password:</mat-label>
-    <input id="passwordConfirmed" matInput [(ngModel)]="newUser.passwordConfirmed">
+    <input [(ngModel)]="newUser.passwordConfirmed" id="passwordConfirmed" matInput>
   </mat-form-field>
 </div>
 <div align="center" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="newUser" cdkFocusInitial>Ok</button>
+  <button (click)="onNoClick()" mat-button>No Thanks</button>
+  <button [mat-dialog-close]="newUser" cdkFocusInitial mat-button>Ok</button>
 </div>

@@ -5,6 +5,7 @@ import {Item} from "../model/item";
 import {OrderDto} from "../dto/orderDto";
 import {Cart} from "../model/cart";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {User} from "../model/user";
 
 
 @Component({
@@ -13,18 +14,21 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
+  title: string;
   items!: Item[];
   itemDto!: ItemDto;
   totalPrice!: number;
+  totalQuantity!: number;
   orderDto: OrderDto;
+  user!: User;
   displayedColumns: string[] = ['name', 'photo', 'actions'];
 
   constructor(private orderService: OrderService,
               private dialogRef: MatDialogRef<CartComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AddItemDialog) {
-    this.items = data.cart.items;
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = data.orderDto;
+    this.title = 'cart';
   }
 
   getCart() {
@@ -33,6 +37,8 @@ export class CartComponent implements OnInit {
     this.orderService.getCart().subscribe(data => {
       this.items = data.items;
       this.totalPrice = data.totalPrice;
+      this.totalQuantity = data.totalQuantity;
+      this.user = data.user;
     })
   }
 
@@ -50,6 +56,10 @@ export class CartComponent implements OnInit {
     this.orderService.editItem(this.itemDto).subscribe(data => {
       this.getCart();
     });
+  }
+
+  checkout() {
+    this.title = 'checkout';
   }
 
   onNoClick() {

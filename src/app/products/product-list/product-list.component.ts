@@ -48,6 +48,7 @@ export class ProductListComponent implements OnInit {
   productDto!: ProductDto;
   photoForm!: FormGroup;
   totalPrice!: number;
+  totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
 
@@ -61,7 +62,7 @@ export class ProductListComponent implements OnInit {
     this.typeDto = new TypeDto(0, 0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
-    this.orderDto = new OrderDto('');
+    this.orderDto = new OrderDto('', '', '');
   }
 
   getRole() {
@@ -252,9 +253,17 @@ export class ProductListComponent implements OnInit {
     this.orderService.getCart().subscribe(data => {
       this.cart = data;
       this.totalPrice = data.totalPrice;
+      this.totalQuantity = data.totalQuantity;
       for (let i = 0; i < data.items.length; i++) {
         this.cartProductIds.push(data.items[i].product.id);
       }
+    })
+  }
+
+  getUser() {
+    this.userService.getUser().subscribe(data => {
+      this.orderDto.username = data.username;
+      this.orderDto.email = data.email;
     })
   }
 
@@ -273,8 +282,8 @@ export class ProductListComponent implements OnInit {
         this.orderService.addOrder(data).subscribe(data => {
           this.getCart();
         });
+        this.getCart();
       });
-      this.getCart();
     });
   }
 
@@ -296,6 +305,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRole();
+    this.getUser();
     this.getFilterTypes();
     this.getProducts();
     this.getCart();

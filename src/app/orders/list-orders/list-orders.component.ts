@@ -9,7 +9,7 @@ import {Order} from "../../model/order";
 })
 export class ListOrdersComponent implements OnInit {
   orders!: Order[];
-  displayedColumns: string[] = ['name', 'price', 'products'];
+  displayedColumns: string[] = ['name', 'price', 'quantity', 'products'];
 
   constructor(private service: OrderService) {
   }

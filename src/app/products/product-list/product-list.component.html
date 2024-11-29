@@ -6,9 +6,10 @@
 </mat-chip-listbox>
 <p></p>
 <p align="center">
-  <button mat-flat-button   (click)="openCart()" *ngIf="role=='admin' || role=='user'" color="primary">
-  Cart <mat-icon matBadge="{{cart.items.length}}" matBadgePosition="after" matBadgeSize="small">shopping_cart</mat-icon>
-</button>
+  <button (click)="openCart()" *ngIf="role=='admin' || role=='user'" color="primary" mat-flat-button>
+    Cart
+    <mat-icon matBadge="{{totalQuantity}}" matBadgePosition="after" matBadgeSize="small">shopping_cart</mat-icon>
+  </button>
 </p>
 <table (matSortChange)="sortProducts($event)" [dataSource]="products" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">

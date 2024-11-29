@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
-import {Username} from "../model/username";
+import {User} from "../model/user";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -26,11 +26,11 @@ export class UserService {
     return this.cookies.get('role');
   }
 
-  getUser(): Observable<Username> {
+  getUser(): Observable<User> {
     if (this.checkCredentials()) {
-      return this.http.get<Username>(this.baseUrl + '/user', {headers: this.headers});
+      return this.http.get<User>(this.baseUrl + '/user', {headers: this.headers});
     } else {
-      return this.http.get<Username>(this.baseUrl + '/user');
+      return this.http.get<User>(this.baseUrl + '/user');
     }
   }
 

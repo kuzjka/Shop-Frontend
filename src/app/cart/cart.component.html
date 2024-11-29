@@ -1,18 +1,20 @@
 <div align="center">
-  <h2 *ngIf="totalPrice>0">Total price: {{ totalPrice }} </h2>
-  <h2 *ngIf="totalPrice ==0">Cart is empty</h2>
+  <h2>{{ title }}</h2>
+  <h2>Quantity: {{ totalQuantity }} </h2>
+  <h2>Total price: {{ totalPrice }} </h2>
+  <h2 *ngIf="totalPrice==0">Cart is empty</h2>
   <table [dataSource]="items" class="mat-elevation-z8" mat-table>
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell> Name</th>
       <td *matCellDef="let item" mat-cell> {{ item.product.name }}</td>
     </ng-container>
-        <ng-container  matColumnDef="photo">
-          <th *matHeaderCellDef mat-header-cell> Photo</th>
-          <td *matCellDef="let item" mat-cell>
-            <img *ngIf="item.product.photos.length>0" alt="no photo" src="{{item.product.photos[0].url}}"/>
-            <p *ngIf="item.product.photos.length==0">no photo</p>
-          </td>
-        </ng-container>
+    <ng-container matColumnDef="photo">
+      <th *matHeaderCellDef mat-header-cell> Photo</th>
+      <td *matCellDef="let item" mat-cell>
+        <img *ngIf="item.product.photos.length>0" alt="no photo" src="{{item.product.photos[0].url}}"/>
+        <p *ngIf="item.product.photos.length==0">no photo</p>
+      </td>
+    </ng-container>
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell> Actions</th>
       <td *matCellDef="let item" mat-cell>
@@ -34,17 +36,32 @@
     <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
   </table>
   <p></p>
-<!--  <form>-->
-<!--    <p>-->
-<!--      <mat-form-field>-->
-<!--        <mat-label>Description</mat-label>-->
-<!--        <input [(ngModel)]="orderDto.description" matInput name="description">-->
-<!--      </mat-form-field>-->
-<!--    </p>-->
-<!--  </form>-->
+  <div *ngIf="title=='checkout'">
+    <form>
+      <p>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input [(ngModel)]="orderDto.description" matInput name="description">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>User</mat-label>
+          <input [(ngModel)]="orderDto.username" [value]="user.username" matInput name="username">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input [(ngModel)]="orderDto.email" [value]="user.email" matInput name="email">
+        </mat-form-field>
+      </p>
+    </form>
+  </div>
   <div align="center" mat-dialog-actions>
     <button (click)="onNoClick()" mat-button>Return to shopping</button>
-    <button [mat-dialog-close]="orderDto" cdkFocusInitial mat-button>Order</button>
+    <button (click)="checkout()" *ngIf="title=='cart'" mat-button>Checkout</button>
+    <button [mat-dialog-close]="orderDto" cdkFocusInitial mat-button>Confirm Order</button>
   </div>
 </div>
 

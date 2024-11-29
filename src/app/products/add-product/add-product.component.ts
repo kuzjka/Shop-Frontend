@@ -40,9 +40,9 @@ export class AddProductComponent implements OnInit {
     })
   }
 
-  selectType(event : any) {
+  selectType(event: any) {
     this.selectedType = event.value;
-    this.service.getAllBrands(this.selectedType).subscribe(data=>{
+    this.service.getAllBrands(this.selectedType).subscribe(data => {
       this.brands = data;
     })
   }

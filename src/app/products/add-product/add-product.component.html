@@ -1,36 +1,36 @@
-<h1 align="center">{{title}}</h1>
+<h1 align="center">{{ title }}</h1>
 <form>
   <p align="center">
     <mat-form-field>
       <mat-label>Type</mat-label>
-      <mat-select name="typeId" [(ngModel)]="productDto.typeId" (selectionChange)="selectType($event)">
-        <mat-option [value]="type.id"   *ngFor="let type of types">{{type.name}}</mat-option>
+      <mat-select (selectionChange)="selectType($event)" [(ngModel)]="productDto.typeId" name="typeId">
+        <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
       </mat-select>
     </mat-form-field>
   </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Brand</mat-label>
-      <mat-select name="brandId" [(ngModel)]="productDto.brandId">
-        <mat-option [value]="brand.id" *ngFor="let brand of brands">{{brand.name}}</mat-option>
+      <mat-select [(ngModel)]="productDto.brandId" name="brandId">
+        <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
       </mat-select>
     </mat-form-field>
   </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Name</mat-label>
-      <input matInput [(ngModel)]="productDto.name" name="name">
+      <input [(ngModel)]="productDto.name" matInput name="name">
     </mat-form-field>
   </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Price:</mat-label>
-      <input matInput [(ngModel)]="productDto.price" name="price">
+      <input [(ngModel)]="productDto.price" matInput name="price">
     </mat-form-field>
   </p>
 </form>
 <div align="center" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="productDto" cdkFocusInitial>Ok</button>
+  <button (click)="onNoClick()" mat-button>No Thanks</button>
+  <button [mat-dialog-close]="productDto" cdkFocusInitial mat-button>Ok</button>
 </div>
 
