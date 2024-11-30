@@ -22,6 +22,7 @@ import {ProductDto} from "../../dto/productDto";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -56,6 +57,7 @@ export class ProductListComponent implements OnInit {
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
+              private router: Router,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
@@ -281,6 +283,7 @@ export class ProductListComponent implements OnInit {
       }).afterClosed().subscribe(data => {
         this.orderService.addOrder(data).subscribe(data => {
           this.getCart();
+          this.router.navigate(['orders']);
         });
         this.getCart();
       });
@@ -298,6 +301,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.orderService.addOrder(data).subscribe(data => {
         this.getCart();
+        this.router.navigate(['orders']);
       });
       this.getCart();
     });

@@ -64,7 +64,7 @@ import {MatBadgeModule} from "@angular/material/badge";
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
-      {path: 'order', component: ListOrdersComponent},
+      {path: 'orders', component: ListOrdersComponent},
     ]),
     HttpClientModule,
     ReactiveFormsModule,
@@ -83,7 +83,8 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatSnackBarModule,
     NgOptimizedImage,
     MatMenuModule,
-    MatBadgeModule
+    MatBadgeModule,
+    RouterModule
   ],
   providers: [ProductService, UserService, OrderService],
   bootstrap: [AppComponent]

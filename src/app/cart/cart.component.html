@@ -1,8 +1,8 @@
 <div align="center">
-  <h2>{{ title }}</h2>
-  <h2>Quantity: {{ totalQuantity }} </h2>
-  <h2>Total price: {{ totalPrice }} </h2>
-  <h2 *ngIf="totalPrice==0">Cart is empty</h2>
+  <h2 mat-dialog-title>{{ title }}</h2>
+  <h3 mat-dialog-title>Quantity: {{ totalQuantity }} </h3>
+  <h3 mat-dialog-title>Total price: {{ totalPrice }} </h3>
+  <h3 *ngIf="totalPrice==0">Cart is empty</h3>
   <table [dataSource]="items" class="mat-elevation-z8" mat-table>
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell> Name</th>
@@ -60,8 +60,8 @@
   </div>
   <div align="center" mat-dialog-actions>
     <button (click)="onNoClick()" mat-button>Return to shopping</button>
-    <button (click)="checkout()" *ngIf="title=='cart'" mat-button>Order</button>
-    <button *ngIf="title=='checkout'" [mat-dialog-close]="orderDto" mat-button>Confirm Order</button>
+    <button (click)="checkout()" *ngIf="title=='cart'" mat-button cdkFocusInitial>Order</button>
+    <button *ngIf="title=='checkout'" [mat-dialog-close]="orderDto" mat-button cdkFocusInitial>Confirm Order</button>
   </div>
 </div>
 
