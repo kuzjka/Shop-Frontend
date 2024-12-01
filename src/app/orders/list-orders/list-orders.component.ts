@@ -11,11 +11,11 @@ export class ListOrdersComponent implements OnInit {
   orders!: Order[];
   displayedColumns: string[] = ['name', 'price', 'quantity', 'products'];
 
-  constructor(private service: OrderService) {
+  constructor(private orderService: OrderService) {
   }
 
   getOrders() {
-    this.service.getOrder().subscribe(data => {
+    this.orderService.getOrders().subscribe(data => {
       this.orders = data;
     })
   }

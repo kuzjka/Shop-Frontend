@@ -281,15 +281,11 @@ export class ProductListComponent implements OnInit {
           cart: data
         }
       }).afterClosed().subscribe(data => {
-        this.orderService.addOrder(data).subscribe(data => {
-          this.getCart();
-          this.router.navigate(['orders']);
-        });
         this.getCart();
       });
+      this.getCart();
     });
   }
-
   openCart() {
     this.dialog.open(CartComponent, {
       height: '800px',
@@ -299,14 +295,10 @@ export class ProductListComponent implements OnInit {
         cart: this.cart
       }
     }).afterClosed().subscribe(data => {
-      this.orderService.addOrder(data).subscribe(data => {
-        this.getCart();
-        this.router.navigate(['orders']);
-      });
       this.getCart();
     });
+    this.getCart();
   }
-
   ngOnInit(): void {
     this.getRole();
     this.getUser();

@@ -1,9 +1,8 @@
 <div align="center">
-  <h2 mat-dialog-title>{{ title }}</h2>
-  <h3 mat-dialog-title>Quantity: {{ totalQuantity }} </h3>
-  <h3 mat-dialog-title>Total price: {{ totalPrice }} </h3>
-  <h3 *ngIf="totalPrice==0">Cart is empty</h3>
-  <table [dataSource]="items" class="mat-elevation-z8" mat-table>
+  <h2>Checkout</h2>
+  <h3>Quantity: {{ cart.totalQuantity }} </h3>
+  <h3>Total price: {{ cart.totalPrice }} </h3>
+  <table [dataSource]="cart.items" class="mat-elevation-z8" mat-table>
     <ng-container matColumnDef="name">
       <th *matHeaderCellDef mat-header-cell> Name</th>
       <td *matCellDef="let item" mat-cell> {{ item.product.name }}</td>
@@ -19,16 +18,7 @@
       <th *matHeaderCellDef mat-header-cell> Actions</th>
       <td *matCellDef="let item" mat-cell>
         <h3>
-          <button (click)="minusItem(item.id)" color="primary" mat-icon-button>
-            <mat-icon>remove</mat-icon>
-          </button>
           {{ item.quantity }}
-          <button (click)="plusItem(item.id)" color="primary" mat-icon-button>
-            <mat-icon>add</mat-icon>
-          </button>
-          <button (click)="removeFromCart(item.id)" color="primary" mat-icon-button>
-            <mat-icon>delete</mat-icon>
-          </button>
         </h3>
       </td>
     </ng-container>
@@ -36,9 +26,27 @@
     <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
   </table>
   <p></p>
-  <div align="center" mat-dialog-actions>
-    <button (click)="onNoClick()" mat-button>Return to shopping</button>
-    <button (click)="checkout()" mat-button cdkFocusInitial>Order</button>
-      </div>
+  <button (click)="openCart()" color="primary" mat-raised-button>Edit products</button>
+  <p></p>
+  <form>
+    <p>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input [(ngModel)]="orderDto.description" matInput name="description">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>User</mat-label>
+        <input [(ngModel)]="orderDto.username" matInput name="username">
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input [(ngModel)]="orderDto.email" matInput name="email">
+      </mat-form-field>
+    </p>
+  </form>
+  <button (click)="addOrder()" color="primary" mat-raised-button>Confirm Order</button>
 </div>
-

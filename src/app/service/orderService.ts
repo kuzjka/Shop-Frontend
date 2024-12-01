@@ -21,7 +21,7 @@ export class OrderService {
   getCart(): Observable<Cart> {
     return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
   }
-  getOrder(): Observable<Order[]> {
+  getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.baseUrl + '/order/order', {headers: this.headers});
   }
   addItemToCart(dto: ItemDto): Observable<Cart> {

@@ -5,7 +5,7 @@ import {Item} from "../model/item";
 import {OrderDto} from "../dto/orderDto";
 import {Cart} from "../model/cart";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {User} from "../model/user";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,15 +19,13 @@ export class CartComponent implements OnInit {
   itemDto!: ItemDto;
   totalPrice!: number;
   totalQuantity!: number;
-  orderDto: OrderDto;
-  user!: User;
   displayedColumns: string[] = ['name', 'photo', 'actions'];
 
   constructor(private orderService: OrderService,
+              private router: Router,
               private dialogRef: MatDialogRef<CartComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AddItemDialog) {
     this.itemDto = new ItemDto(0, 0, 0);
-    this.orderDto = data.orderDto;
     this.title = 'cart';
   }
 
@@ -38,7 +36,6 @@ export class CartComponent implements OnInit {
       this.items = data.items;
       this.totalPrice = data.totalPrice;
       this.totalQuantity = data.totalQuantity;
-      this.user = data.user;
     })
   }
 
@@ -59,7 +56,8 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    this.title = 'checkout';
+    this.dialogRef.close();
+    this.router.navigate(['checkout']);
   }
 
   onNoClick() {

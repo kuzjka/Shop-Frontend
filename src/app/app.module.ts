@@ -37,6 +37,7 @@ import {AddPhotoComponent} from './photos/add-photo/add-photo.component';
 import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component';
 import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {MatBadgeModule} from "@angular/material/badge";
     AddPhotoComponent,
     DeletePhotoComponent,
     ListOrdersComponent,
+    CheckoutComponent,
 
   ],
   imports: [
@@ -64,6 +66,7 @@ import {MatBadgeModule} from "@angular/material/badge";
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
+      {path: 'checkout', component: CheckoutComponent},
       {path: 'orders', component: ListOrdersComponent},
     ]),
     HttpClientModule,
