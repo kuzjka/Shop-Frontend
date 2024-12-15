@@ -61,7 +61,7 @@ export class ProductListComponent implements OnInit {
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
-    this.typeDto = new TypeDto(0, 0, '');
+    this.typeDto = new TypeDto(0, '');
     this.productDto = new ProductDto(0, 0, 0, '', 0);
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');

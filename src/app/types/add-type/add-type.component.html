@@ -1,11 +1,5 @@
 <h1 align="center">{{ title }}</h1>
 <p align="center">
-  <mat-form-field>
-    <mat-label>Brand</mat-label>
-    <mat-select [(ngModel)]="typeDto.brandId" name="brandId">
-      <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
 </p>
 <p align="center">
   <mat-form-field>

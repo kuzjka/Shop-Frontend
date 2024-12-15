@@ -24,7 +24,7 @@ export class TypeListComponent implements OnInit {
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
-    this.typeDto = new TypeDto(0, 0, '');
+    this.typeDto = new TypeDto(0, '');
   }
 
   getRole() {
