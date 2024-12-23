@@ -40,17 +40,15 @@ export class AppComponent implements OnInit {
   getUser() {
     this.userService.getUser().subscribe(data => {
         this.username = data.username;
-        this.role = data.role.name;
-        this.cookies.set('role', data.role.name);
+        this.role = data.role;
+        this.cookies.set('role', data.role);
         this.getRole();
       }
     )
   }
-
   getRole() {
     return this.userService.getRole();
   }
-
   addUser() {
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
@@ -65,7 +63,6 @@ export class AppComponent implements OnInit {
         })
     })
   }
-
   editUser() {
     this.dto.username = this.username;
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -81,13 +78,11 @@ export class AppComponent implements OnInit {
         })
     })
   }
-
   resendToken(token: string) {
     this.userService.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
-
   ngOnInit(): void {
     this.getUser();
     let e = window.location.href.indexOf('token');

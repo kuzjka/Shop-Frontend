@@ -6,6 +6,7 @@ import {User} from "../model/user";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
+import {UserInfo} from "../dto/userInfo";
 
 @Injectable()
 export class UserService {
@@ -26,11 +27,11 @@ export class UserService {
     return this.cookies.get('role');
   }
 
-  getUser(): Observable<User> {
+  getUser(): Observable<UserInfo> {
     if (this.checkCredentials()) {
-      return this.http.get<User>(this.baseUrl + '/user', {headers: this.headers});
+      return this.http.get<UserInfo>(this.baseUrl + '/user', {headers: this.headers});
     } else {
-      return this.http.get<User>(this.baseUrl + '/user');
+      return this.http.get<UserInfo>(this.baseUrl + '/user');
     }
   }
 

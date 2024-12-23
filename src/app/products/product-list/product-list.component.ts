@@ -306,4 +306,9 @@ export class ProductListComponent implements OnInit {
     this.getProducts();
     this.getCart();
   }
+
+  login() {
+    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
+      '&client_id=app-client&redirect_uri=http://localhost:4200';
+  }
 }

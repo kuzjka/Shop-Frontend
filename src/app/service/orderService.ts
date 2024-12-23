@@ -18,23 +18,31 @@ export class OrderService {
       'Authorization': 'Bearer ' + this.cookies.get('access_token'),
     })
   }
+
+  checkCredentials() {
+    return this.cookies.check('access_token');
+  }
   getCart(): Observable<Cart> {
-    return this.http.get<Cart>(this.baseUrl + '/order', {headers: this.headers});
+    if(!this.checkCredentials()){
+    return this.http.get<Cart>(this.baseUrl + '/cart');
+    }
+    else {
+      return this.http.get<Cart>(this.baseUrl + '/cart', {headers: this.headers});
+    }
   }
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.baseUrl + '/order/order', {headers: this.headers});
+    return this.http.get<Order[]>(this.baseUrl + '/order', {headers: this.headers});
   }
   addItemToCart(dto: ItemDto): Observable<Cart> {
-    return this.http.post<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
+    return this.http.post<Cart>(this.baseUrl + '/cart', dto, {headers: this.headers});
   }
   addOrder(dto: OrderDto): Observable<Order> {
-    return this.http.post<Order>(this.baseUrl + '/order/order', dto, {headers: this.headers});
+    return this.http.post<Order>(this.baseUrl + '/order', dto, {headers: this.headers});
   }
   editItem(dto: ItemDto): Observable<Cart> {
-    return this.http.put<Cart>(this.baseUrl + '/order', dto, {headers: this.headers});
+    return this.http.put<Cart>(this.baseUrl + '/cart', dto, {headers: this.headers});
   }
-
   removeItem(itemId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/order?itemId=' + itemId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/cart?itemId=' + itemId, {headers: this.headers});
   }
 }
