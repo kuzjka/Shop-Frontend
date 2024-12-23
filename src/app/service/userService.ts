@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
-import {User} from "../model/user";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -10,8 +9,8 @@ import {UserInfo} from "../dto/userInfo";
 
 @Injectable()
 export class UserService {
-  private readonly headers;
   baseUrl: string = 'http://localhost:8080';
+  private readonly headers;
 
   constructor(private http: HttpClient, private cookies: CookieService) {
     this.headers = new HttpHeaders({

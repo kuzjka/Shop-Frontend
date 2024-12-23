@@ -89,7 +89,7 @@ export class ProductService {
     }
     this.deleteFiles();
     return this.http.post<any>(this.baseUrl +
-      '/api/photo', formData, {headers: this.headers});
+      '/products/photo', formData, {headers: this.headers});
   }
 
   deletePhoto(photoId: number): Observable<any> {
