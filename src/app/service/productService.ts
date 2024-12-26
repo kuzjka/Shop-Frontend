@@ -29,8 +29,8 @@ export class ProductService {
     this.fileArray = [];
   }
 
-  getAllTypes(): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/products/type');
+  getAllTypes(sort: string, dir: string): Observable<Type[]> {
+    return this.http.get<Type[]>(this.baseUrl + '/products/type?sort='+sort+'&dir='+dir);
   }
 
   getAllBrands(typeId: number): Observable<Brand[]> {

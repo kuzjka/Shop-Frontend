@@ -81,7 +81,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterTypes() {
-    this.productService.getAllTypes().subscribe(data => {
+    this.productService.getAllTypes('id', 'ASC').subscribe(data => {
       this.filterTypes = data;
     })
   }
@@ -286,6 +286,7 @@ export class ProductListComponent implements OnInit {
       this.getCart();
     });
   }
+
   openCart() {
     this.dialog.open(CartComponent, {
       height: '800px',
@@ -299,6 +300,7 @@ export class ProductListComponent implements OnInit {
     });
     this.getCart();
   }
+
   ngOnInit(): void {
     this.getRole();
     this.getUser();

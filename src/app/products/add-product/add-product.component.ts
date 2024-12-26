@@ -29,7 +29,7 @@ export class AddProductComponent implements OnInit {
   }
 
   getTypes() {
-    this.service.getAllTypes().subscribe(data => {
+    this.service.getAllTypes('id', 'ASC').subscribe(data => {
       this.types = data;
     })
   }

@@ -7,6 +7,7 @@ import {TypeDto} from "../../dto/typeDto";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-type-list',
@@ -30,11 +31,19 @@ export class TypeListComponent implements OnInit {
   getRole() {
     this.role = this.userService.getRole();
   }
-  getTypes() {
-    this.service.getAllTypes().subscribe(data => {
+
+  sortTypes(sortState: Sort) {
+    this.service.getAllTypes(sortState.active, sortState.direction).subscribe(data => {
       this.types = data;
     })
   }
+
+  getTypes() {
+    this.service.getAllTypes('id', 'ASC').subscribe(data => {
+      this.types = data;
+    })
+  }
+
   addType() {
     this.typeDto.id = 0;
     this.typeDto.name = '';
@@ -54,6 +63,7 @@ export class TypeListComponent implements OnInit {
       )
     })
   }
+
   editType(type: Type) {
     this.typeDto.id = type.id;
     this.typeDto.name = type.name;
