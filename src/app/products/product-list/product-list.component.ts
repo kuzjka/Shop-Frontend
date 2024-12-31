@@ -62,7 +62,7 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
-    this.productDto = new ProductDto(0, 0, 0, '', 0);
+    this.productDto = new ProductDto(0, 0, 0, '', 10);
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
@@ -81,7 +81,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterTypes() {
-    this.productService.getAllTypes('id', 'ASC').subscribe(data => {
+    this.productService.getAllTypes('name', 'ASC').subscribe(data => {
       this.filterTypes = data;
     })
   }
@@ -183,7 +183,7 @@ export class ProductListComponent implements OnInit {
     this.productDto.name = '';
     this.productDto.typeId = 1;
     this.productDto.brandId = 1;
-    this.productDto.price = 0;
+    this.productDto.price = 10;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',

@@ -58,6 +58,7 @@ export class BrandListComponent implements OnInit {
   }
 
   editBrand(brand: Brand) {
+
     this.brandDto.id = brand.id;
     this.brandDto.name = brand.name;
     const dialogRef = this.dialog.open(AddBrandComponent, {

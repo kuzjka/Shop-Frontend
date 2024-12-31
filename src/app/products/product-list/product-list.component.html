@@ -36,12 +36,12 @@
   </ng-container>
   <ng-container matColumnDef="type">
     <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by type"> Type</th>
-    <td *matCellDef="let product" mat-cell> {{ product.type.name }}
+    <td *matCellDef="let product" mat-cell><span *ngIf="product.type!=null">{{ product.type.name }}</span>
     </td>
   </ng-container>
   <ng-container matColumnDef="brand">
     <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by brand"> Brand</th>
-    <td *matCellDef="let product" mat-cell> {{ product.brand.name }}
+    <td *matCellDef="let product" mat-cell><span *ngIf="product.brand!=null"> {{ product.brand.name }}</span>
     </td>
   </ng-container>
   <ng-container matColumnDef="actions">

@@ -15,7 +15,7 @@ export class AddProductComponent implements OnInit {
   types!: Type[];
   brands!: Brand[];
   productDto: ProductDto;
-  selectedType: number = 1;
+  selectedType!: number;
 
   constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
@@ -29,7 +29,7 @@ export class AddProductComponent implements OnInit {
   }
 
   getTypes() {
-    this.service.getAllTypes('id', 'ASC').subscribe(data => {
+    this.service.getAllTypes('name', 'ASC').subscribe(data => {
       this.types = data;
     })
   }
