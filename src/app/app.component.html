@@ -5,7 +5,8 @@
   <a class="button" routerLink="/orders">Orders</a>
 </nav>
 <div align="right">
-  <button [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>{{ username }} : {{ role }}
+  <button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
+    {{ username }} : {{ role }}
   </button>
   <mat-menu #menu="matMenu">
     <button (click)="editUser()" *ngIf="isLoggedIn" color="primary" mat-stroked-button>Change password</button>

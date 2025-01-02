@@ -17,7 +17,7 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   brandDto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
-  role!: string
+  role!: string;
 
   constructor(private userService: UserService,
               private productService: ProductService,
@@ -54,11 +54,9 @@ export class BrandListComponent implements OnInit {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
       )
-    })
+    });
   }
-
   editBrand(brand: Brand) {
-
     this.brandDto.id = brand.id;
     this.brandDto.name = brand.name;
     const dialogRef = this.dialog.open(AddBrandComponent, {
