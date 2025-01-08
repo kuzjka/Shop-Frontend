@@ -62,7 +62,7 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
-    this.productDto = new ProductDto(0, 0, 0, '', 10);
+    this.productDto = new ProductDto(0, 0, 0, '', 100);
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
@@ -181,9 +181,9 @@ export class ProductListComponent implements OnInit {
   addProduct() {
     this.productDto.id = 0;
     this.productDto.name = '';
-    this.productDto.typeId = 1;
-    this.productDto.brandId = 1;
-    this.productDto.price = 10;
+    this.productDto.typeId = 0;
+    this.productDto.brandId = 0;
+    this.productDto.price = 100;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
@@ -203,8 +203,8 @@ export class ProductListComponent implements OnInit {
 
   editProduct(product: Product) {
     this.productDto.id = product.id;
-    this.productDto.typeId = product.type.id;
-    this.productDto.brandId = product.brand.id;
+    this.productDto.typeId = 0;
+    this.productDto.brandId = 0;
     this.productDto.name = product.name;
     this.productDto.price = product.price;
     const dialogRef = this.dialog.open(AddProductComponent, {
