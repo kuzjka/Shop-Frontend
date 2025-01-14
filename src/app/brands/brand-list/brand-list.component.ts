@@ -7,6 +7,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
+import {Type} from "../../model/type";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-brand-list',
@@ -15,23 +17,43 @@ import {UserService} from "../../service/userService";
 })
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
+  types: Type[] = [];
   brandDto: BrandDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string;
+  selectedTypeId: number;
 
   constructor(private userService: UserService,
               private productService: ProductService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
+    this.selectedTypeId = 0;
   }
 
   getRole() {
     this.role = this.userService.getRole();
   }
 
-  getBrands() {
-    this.productService.getAllBrands(0).subscribe(data => {
+  getTypes() {
+    this.productService.getAllTypes('name', 'ASC').subscribe(data => {
+      this.types = data;
+    })
+  }
+
+  getBrands(typeId: number) {
+    if (typeId == this.selectedTypeId) {
+      this.selectedTypeId = 0;
+    } else {
+      this.selectedTypeId = typeId;
+    }
+    this.productService.getAllBrands(this.selectedTypeId, 'ASC').subscribe(data => {
+      this.brands = data;
+    });
+  }
+
+  sortBrands(sortState: Sort) {
+    this.productService.getAllBrands(this.selectedTypeId, sortState.direction).subscribe(data => {
       this.brands = data;
     })
   }
@@ -48,7 +70,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addBrand(data).subscribe(data => {
-          this.getBrands();
+          this.getBrands(0);
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -56,6 +78,7 @@ export class BrandListComponent implements OnInit {
       )
     });
   }
+
   editBrand(brand: Brand) {
     this.brandDto.id = brand.id;
     this.brandDto.name = brand.name;
@@ -67,7 +90,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.editBrand(data).subscribe(data => {
-          this.getBrands();
+          this.getBrands(0);
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -84,7 +107,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteBrand(data).subscribe(data => {
-          this.getBrands();
+          this.getBrands(0);
         }, error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
@@ -94,6 +117,7 @@ export class BrandListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRole();
-    this.getBrands();
+    this.getTypes();
+    this.getBrands(0);
   }
 }

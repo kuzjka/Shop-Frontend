@@ -35,14 +35,14 @@ export class AddProductComponent implements OnInit {
   }
 
   getBrands() {
-    this.service.getAllBrands(this.selectedType).subscribe(data => {
+    this.service.getAllBrands(this.selectedType, 'ASC').subscribe(data => {
       this.brands = data;
     })
   }
 
   selectType(event: any) {
     this.selectedType = event.value;
-    this.service.getAllBrands(this.selectedType).subscribe(data => {
+    this.service.getAllBrands(this.selectedType, 'ASC').subscribe(data => {
       this.brands = data;
     })
   }

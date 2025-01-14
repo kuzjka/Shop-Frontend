@@ -1,6 +1,9 @@
-<table [dataSource]="brands" class="mat-elevation-z8" mat-table>
+<mat-chip-listbox>
+  <mat-chip-option (click)="getBrands(type.id)" *ngFor="let type of types">{{ type.name }}</mat-chip-option>
+</mat-chip-listbox>
+<table (matSortChange)="sortBrands($event)" [dataSource]="brands" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell>Brand</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header>Brand</th>
     <td *matCellDef="let brand" mat-cell>{{ brand.name }}</td>
   </ng-container>
   <ng-container matColumnDef="edit">

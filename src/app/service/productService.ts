@@ -30,11 +30,11 @@ export class ProductService {
   }
 
   getAllTypes(sort: string, dir: string): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/products/type?sort='+sort+'&dir='+dir);
+    return this.http.get<Type[]>(this.baseUrl + '/products/type?sort=' + sort + '&dir=' + dir);
   }
 
-  getAllBrands(typeId: number): Observable<Brand[]> {
-    return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId);
+  getAllBrands(typeId: number, dir: string): Observable<Brand[]> {
+    return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId + '&dir=' + dir);
   }
 
   getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
