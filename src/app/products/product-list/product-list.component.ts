@@ -173,7 +173,7 @@ export class ProductListComponent implements OnInit {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
       )
-    })
+    });
   }
 
   addProduct() {
@@ -181,7 +181,7 @@ export class ProductListComponent implements OnInit {
     this.productDto.name = '';
     this.productDto.typeId = 0;
     this.productDto.brandId = 0;
-    this.productDto.price = 100;
+    this.productDto.price = 1000;
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
@@ -196,13 +196,13 @@ export class ProductListComponent implements OnInit {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
       )
-    })
+    });
   }
 
   editProduct(product: Product) {
     this.productDto.id = product.id;
-    this.productDto.typeId = 0;
-    this.productDto.brandId = 0;
+    this.productDto.typeId = product.type.id;
+    this.productDto.brandId = product.brand.id;
     this.productDto.name = product.name;
     this.productDto.price = product.price;
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -215,8 +215,8 @@ export class ProductListComponent implements OnInit {
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
-        })
-    })
+        });
+    });
   }
 
   deleteProduct(product: Product) {
@@ -229,8 +229,8 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
         this.getProducts();
-      })
-    })
+      });
+    });
   }
 
   deletePhoto(photo: Photo) {
@@ -243,8 +243,8 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deletePhoto(data).subscribe(data => {
         this.getProducts();
-      })
-    })
+      });
+    });
   }
 
   getCart() {
@@ -257,7 +257,7 @@ export class ProductListComponent implements OnInit {
       for (let i = 0; i < data.items.length; i++) {
         this.cartProductIds.push(data.items[i].product.id);
       }
-    })
+    });
   }
 
   getUser() {

@@ -41,21 +41,16 @@ export class BrandListComponent implements OnInit {
     })
   }
 
-  getBrands(typeId: number) {
-    if (typeId == this.selectedTypeId) {
-      this.selectedTypeId = 0;
-    } else {
-      this.selectedTypeId = typeId;
-    }
-    this.productService.getAllBrands(this.selectedTypeId, 'ASC').subscribe(data => {
+  getBrands() {
+    this.productService.getAllBrands(0, 'ASC').subscribe(data => {
       this.brands = data;
     });
   }
 
   sortBrands(sortState: Sort) {
-    this.productService.getAllBrands(this.selectedTypeId, sortState.direction).subscribe(data => {
+    this.productService.getAllBrands(0, sortState.direction).subscribe(data => {
       this.brands = data;
-    })
+    });
   }
 
   addBrand() {
@@ -70,7 +65,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addBrand(data).subscribe(data => {
-          this.getBrands(0);
+          this.getBrands();
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -90,7 +85,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.editBrand(data).subscribe(data => {
-          this.getBrands(0);
+          this.getBrands();
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -107,7 +102,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteBrand(data).subscribe(data => {
-          this.getBrands(0);
+          this.getBrands();
         }, error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
@@ -118,6 +113,6 @@ export class BrandListComponent implements OnInit {
   ngOnInit(): void {
     this.getRole();
     this.getTypes();
-    this.getBrands(0);
+    this.getBrands();
   }
 }

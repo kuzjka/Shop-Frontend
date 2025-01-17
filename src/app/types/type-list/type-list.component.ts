@@ -35,13 +35,13 @@ export class TypeListComponent implements OnInit {
   sortTypes(sortState: Sort) {
     this.service.getAllTypes(sortState.active, sortState.direction).subscribe(data => {
       this.types = data;
-    })
+    });
   }
 
   getTypes() {
     this.service.getAllTypes('id', 'ASC').subscribe(data => {
       this.types = data;
-    })
+    });
   }
 
   addType() {
@@ -61,7 +61,7 @@ export class TypeListComponent implements OnInit {
           this.snackBar.open(error.error.message, '', {duration: 3000})
         }
       )
-    })
+    });
   }
 
   editType(type: Type) {
@@ -78,8 +78,8 @@ export class TypeListComponent implements OnInit {
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})
-      })
-    })
+      });
+    });
   }
 
   deleteType(type: Type) {
@@ -94,8 +94,8 @@ export class TypeListComponent implements OnInit {
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})
-      })
-    })
+      });
+    });
   }
 
   ngOnInit(): void {
