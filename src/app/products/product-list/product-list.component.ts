@@ -79,7 +79,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterTypes() {
-    this.productService.getAllTypes('name', 'ASC').subscribe(data => {
+    this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
@@ -137,6 +137,7 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
         this.getRole();
+
       });
   }
 
@@ -229,6 +230,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
         this.getProducts();
+        this.getFilterTypes();
       });
     });
   }

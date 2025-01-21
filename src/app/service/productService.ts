@@ -33,6 +33,10 @@ export class ProductService {
     return this.http.get<Type[]>(this.baseUrl + '/products/type?sort=' + sort + '&dir=' + dir);
   }
 
+  getProductTypes(): Observable<Type[]> {
+    return this.http.get<Type[]>(this.baseUrl + '/products/productType');
+  }
+
   getAllBrands(typeId: number, dir: string): Observable<Brand[]> {
     return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId + '&dir=' + dir);
   }
