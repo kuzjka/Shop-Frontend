@@ -24,7 +24,7 @@ export class OrderService {
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.baseUrl + '/order', {headers: this.headers});
+    return this.http.get<Order[]>(this.baseUrl + '/cart/order', {headers: this.headers});
   }
 
   addItemToCart(dto: ItemDto): Observable<Cart> {
@@ -32,7 +32,7 @@ export class OrderService {
   }
 
   addOrder(dto: OrderDto): Observable<Order> {
-    return this.http.post<Order>(this.baseUrl + '/order', dto, {headers: this.headers});
+    return this.http.post<Order>(this.baseUrl + '/cart/order', dto, {headers: this.headers});
   }
 
   editItem(dto: ItemDto): Observable<Cart> {

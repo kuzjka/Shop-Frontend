@@ -15,7 +15,6 @@ export class AddProductComponent implements OnInit {
   types!: Type[];
   brands!: Brand[];
   productDto: ProductDto;
-  selectedType!: number;
 
   constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
@@ -31,15 +30,14 @@ export class AddProductComponent implements OnInit {
   getTypes() {
     this.service.getAllTypes().subscribe(data => {
       this.types = data;
-    })
+    });
   }
 
   getBrands() {
     this.service.getAllBrands(0).subscribe(data => {
       this.brands = data;
-    })
+    });
   }
-
 
   onNoClick(): void {
     this.dialogRef.close();

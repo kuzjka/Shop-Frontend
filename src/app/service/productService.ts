@@ -30,21 +30,22 @@ export class ProductService {
   }
 
   getAllTypes(): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/products/type');
+    return this.http.get<Type[]>(`${this.baseUrl}/products/type`);
   }
 
   getProductTypes(): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/products/productType');
+    return this.http.get<Type[]>(`${this.baseUrl}/products/productType`);
   }
 
   getAllBrands(typeId: number): Observable<Brand[]> {
-    return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId);
+    return this.http.get<Brand[]>(`${this.baseUrl}/products/brand?typeId=${typeId}`);
   }
 
-  getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):
-    Observable<ResponseProductDto> {
-    return this.http.get<ResponseProductDto>(this.baseUrl + '/products/product?typeId=' + typeId + '&brandId='
-      + brandId + '&sort=' + sort + '&dir=' + dir + '&page=' + page + '&size=' + size);
+  getProducts(typeId: number, brandId: number,
+              sort: string, dir: string,
+              page: number, size: number): Observable<ResponseProductDto> {
+    return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product?typeId=${typeId}
+    &brandId=${brandId}&sort=${sort}&dir=${dir}&page=${page}&size=${size}`);
   }
 
   addProduct(dto: ProductDto): Observable<any> {
