@@ -8,7 +8,6 @@ import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {Type} from "../../model/type";
-import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-brand-list',
@@ -36,22 +35,17 @@ export class BrandListComponent implements OnInit {
   }
 
   getTypes() {
-    this.productService.getAllTypes('name', 'ASC').subscribe(data => {
+    this.productService.getAllTypes().subscribe(data => {
       this.types = data;
     })
   }
 
   getBrands() {
-    this.productService.getAllBrands(0, 'ASC').subscribe(data => {
+    this.productService.getAllBrands(0).subscribe(data => {
       this.brands = data;
     });
   }
 
-  sortBrands(sortState: Sort) {
-    this.productService.getAllBrands(0, sortState.direction).subscribe(data => {
-      this.brands = data;
-    });
-  }
 
   addBrand() {
     this.brandDto.id = 0;

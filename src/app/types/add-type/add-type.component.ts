@@ -27,7 +27,7 @@ export class AddTypeComponent implements OnInit {
   }
 
   getBrands() {
-    this.service.getAllBrands(0, 'ASC').subscribe(data => {
+    this.service.getAllBrands(0).subscribe(data => {
       this.brands = data;
     });
   }

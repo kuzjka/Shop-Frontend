@@ -85,7 +85,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getFilterBrands(typeId: number) {
-    this.productService.getAllBrands(typeId, 'ASC').subscribe(data => {
+    this.productService.getAllBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
@@ -192,6 +192,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.addProduct(data).subscribe(data => {
           this.getProducts();
+          this.getFilterTypes();
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})

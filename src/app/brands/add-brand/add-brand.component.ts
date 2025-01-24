@@ -31,7 +31,7 @@ export class AddBrandComponent implements OnInit {
   }
 
   getTypes() {
-    this.service.getAllTypes('id', 'ASC').subscribe(data => {
+    this.service.getAllTypes().subscribe(data => {
       this.types = data;
     });
   }

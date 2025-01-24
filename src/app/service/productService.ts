@@ -29,16 +29,16 @@ export class ProductService {
     this.fileArray = [];
   }
 
-  getAllTypes(sort: string, dir: string): Observable<Type[]> {
-    return this.http.get<Type[]>(this.baseUrl + '/products/type?sort=' + sort + '&dir=' + dir);
+  getAllTypes(): Observable<Type[]> {
+    return this.http.get<Type[]>(this.baseUrl + '/products/type');
   }
 
   getProductTypes(): Observable<Type[]> {
     return this.http.get<Type[]>(this.baseUrl + '/products/productType');
   }
 
-  getAllBrands(typeId: number, dir: string): Observable<Brand[]> {
-    return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId + '&dir=' + dir);
+  getAllBrands(typeId: number): Observable<Brand[]> {
+    return this.http.get<Brand[]>(this.baseUrl + '/products/brand?typeId=' + typeId);
   }
 
   getProducts(typeId: number, brandId: number, sort: string, dir: string, page: number, size: number):

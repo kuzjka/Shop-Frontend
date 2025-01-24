@@ -1,6 +1,6 @@
-<table (matSortChange)="sortBrands($event)" [dataSource]="brands" class="mat-elevation-z8" mat-table matSort>
+<table [dataSource]="brands" class="mat-elevation-z8" mat-table>
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell mat-sort-header>Brand</th>
+    <th *matHeaderCellDef mat-header-cell>Brand</th>
     <td *matCellDef="let brand" mat-cell>{{ brand.name }}</td>
   </ng-container>
   <ng-container matColumnDef="edit">
