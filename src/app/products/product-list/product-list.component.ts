@@ -45,8 +45,8 @@ export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
   role!: string;
-  productDto!: ProductDto;
   photoForm!: FormGroup;
+  productForm!: FormGroup;
   totalPrice!: number;
   totalQuantity!: number;
   orderDto: OrderDto;
@@ -60,9 +60,10 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
-    this.productDto = new ProductDto(0, 0, 0, '', 100);
+    // this.productDto = new ProductDto(null, 0, 0, '', 100);
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
+
   }
 
   getRole() {
@@ -178,16 +179,18 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct() {
-    this.productDto.id = 0;
-    this.productDto.name = '';
-    this.productDto.typeId = 0;
-    this.productDto.brandId = 0;
-    this.productDto.price = 1000;
+    this.productForm = this.fb.group({
+      id: [0],
+      typeId: [1],
+      brandId: [1],
+      name: ['name'],
+      price: [1000]
+    })
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
       data: {
-        product: this.productDto, new: true
+        productForm: this.productForm, new: true
       }
     }).afterClosed().subscribe(data => {
       this.productService.addProduct(data).subscribe(data => {
@@ -200,17 +203,18 @@ export class ProductListComponent implements OnInit {
       )
     });
   }
-
   editProduct(product: Product) {
-    this.productDto.id = product.id;
-    this.productDto.typeId = product.type.id;
-    this.productDto.brandId = product.brand.id;
-    this.productDto.name = product.name;
-    this.productDto.price = product.price;
+    this.productForm = this.fb.group({
+      id: [product.id],
+      typeId: [product.type.id],
+      brandId: [product.brand.id],
+      name: [product.name],
+      price: [product.price]
+    })
     const dialogRef = this.dialog.open(AddProductComponent, {
       height: '500px',
       width: '500px',
-      data: {product: this.productDto, new: false}
+      data: {productForm: this.productForm, new: false}
     }).afterClosed().subscribe(data => {
       this.productService.editProduct(data).subscribe(data => {
           this.getProducts();
@@ -232,7 +236,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
         this.getProducts();
-        this.getFilterTypes();
+       this.getFilterTypes();
       });
     });
   }
@@ -304,6 +308,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getRole();
     this.getUser();
     this.getFilterTypes();

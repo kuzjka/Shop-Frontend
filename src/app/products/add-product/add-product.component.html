@@ -1,9 +1,12 @@
 <h1 align="center">{{ title }}</h1>
-<form>
+<form [formGroup]="data.productForm">
+
+  <input formControlName="id" type="hidden"/>
+
   <p align="center">
     <mat-form-field>
       <mat-label>Type</mat-label>
-      <mat-select [(ngModel)]="productDto.typeId" name="typeId">
+      <mat-select formControlName="typeId">
         <mat-option [value]="1">Not selected</mat-option>
         <mat-option *ngFor="let type of types" [value]="type.id">{{ type.name }}</mat-option>
       </mat-select>
@@ -12,7 +15,7 @@
   <p align="center">
     <mat-form-field>
       <mat-label>Brand</mat-label>
-      <mat-select [(ngModel)]="productDto.brandId" name="brandId">
+      <mat-select formControlName="brandId">
         <mat-option [value]="1">Not selected</mat-option>
         <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
       </mat-select>
@@ -21,18 +24,18 @@
   <p align="center">
     <mat-form-field>
       <mat-label>Name</mat-label>
-      <input [(ngModel)]="productDto.name" matInput name="name">
+      <input formControlName="name" matInput>
     </mat-form-field>
   </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Price:</mat-label>
-      <input [(ngModel)]="productDto.price" matInput name="price">
+      <input formControlName="price" matInput>
     </mat-form-field>
   </p>
 </form>
 <div align="center" mat-dialog-actions>
   <button (click)="onNoClick()" mat-button>No Thanks</button>
-  <button [mat-dialog-close]="productDto" cdkFocusInitial mat-button>Ok</button>
+  <button [mat-dialog-close]="data.productForm" cdkFocusInitial mat-button>Ok</button>
 </div>
 
