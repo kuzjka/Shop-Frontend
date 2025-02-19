@@ -7,8 +7,6 @@ import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
 import {TypeDto} from "../dto/typeDto";
 import {BrandDto} from "../dto/brandDto";
-import {ProductDto} from "../dto/productDto";
-import {FormGroup} from "@angular/forms";
 
 @Injectable()
 export class ProductService {
@@ -50,9 +48,7 @@ export class ProductService {
   }
 
   addProduct(data: any): Observable<any> {
-
     const formData = new FormData();
-    formData.append("id", data.controls.id.value);
     formData.append("typeId", data.controls.typeId.value);
     formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
@@ -68,8 +64,7 @@ export class ProductService {
     formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
-    return this.http.put<any>(this.baseUrl
-      + '/products/product', formData, {headers: this.headers});
+    return this.http.put<any>(this.baseUrl + '/products/product', formData, {headers: this.headers});
   }
 
   deleteProduct(productId: number): Observable<any> {

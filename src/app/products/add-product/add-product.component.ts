@@ -3,7 +3,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ProductService} from "../../service/productService";
 import {Brand} from "../../model/brand";
 import {Type} from "../../model/type";
-import {ProductDto} from "../../dto/productDto";
 import {FormGroup} from "@angular/forms";
 
 @Component({
@@ -16,7 +15,6 @@ export class AddProductComponent implements OnInit {
   types!: Type[];
   brands!: Brand[];
 
-
   constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ProductDialogData) {
@@ -25,7 +23,6 @@ export class AddProductComponent implements OnInit {
     } else {
       this.title = 'Edit product'
     }
-
   }
 
   getTypes() {

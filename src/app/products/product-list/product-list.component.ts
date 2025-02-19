@@ -18,7 +18,6 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
 import {Photo} from "../../model/photo";
-import {ProductDto} from "../../dto/productDto";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
@@ -60,16 +59,13 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.brandDto = new BrandDto(0, 0, '');
     this.typeDto = new TypeDto(0, '');
-    // this.productDto = new ProductDto(null, 0, 0, '', 100);
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
-
   }
 
   getRole() {
     this.role = this.userService.getRole();
   }
-
   sortProducts(sortState: Sort) {
     this.productService.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
       sortState.direction, this.currentPage, this.pageSize)
@@ -78,19 +74,16 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
       })
   }
-
   getFilterTypes() {
     this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
-
   getFilterBrands(typeId: number) {
     this.productService.getAllBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
-
   typeFilter(typeId: number) {
     if (typeId == this.currentTypeId) {
       this.currentTypeId = 0;
@@ -138,7 +131,6 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
         this.getRole();
-
       });
   }
 
@@ -183,7 +175,7 @@ export class ProductListComponent implements OnInit {
       id: [0],
       typeId: [1],
       brandId: [1],
-      name: ['name'],
+      name: [''],
       price: [1000]
     })
     const dialogRef = this.dialog.open(AddProductComponent, {
@@ -203,6 +195,7 @@ export class ProductListComponent implements OnInit {
       )
     });
   }
+
   editProduct(product: Product) {
     this.productForm = this.fb.group({
       id: [product.id],
@@ -236,7 +229,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
         this.getProducts();
-       this.getFilterTypes();
+        this.getFilterTypes();
       });
     });
   }
