@@ -5,7 +5,6 @@ import {CookieService} from "ngx-cookie-service";
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
-import {TypeDto} from "../dto/typeDto";
 import {BrandDto} from "../dto/brandDto";
 
 @Injectable()
@@ -59,6 +58,7 @@ export class ProductService {
 
   editProduct(data: any): Observable<any> {
     const formData = new FormData();
+
     formData.append("id", data.controls.id.value);
     formData.append("typeId", data.controls.typeId.value);
     formData.append("brandId", data.controls.brandId.value);
@@ -71,12 +71,17 @@ export class ProductService {
     return this.http.delete<any>(this.baseUrl + '/products/product/' + productId, {headers: this.headers});
   }
 
-  addType(dto: TypeDto): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/products/type', dto, {headers: this.headers});
+  addType(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("name", data.controls.name.value);
+    return this.http.post<any>(this.baseUrl + '/products/type', formData, {headers: this.headers});
   }
 
-  editType(dto: TypeDto): Observable<any> {
-    return this.http.put<any>(this.baseUrl + '/products/type', dto, {headers: this.headers});
+  editType(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("id", data.controls.id.value);
+    formData.append("name", data.controls.name.value);
+    return this.http.put<any>(this.baseUrl + '/products/type', formData, {headers: this.headers});
   }
 
   deleteType(typeId: number): Observable<any> {

@@ -3,10 +3,10 @@ import {Type} from "../../model/type";
 import {ProductService} from "../../service/productService";
 import {AddTypeComponent} from "../add-type/add-type.component";
 import {MatDialog} from "@angular/material/dialog";
-import {TypeDto} from "../../dto/typeDto";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-type-list',
@@ -15,16 +15,16 @@ import {UserService} from "../../service/userService";
 })
 export class TypeListComponent implements OnInit {
   types: Type[] = [];
-  typeDto!: TypeDto;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string;
+  typeForm!: FormGroup;
 
   constructor(private userService: UserService,
-              private service: ProductService,
+              private productService: ProductService,
+              private fb: FormBuilder,
               private dialog: MatDialog,
               private snackBar: MatSnackBar
   ) {
-    this.typeDto = new TypeDto(0, '');
   }
 
   getRole() {
@@ -32,22 +32,24 @@ export class TypeListComponent implements OnInit {
   }
 
   getTypes() {
-    this.service.getAllTypes().subscribe(data => {
+    this.productService.getAllTypes().subscribe(data => {
       this.types = data;
     });
   }
 
   addType() {
-    this.typeDto.id = 0;
-    this.typeDto.name = '';
+    this.typeForm = this.fb.group({
+      id: [0],
+      name: ['name']
+    })
     const dialogRef = this.dialog.open(AddTypeComponent, {
       height: '500px',
       width: '500px',
       data: {
-        typeDto: this.typeDto, new: true
+        typeForm: this.typeForm, new: true
       }
     }).afterClosed().subscribe(data => {
-      this.service.addType(data).subscribe(data => {
+      this.productService.addType(data).subscribe(data => {
           this.getTypes();
         },
         error => {
@@ -58,16 +60,18 @@ export class TypeListComponent implements OnInit {
   }
 
   editType(type: Type) {
-    this.typeDto.id = type.id;
-    this.typeDto.name = type.name;
+    this.typeForm = this.fb.group({
+      id: [type.id],
+      name: [type.name]
+    })
     const dialogRef = this.dialog.open(AddTypeComponent, {
       height: '500px',
       width: '500px',
       data: {
-        typeDto: this.typeDto, new: false
+        typeForm: this.typeForm, new: false
       }
     }).afterClosed().subscribe(data => {
-      this.service.editType(data).subscribe(data => {
+      this.productService.editType(data).subscribe(data => {
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -83,7 +87,7 @@ export class TypeListComponent implements OnInit {
         type: type
       }
     }).afterClosed().subscribe(data => {
-      this.service.deleteType(data).subscribe(data => {
+      this.productService.deleteType(data).subscribe(data => {
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})
