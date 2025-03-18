@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../../service/productService";
 import {Brand} from "../../model/brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
-import {BrandDto} from "../../dto/brandDto";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
-import {Type} from "../../model/type";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-brand-list',
@@ -16,28 +15,19 @@ import {Type} from "../../model/type";
 })
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
-  types: Type[] = [];
-  brandDto: BrandDto;
+  brandForm!: FormGroup;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string;
-  selectedTypeId: number;
 
   constructor(private userService: UserService,
               private productService: ProductService,
+              private fb: FormBuilder,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0, 0, '');
-    this.selectedTypeId = 0;
   }
 
   getRole() {
     this.role = this.userService.getRole();
-  }
-
-  getTypes() {
-    this.productService.getAllTypes().subscribe(data => {
-      this.types = data;
-    })
   }
 
   getBrands() {
@@ -46,16 +36,16 @@ export class BrandListComponent implements OnInit {
     });
   }
 
-
   addBrand() {
-    this.brandDto.id = 0;
-    this.brandDto.typeId = 0;
-    this.brandDto.name = '';
+    this.brandForm = this.fb.group({
+      id: [0],
+      name: ['']
+    });
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brandDto: this.brandDto, new: true
+        brandForm: this.brandForm, new: true
       }
     }).afterClosed().subscribe(data => {
       this.productService.addBrand(data).subscribe(data => {
@@ -69,13 +59,15 @@ export class BrandListComponent implements OnInit {
   }
 
   editBrand(brand: Brand) {
-    this.brandDto.id = brand.id;
-    this.brandDto.name = brand.name;
+    this.brandForm = this.fb.group({
+      id: [brand.id],
+      name: [brand.name]
+    })
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
       width: '500px',
       data: {
-        brandDto: this.brandDto, new: false
+        brandForm: this.brandForm, new: false
       }
     }).afterClosed().subscribe(data => {
       this.productService.editBrand(data).subscribe(data => {
@@ -106,7 +98,6 @@ export class BrandListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRole();
-    this.getTypes();
     this.getBrands();
   }
 }

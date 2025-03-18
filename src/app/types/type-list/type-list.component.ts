@@ -40,7 +40,7 @@ export class TypeListComponent implements OnInit {
   addType() {
     this.typeForm = this.fb.group({
       id: [0],
-      name: ['name']
+      name: ['']
     })
     const dialogRef = this.dialog.open(AddTypeComponent, {
       height: '500px',

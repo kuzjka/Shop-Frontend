@@ -88,12 +88,17 @@ export class ProductService {
     return this.http.delete<any>(this.baseUrl + '/products/type/' + typeId, {headers: this.headers});
   }
 
-  addBrand(dto: BrandDto): Observable<any> {
-    return this.http.post<any>(this.baseUrl + '/products/brand', dto, {headers: this.headers});
+  addBrand(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("name", data.controls.name.value);
+    return this.http.post<any>(this.baseUrl + '/products/brand', formData, {headers: this.headers});
   }
 
-  editBrand(dto: BrandDto): Observable<any> {
-    return this.http.put<any>(this.baseUrl + '/products/brand', dto, {headers: this.headers});
+  editBrand(data: any): Observable<any> {
+    const formData = new FormData();
+    formData.append("id", data.controls.id.value);
+    formData.append("name", data.controls.name.value);
+    return this.http.put<any>(this.baseUrl + '/products/brand', formData, {headers: this.headers});
   }
 
   deleteBrand(brandId: number): Observable<any> {

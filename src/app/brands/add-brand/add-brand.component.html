@@ -1,13 +1,16 @@
 <h1 align="center">{{ title }}</h1>
-<form>
+<form [formGroup]="data.brandForm">
+  <p align="center">
+    <input formControlName="id" type="hidden">
+  </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Name:</mat-label>
-      <input [(ngModel)]="brandDto.name" matInput name="name">
+      <input formControlName="name" matInput>
     </mat-form-field>
   </p>
 </form>
 <div align="center" mat-dialog-actions>
   <button (click)="onNoClick()" mat-button>No Thanks</button>
-  <button [mat-dialog-close]="brandDto" cdkFocusInitial mat-button>Ok</button>
+  <button [mat-dialog-close]="data.brandForm" cdkFocusInitial mat-button>Ok</button>
 </div>
