@@ -1,11 +1,10 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {CookieService} from "ngx-cookie-service";
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
-import {BrandDto} from "../dto/brandDto";
 
 @Injectable()
 export class ProductService {
@@ -35,15 +34,23 @@ export class ProductService {
     return this.http.get<Type[]>(`${this.baseUrl}/products/productType`);
   }
 
-  getAllBrands(typeId: number): Observable<Brand[]> {
-    return this.http.get<Brand[]>(`${this.baseUrl}/products/brand?typeId=${typeId}`);
+  getAllBrands(typeId: number | undefined): Observable<Brand[]> {
+    let params = new HttpParams();
+    params = typeId == undefined ? params : params.set('typeId', typeId);
+    return this.http.get<Brand[]>(`${this.baseUrl}/products/brand`, {params: params});
   }
 
-  getProducts(typeId: number, brandId: number,
+  getProducts(typeId: number | undefined, brandId: number | undefined,
               sort: string, dir: string,
               page: number, size: number): Observable<ResponseProductDto> {
-    return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product?typeId=${typeId}
-    &brandId=${brandId}&sort=${sort}&dir=${dir}&page=${page}&size=${size}`);
+    let params = new HttpParams()
+      .set('sort', sort)
+      .set('dir', dir)
+      .set('page', page)
+      .set('size', size)
+    params = typeId == undefined ? params : params.set('typeId', typeId);
+    params = brandId == undefined ? params : params.set('brandId', brandId);
+    return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product`, {params: params});
   }
 
   addProduct(data: any): Observable<any> {

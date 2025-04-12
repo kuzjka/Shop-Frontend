@@ -15,7 +15,7 @@ export class AddProductComponent implements OnInit {
   types!: Type[];
   brands!: Brand[];
 
-  constructor(public service: ProductService,
+  constructor(public productService: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ProductDialogData) {
     if (data.new) {
@@ -26,13 +26,13 @@ export class AddProductComponent implements OnInit {
   }
 
   getTypes() {
-    this.service.getAllTypes().subscribe(data => {
+    this.productService.getAllTypes().subscribe(data => {
       this.types = data;
     });
   }
 
   getBrands() {
-    this.service.getAllBrands(0).subscribe(data => {
+    this.productService.getAllBrands(undefined).subscribe(data => {
       this.brands = data;
     });
   }

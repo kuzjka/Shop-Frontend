@@ -32,8 +32,10 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   filterTypes: Type[] = [];
   filterBrands: Brand[] = [];
-  currentTypeId = 0;
-  currentBrandId = 0;
+  currentTypeId: number | undefined = undefined;
+  currentBrandId: number | undefined = undefined;
+  currentSort = 'name';
+  currentDir = 'ASC';
   pageSize = 10;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10];
@@ -66,39 +68,55 @@ export class ProductListComponent implements OnInit {
   getRole() {
     this.role = this.userService.getRole();
   }
+
   sortProducts(sortState: Sort) {
-    this.productService.getProducts(this.currentTypeId, this.currentBrandId, sortState.active,
-      sortState.direction, this.currentPage, this.pageSize)
+    this.currentSort = sortState.active;
+    this.currentDir = sortState.direction;
+    this.productService.getProducts(
+      this.currentTypeId,
+      this.currentBrandId,
+      this.currentSort,
+      this.currentDir,
+      this.currentPage,
+      this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
-      })
+      });
   }
+
   getFilterTypes() {
     this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
     })
   }
+
   getFilterBrands(typeId: number) {
     this.productService.getAllBrands(typeId).subscribe(data => {
       this.filterBrands = data;
     })
   }
+
   typeFilter(typeId: number) {
     if (typeId == this.currentTypeId) {
-      this.currentTypeId = 0;
-      this.currentBrandId = 0;
+      this.currentTypeId = undefined;
+      this.currentBrandId = undefined;
     } else {
       this.currentTypeId = typeId;
-      this.currentBrandId = 0;
+      this.currentBrandId = undefined;
     }
-    if (this.currentTypeId > 0) {
+    if (this.currentTypeId != undefined) {
       this.getFilterBrands(this.currentTypeId);
     } else {
       this.filterBrands = [];
     }
-    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
-      'ASC', this.currentPage, this.pageSize)
+    this.productService.getProducts(
+      this.currentTypeId,
+      this.currentBrandId,
+      this.currentSort,
+      this.currentDir,
+      this.currentPage,
+      this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
@@ -107,25 +125,35 @@ export class ProductListComponent implements OnInit {
 
   brandFilter(brandId: number) {
     if (this.currentBrandId == brandId) {
-      this.currentBrandId = 0;
+      this.currentBrandId = undefined;
     } else {
       this.currentBrandId = brandId;
     }
-    if (this.currentTypeId == 0) {
+    if (this.currentTypeId == undefined) {
       this.filterBrands = [];
     }
-    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
-      'ASC', this.currentPage, this.pageSize)
+    this.productService.getProducts(
+      this.currentTypeId,
+      this.currentBrandId,
+      this.currentSort,
+      this.currentDir,
+      this.currentPage,
+      this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
-      })
+      });
   }
 
   getProducts() {
-    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
-      'ASC', this.currentPage, this.pageSize)
+    this.productService.getProducts(
+      this.currentTypeId,
+      this.currentBrandId,
+      this.currentSort,
+      this.currentDir,
+      this.currentPage,
+      this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -137,13 +165,18 @@ export class ProductListComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.productService.getProducts(this.currentTypeId, this.currentBrandId, 'name',
-      'ASC', this.currentPage, this.pageSize)
+    this.productService.getProducts(
+      this.currentTypeId,
+      this.currentBrandId,
+      this.currentSort,
+      this.currentDir,
+      this.currentPage,
+      this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
-      })
+      });
   }
 
   addPhoto(productId: number) {
@@ -160,8 +193,10 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.addPhoto(data).subscribe(data => {
           this.getProducts();
-          this.currentTypeId = 0;
-          this.currentBrandId = 0;
+          this.currentTypeId = undefined;
+          this.currentBrandId = undefined;
+          this.currentSort = 'name';
+          this.currentDir = 'ASC';
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -186,6 +221,10 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addProduct(data).subscribe(data => {
+          this.currentTypeId = undefined;
+          this.currentBrandId = undefined;
+          this.currentSort = 'name';
+          this.currentDir = 'ASC';
           this.getProducts();
           this.getFilterTypes();
         },
@@ -210,6 +249,10 @@ export class ProductListComponent implements OnInit {
       data: {productForm: this.productForm, new: false}
     }).afterClosed().subscribe(data => {
       this.productService.editProduct(data).subscribe(data => {
+          this.currentTypeId = undefined;
+          this.currentBrandId = undefined;
+          this.currentSort = 'name';
+          this.currentDir = 'ASC';
           this.getProducts();
           this.getFilterTypes();
         },
@@ -228,6 +271,10 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
+        this.currentTypeId = undefined;
+        this.currentBrandId = undefined;
+        this.currentSort = 'name';
+        this.currentDir = 'ASC';
         this.getProducts();
         this.getFilterTypes();
       });
