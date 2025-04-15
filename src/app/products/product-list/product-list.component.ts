@@ -34,12 +34,12 @@ export class ProductListComponent implements OnInit {
   filterBrands: Brand[] = [];
   currentTypeId: number | undefined = undefined;
   currentBrandId: number | undefined = undefined;
-  currentSort = 'name';
-  currentDir = 'ASC';
-  pageSize = 10;
+  currentSort: string | undefined = undefined;
+  currentDir: string | undefined = undefined;
+  pageSize: number | undefined = undefined;
+  pageIndex: number | undefined = undefined;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10];
-  currentPage = 0;
   brandDto: BrandDto;
   typeDto: TypeDto;
   itemDto!: ItemDto;
@@ -77,7 +77,7 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId,
       this.currentSort,
       this.currentDir,
-      this.currentPage,
+      this.pageIndex,
       this.pageSize)
       .subscribe(data => {
         this.products = data.products;
@@ -115,11 +115,13 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId,
       this.currentSort,
       this.currentDir,
-      this.currentPage,
-      this.pageSize)
+      undefined,
+      undefined)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
+        this.pageSize = data.pageSize;
+        this.pageIndex = data.currentPage;
       })
   }
 
@@ -137,12 +139,13 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId,
       this.currentSort,
       this.currentDir,
-      this.currentPage,
-      this.pageSize)
+      undefined,
+      undefined)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
         this.totalProducts = data.totalProducts;
+        this.pageIndex = data.currentPage;
       });
   }
 
@@ -152,29 +155,31 @@ export class ProductListComponent implements OnInit {
       this.currentBrandId,
       this.currentSort,
       this.currentDir,
-      this.currentPage,
+      this.pageIndex,
       this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
+        this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
         this.getRole();
       });
   }
 
   pageChangeEvent(event: PageEvent) {
-    this.currentPage = event.pageIndex;
+    this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.productService.getProducts(
       this.currentTypeId,
       this.currentBrandId,
       this.currentSort,
       this.currentDir,
-      this.currentPage,
+      this.pageIndex,
       this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
+        this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
       });
   }
@@ -193,10 +198,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.addPhoto(data).subscribe(data => {
           this.getProducts();
-          this.currentTypeId = undefined;
-          this.currentBrandId = undefined;
-          this.currentSort = 'name';
-          this.currentDir = 'ASC';
+          this.resetFilters();
         },
         error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -207,7 +209,7 @@ export class ProductListComponent implements OnInit {
 
   addProduct() {
     this.productForm = this.fb.group({
-      id: [0],
+      id: [undefined],
       typeId: [1],
       brandId: [1],
       name: [''],
@@ -221,10 +223,7 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addProduct(data).subscribe(data => {
-          this.currentTypeId = undefined;
-          this.currentBrandId = undefined;
-          this.currentSort = 'name';
-          this.currentDir = 'ASC';
+          this.resetFilters();
           this.getProducts();
           this.getFilterTypes();
         },
@@ -249,10 +248,7 @@ export class ProductListComponent implements OnInit {
       data: {productForm: this.productForm, new: false}
     }).afterClosed().subscribe(data => {
       this.productService.editProduct(data).subscribe(data => {
-          this.currentTypeId = undefined;
-          this.currentBrandId = undefined;
-          this.currentSort = 'name';
-          this.currentDir = 'ASC';
+          this.resetFilters();
           this.getProducts();
           this.getFilterTypes();
         },
@@ -271,14 +267,20 @@ export class ProductListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteProduct(data).subscribe(data => {
-        this.currentTypeId = undefined;
-        this.currentBrandId = undefined;
-        this.currentSort = 'name';
-        this.currentDir = 'ASC';
+        this.resetFilters();
         this.getProducts();
         this.getFilterTypes();
       });
     });
+  }
+
+  resetFilters() {
+    this.currentTypeId = undefined;
+    this.currentBrandId = undefined;
+    this.currentSort = undefined;
+    this.currentDir = undefined;
+    this.pageIndex = undefined;
+    this.pageSize = undefined;
   }
 
   deletePhoto(photo: Photo) {
@@ -291,6 +293,7 @@ export class ProductListComponent implements OnInit {
     }).afterClosed().subscribe(data => {
       this.productService.deletePhoto(data).subscribe(data => {
         this.getProducts();
+        this.resetFilters();
       });
     });
   }

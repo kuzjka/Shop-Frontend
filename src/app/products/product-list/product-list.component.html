@@ -1,3 +1,4 @@
+<p></p>
 <mat-chip-listbox>
   <mat-chip-option (click)="typeFilter(type.id)" *ngFor="let type of filterTypes">{{ type.name }}</mat-chip-option>
 </mat-chip-listbox>
@@ -74,9 +75,8 @@
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
   <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 </table>
-<mat-paginator (page)=pageChangeEvent($event)
-               [length]="totalProducts"
-               [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize">
+<mat-paginator (page)=pageChangeEvent($event) [length]="totalProducts"
+               [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize">
 </mat-paginator>
 <button (click)="addProduct()" *ngIf="role=='admin'" color="primary" mat-raised-button>Add product</button>
 
