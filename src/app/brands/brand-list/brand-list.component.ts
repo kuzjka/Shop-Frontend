@@ -7,6 +7,7 @@ import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-brand-list',
@@ -18,6 +19,8 @@ export class BrandListComponent implements OnInit {
   brandForm!: FormGroup;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string;
+  currentSort: string | undefined = undefined;
+  currentDir: string | undefined = undefined;
 
   constructor(private userService: UserService,
               private productService: ProductService,
@@ -30,10 +33,21 @@ export class BrandListComponent implements OnInit {
     this.role = this.userService.getRole();
   }
 
+  sortBrands(sortState: Sort) {
+    this.currentSort = sortState.active;
+    this.currentDir = sortState.direction;
+    this.getBrands();
+  }
+
   getBrands() {
-    this.productService.getAllBrands(undefined).subscribe(data => {
+    this.productService.getAllBrands(undefined, this.currentDir, this.currentSort).subscribe(data => {
       this.brands = data;
     });
+  }
+
+  reset() {
+    this.currentDir = undefined;
+    this.currentSort = undefined;
   }
 
   addBrand() {
@@ -49,6 +63,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addBrand(data).subscribe(data => {
+          this.reset();
           this.getBrands();
         },
         error => {
@@ -71,6 +86,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.editBrand(data).subscribe(data => {
+          this.reset();
           this.getBrands();
         },
         error => {
@@ -88,6 +104,7 @@ export class BrandListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteBrand(data).subscribe(data => {
+          this.reset();
           this.getBrands();
         }, error => {
           this.snackBar.open(error.error.message, '', {duration: 3000})

@@ -26,17 +26,25 @@ export class ProductService {
     this.fileArray = [];
   }
 
-  getAllTypes(): Observable<Type[]> {
-    return this.http.get<Type[]>(`${this.baseUrl}/products/type`);
+  getAllTypes(dir: string | undefined,
+              sort: string | undefined): Observable<Type[]> {
+    let params = new HttpParams();
+    params = dir == undefined ? params : params.set('dir', dir);
+    params = sort == undefined ? params : params.set('sort', sort);
+    return this.http.get<Type[]>(`${this.baseUrl}/products/type`, {params: params});
   }
 
   getProductTypes(): Observable<Type[]> {
     return this.http.get<Type[]>(`${this.baseUrl}/products/productType`);
   }
 
-  getAllBrands(typeId: number | undefined): Observable<Brand[]> {
+  getAllBrands(typeId: number | undefined,
+               dir: string | undefined,
+               sort: string | undefined): Observable<Brand[]> {
     let params = new HttpParams();
     params = typeId == undefined ? params : params.set('typeId', typeId);
+    params = dir == undefined ? params : params.set('dir', dir);
+    params = sort == undefined ? params : params.set('sort', sort);
     return this.http.get<Brand[]>(`${this.baseUrl}/products/brand`, {params: params});
   }
 

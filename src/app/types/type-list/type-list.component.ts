@@ -7,6 +7,7 @@ import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-type-list',
@@ -18,6 +19,8 @@ export class TypeListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'edit', 'delete'];
   role!: string;
   typeForm!: FormGroup;
+  currentSort: string | undefined = undefined;
+  currentDir: string | undefined = undefined;
 
   constructor(private userService: UserService,
               private productService: ProductService,
@@ -31,8 +34,19 @@ export class TypeListComponent implements OnInit {
     this.role = this.userService.getRole();
   }
 
+  sortTypes(sortState: Sort) {
+    this.currentSort = sortState.active;
+    this.currentDir = sortState.direction;
+    this.getTypes();
+  }
+
+  reset() {
+    this.currentDir = undefined;
+    this.currentSort = undefined;
+  }
+
   getTypes() {
-    this.productService.getAllTypes().subscribe(data => {
+    this.productService.getAllTypes(this.currentDir, this.currentSort).subscribe(data => {
       this.types = data;
     });
   }
@@ -50,6 +64,7 @@ export class TypeListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.addType(data).subscribe(data => {
+        this.reset();
           this.getTypes();
         },
         error => {
@@ -72,6 +87,7 @@ export class TypeListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.editType(data).subscribe(data => {
+        this.reset();
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})
@@ -88,6 +104,7 @@ export class TypeListComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       this.productService.deleteType(data).subscribe(data => {
+        this.reset();
         this.getTypes();
       }, error => {
         this.snackBar.open(error.error.message, '', {duration: 3000})

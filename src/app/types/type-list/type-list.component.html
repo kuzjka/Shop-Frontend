@@ -1,6 +1,6 @@
-<table [dataSource]="types" class="mat-elevation-z8" mat-table>
+<table (matSortChange)="sortTypes($event)" [dataSource]="types" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">
-    <th *matHeaderCellDef mat-header-cell>Type</th>
+    <th *matHeaderCellDef mat-header-cell mat-sort-header sortActionDescription="Sort by name">Type</th>
     <td *matCellDef="let type" mat-cell>{{ type.name }}</td>
   </ng-container>
   <ng-container matColumnDef="edit">
