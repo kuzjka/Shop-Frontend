@@ -10,9 +10,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
 
 @Component({
-  selector: 'app-type-list',
-  templateUrl: './type-list.component.html',
-  styleUrls: ['./type-list.component.css']
+    selector: 'app-type-list',
+    templateUrl: './type-list.component.html',
+    styleUrls: ['./type-list.component.css'],
+    standalone: false
 })
 export class TypeListComponent implements OnInit {
   types: Type[] = [];

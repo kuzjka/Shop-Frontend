@@ -4,9 +4,10 @@ import {FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-add-photo',
-  templateUrl: './add-photo.component.html',
-  styleUrls: ['./add-photo.component.css']
+    selector: 'app-add-photo',
+    templateUrl: './add-photo.component.html',
+    styleUrls: ['./add-photo.component.css'],
+    standalone: false
 })
 export class AddPhotoComponent implements OnInit {
   title = 'Add photo';

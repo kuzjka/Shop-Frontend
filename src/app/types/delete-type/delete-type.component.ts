@@ -3,9 +3,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Type} from "../../model/type";
 
 @Component({
-  selector: 'app-delete-type',
-  templateUrl: './delete-type.component.html',
-  styleUrls: ['./delete-type.component.css']
+    selector: 'app-delete-type',
+    templateUrl: './delete-type.component.html',
+    styleUrls: ['./delete-type.component.css'],
+    standalone: false
 })
 export class DeleteTypeComponent {
   title = '';

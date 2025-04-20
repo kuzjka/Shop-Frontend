@@ -3,9 +3,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Product} from "../../model/product";
 
 @Component({
-  selector: 'app-delete-product',
-  templateUrl: './delete-product.component.html',
-  styleUrls: ['./delete-product.component.css']
+    selector: 'app-delete-product',
+    templateUrl: './delete-product.component.html',
+    styleUrls: ['./delete-product.component.css'],
+    standalone: false
 })
 export class DeleteProductComponent {
   title = '';

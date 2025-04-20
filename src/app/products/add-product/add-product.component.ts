@@ -6,9 +6,10 @@ import {Type} from "../../model/type";
 import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-add-product',
-  templateUrl: './add-product.component.html',
-  styleUrls: ['./add-product.component.css']
+    selector: 'app-add-product',
+    templateUrl: './add-product.component.html',
+    styleUrls: ['./add-product.component.css'],
+    standalone: false
 })
 export class AddProductComponent implements OnInit {
   title: string;

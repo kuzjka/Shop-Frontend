@@ -23,9 +23,10 @@ import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+    selector: 'app-product-list',
+    templateUrl: './product-list.component.html',
+    styleUrls: ['./product-list.component.css'],
+    standalone: false
 })
 export class ProductListComponent implements OnInit {
   title = 'angularFrontend';

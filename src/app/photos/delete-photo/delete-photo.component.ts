@@ -3,9 +3,10 @@ import {Photo} from "../../model/photo";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-delete-photo',
-  templateUrl: './delete-photo.component.html',
-  styleUrls: ['./delete-photo.component.css']
+    selector: 'app-delete-photo',
+    templateUrl: './delete-photo.component.html',
+    styleUrls: ['./delete-photo.component.css'],
+    standalone: false
 })
 export class DeletePhotoComponent {
   title = '';

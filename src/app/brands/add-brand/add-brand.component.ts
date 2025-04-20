@@ -4,9 +4,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-add-brand',
-  templateUrl: './add-brand.component.html',
-  styleUrls: ['./add-brand.component.css']
+    selector: 'app-add-brand',
+    templateUrl: './add-brand.component.html',
+    styleUrls: ['./add-brand.component.css'],
+    standalone: false
 })
 export class AddBrandComponent implements OnInit {
   title: string;

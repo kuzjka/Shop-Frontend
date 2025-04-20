@@ -3,9 +3,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-add-type',
-  templateUrl: './add-type.component.html',
-  styleUrls: ['./add-type.component.css']
+    selector: 'app-add-type',
+    templateUrl: './add-type.component.html',
+    styleUrls: ['./add-type.component.css'],
+    standalone: false
 })
 export class AddTypeComponent implements OnInit {
   title: string;

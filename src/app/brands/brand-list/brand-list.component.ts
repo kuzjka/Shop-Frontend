@@ -10,9 +10,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
 
 @Component({
-  selector: 'app-brand-list',
-  templateUrl: './brand-list.component.html',
-  styleUrls: ['./brand-list.component.css']
+    selector: 'app-brand-list',
+    templateUrl: './brand-list.component.html',
+    styleUrls: ['./brand-list.component.css'],
+    standalone: false
 })
 export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
