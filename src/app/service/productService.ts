@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {CookieService} from "ngx-cookie-service";
+
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
+import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class ProductService {

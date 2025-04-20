@@ -38,6 +38,7 @@ import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component
 import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import { CheckoutComponent } from './checkout/checkout.component';
+import {CookieService} from "ngx-cookie-service";
 
 
 @NgModule({ declarations: [
@@ -57,6 +58,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
         DeletePhotoComponent,
         ListOrdersComponent,
         CheckoutComponent,
+
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         RouterModule.forRoot([
@@ -83,6 +85,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
         NgOptimizedImage,
         MatMenuModule,
         MatBadgeModule,
-        RouterModule], providers: [ProductService, UserService, OrderService, provideHttpClient(withInterceptorsFromDi())] })
+        RouterModule], providers: [ProductService, UserService, OrderService, CookieService
+    , provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 }
