@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 
@@ -78,7 +78,6 @@ export class ProductService {
 
   editProduct(data: any): Observable<any> {
     const formData = new FormData();
-
     formData.append("id", data.controls.id.value);
     formData.append("typeId", data.controls.typeId.value);
     formData.append("brandId", data.controls.brandId.value);
