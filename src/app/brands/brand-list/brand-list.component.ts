@@ -41,7 +41,8 @@ export class BrandListComponent implements OnInit {
   }
 
   getBrands() {
-    this.productService.getAllBrands(undefined, this.currentDir, this.currentSort).subscribe(data => {
+    this.productService.getAllBrands(undefined, this.currentDir, this.currentSort)
+      .subscribe(data => {
       this.brands = data;
     });
   }
@@ -54,7 +55,8 @@ export class BrandListComponent implements OnInit {
   addBrand() {
     this.brandForm = this.fb.group({
       id: [0],
-      name: ['']
+      name: [''],
+      typeId: [0]
     });
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
@@ -77,7 +79,8 @@ export class BrandListComponent implements OnInit {
   editBrand(brand: Brand) {
     this.brandForm = this.fb.group({
       id: [brand.id],
-      name: [brand.name]
+      name: [brand.name],
+
     })
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',

@@ -47,7 +47,8 @@ export class TypeListComponent implements OnInit {
   }
 
   getTypes() {
-    this.productService.getAllTypes(this.currentDir, this.currentSort).subscribe(data => {
+    this.productService.getAllTypes(this.currentDir, this.currentSort)
+      .subscribe(data => {
       this.types = data;
     });
   }
@@ -55,6 +56,7 @@ export class TypeListComponent implements OnInit {
   addType() {
     this.typeForm = this.fb.group({
       id: [0],
+      brandId: [0],
       name: ['']
     })
     const dialogRef = this.dialog.open(AddTypeComponent, {
@@ -78,6 +80,7 @@ export class TypeListComponent implements OnInit {
   editType(type: Type) {
     this.typeForm = this.fb.group({
       id: [type.id],
+
       name: [type.name]
     })
     const dialogRef = this.dialog.open(AddTypeComponent, {

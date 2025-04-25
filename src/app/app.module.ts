@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {ProductService} from "./service/productService";
-import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
@@ -37,55 +37,57 @@ import {AddPhotoComponent} from './photos/add-photo/add-photo.component';
 import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component';
 import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
-import { CheckoutComponent } from './checkout/checkout.component';
+import {CheckoutComponent} from './checkout/checkout.component';
 import {CookieService} from "ngx-cookie-service";
 
 
-@NgModule({ declarations: [
-        AppComponent,
-        AddProductComponent,
-        DeleteProductComponent,
-        RegisterComponent,
-        AddTypeComponent,
-        AddBrandComponent,
-        TypeListComponent,
-        BrandListComponent,
-        ProductListComponent,
-        DeleteTypeComponent,
-        DeleteBrandComponent,
-        CartComponent,
-        AddPhotoComponent,
-        DeletePhotoComponent,
-        ListOrdersComponent,
-        CheckoutComponent,
+@NgModule({
+  declarations: [
+    AppComponent,
+    AddProductComponent,
+    DeleteProductComponent,
+    RegisterComponent,
+    AddTypeComponent,
+    AddBrandComponent,
+    TypeListComponent,
+    BrandListComponent,
+    ProductListComponent,
+    DeleteTypeComponent,
+    DeleteBrandComponent,
+    CartComponent,
+    AddPhotoComponent,
+    DeletePhotoComponent,
+    ListOrdersComponent,
+    CheckoutComponent,
 
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        RouterModule.forRoot([
-            { path: '', component: ProductListComponent },
-            { path: 'types', component: TypeListComponent },
-            { path: 'brands', component: BrandListComponent },
-            { path: 'checkout', component: CheckoutComponent },
-            { path: 'orders', component: ListOrdersComponent },
-        ]),
-        ReactiveFormsModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatChipsModule,
-        MatIconModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatSnackBarModule,
-        NgOptimizedImage,
-        MatMenuModule,
-        MatBadgeModule,
-        RouterModule], providers: [ProductService, UserService, OrderService, CookieService
-    , provideHttpClient(withInterceptorsFromDi())] })
+  ],
+  bootstrap: [AppComponent], imports: [BrowserModule,
+    RouterModule.forRoot([
+      {path: '', component: ProductListComponent},
+      {path: 'types', component: TypeListComponent},
+      {path: 'brands', component: BrandListComponent},
+      {path: 'checkout', component: CheckoutComponent},
+      {path: 'orders', component: ListOrdersComponent},
+    ]),
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    NgOptimizedImage,
+    MatMenuModule,
+    MatBadgeModule,
+    RouterModule], providers: [ProductService, UserService, OrderService, CookieService
+    , provideHttpClient(withInterceptorsFromDi())]
+})
 export class AppModule {
 }

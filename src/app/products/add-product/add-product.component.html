@@ -4,8 +4,7 @@
   <p align="center">
     <mat-form-field>
       <mat-label>Type</mat-label>
-      <mat-select formControlName="typeId">
-        <mat-option [value]="0">select type</mat-option>
+      <mat-select formControlName="typeId" (selectionChange)="getBrands($event)">
         @for (type of types; track type) {
           <mat-option [value]="type.id">{{ type.name }}</mat-option>
         }
@@ -16,7 +15,6 @@
     <mat-form-field>
       <mat-label>Brand</mat-label>
       <mat-select formControlName="brandId">
-        <mat-option [value]="0">select brand</mat-option>
         @for (brand of brands; track brand) {
           <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
         }

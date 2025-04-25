@@ -41,8 +41,8 @@ export class ProductListComponent implements OnInit {
   pageIndex: number | undefined = undefined;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10];
-  brandDto: BrandDto;
-  typeDto: TypeDto;
+  // brandDto: BrandDto;
+  // typeDto: TypeDto;
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
@@ -60,8 +60,8 @@ export class ProductListComponent implements OnInit {
               private userService: UserService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    this.brandDto = new BrandDto(0, 0, '');
-    this.typeDto = new TypeDto(0, '');
+    // this.brandDto = new BrandDto(0, 0, '');
+    // this.typeDto = new TypeDto(0, 0, '');
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }

@@ -6,16 +6,16 @@ import {Type} from "../../model/type";
 import {FormGroup} from "@angular/forms";
 
 @Component({
-    selector: 'app-add-product',
-    templateUrl: './add-product.component.html',
-    styleUrls: ['./add-product.component.css'],
-    standalone: false
+  selector: 'app-add-product',
+  templateUrl: './add-product.component.html',
+  styleUrls: ['./add-product.component.css'],
+  standalone: false
 })
 export class AddProductComponent implements OnInit {
   title: string;
   types!: Type[];
   brands!: Brand[];
-
+selectedType: number = 0;
   constructor(public productService: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ProductDialogData) {
@@ -29,11 +29,13 @@ export class AddProductComponent implements OnInit {
   getTypes() {
     this.productService.getAllTypes(undefined, undefined).subscribe(data => {
       this.types = data;
+      this.selectedType = this.types[0].id;
     });
   }
 
-  getBrands() {
-    this.productService.getAllBrands(undefined, undefined, undefined).subscribe(data => {
+  getBrands(event: any) {
+    this.selectedType = event.value;
+    this.productService.getAllBrands(this.selectedType, undefined, undefined).subscribe(data => {
       this.brands = data;
     });
   }
@@ -41,10 +43,8 @@ export class AddProductComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
   ngOnInit(): void {
     this.getTypes();
-    this.getBrands();
   }
 }
 
