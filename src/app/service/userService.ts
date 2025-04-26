@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
 import {UserDto} from "../dto/userDto";
@@ -10,16 +10,16 @@ import {UserInfo} from "../dto/userInfo";
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-  private readonly headers;
 
   constructor(private http: HttpClient, private cookies: CookieService) {
-    this.headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
   }
 
   checkCredentials() {
     return this.cookies.check('access_token');
+  }
+
+  getToken() {
+    return this.cookies.get('access_token')
   }
 
   getRole() {
@@ -27,11 +27,7 @@ export class UserService {
   }
 
   getUser(): Observable<UserInfo> {
-    if (this.checkCredentials()) {
-      return this.http.get<UserInfo>(this.baseUrl + '/user', {headers: this.headers});
-    } else {
-      return this.http.get<UserInfo>(this.baseUrl + '/user');
-    }
+    return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
 
   addUser(dto: UserDto): Observable<SuccessResponse> {
@@ -39,7 +35,7 @@ export class UserService {
   }
 
   editUser(dto: UserDto): Observable<SuccessResponse> {
-    return this.http.put<any>(this.baseUrl + '/user', dto, {headers: this.headers});
+    return this.http.put<any>(this.baseUrl + '/user', dto);
   }
 
   resendRegistrationToken(token: string): Observable<SuccessResponse> {

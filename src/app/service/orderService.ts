@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ItemDto} from "../dto/itemDto";
 
@@ -11,35 +11,31 @@ import {OrderDto} from "../dto/orderDto";
 @Injectable()
 export class OrderService {
   baseUrl: string = 'http://localhost:8080';
-  private readonly headers;
 
   constructor(private http: HttpClient, private cookies: CookieService) {
-    this.headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token'),
-    })
   }
 
   getCart(): Observable<Cart> {
-    return this.http.get<Cart>(this.baseUrl + '/cart', {headers: this.headers});
+    return this.http.get<Cart>(this.baseUrl + '/cart');
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.baseUrl + '/cart/order', {headers: this.headers});
+    return this.http.get<Order[]>(this.baseUrl + '/cart/order');
   }
 
   addItemToCart(dto: ItemDto): Observable<Cart> {
-    return this.http.post<Cart>(this.baseUrl + '/cart', dto, {headers: this.headers});
+    return this.http.post<Cart>(this.baseUrl + '/cart', dto);
   }
 
   addOrder(dto: OrderDto): Observable<Order> {
-    return this.http.post<Order>(this.baseUrl + '/cart/order', dto, {headers: this.headers});
+    return this.http.post<Order>(this.baseUrl + '/cart/order', dto);
   }
 
   editItem(dto: ItemDto): Observable<Cart> {
-    return this.http.put<Cart>(this.baseUrl + '/cart', dto, {headers: this.headers});
+    return this.http.put<Cart>(this.baseUrl + '/cart', dto);
   }
 
   removeItem(itemId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/cart?itemId=' + itemId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/cart?itemId=' + itemId);
   }
 }

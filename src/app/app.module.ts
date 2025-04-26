@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {ProductService} from "./service/productService";
-import {provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
@@ -39,7 +39,7 @@ import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CookieService} from "ngx-cookie-service";
-
+import {LoggingInterceptor} from "./service/logging-interceptor";
 
 @NgModule({
   declarations: [
@@ -59,7 +59,6 @@ import {CookieService} from "ngx-cookie-service";
     DeletePhotoComponent,
     ListOrdersComponent,
     CheckoutComponent,
-
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     RouterModule.forRoot([
@@ -87,7 +86,9 @@ import {CookieService} from "ngx-cookie-service";
     MatMenuModule,
     MatBadgeModule,
     RouterModule], providers: [ProductService, UserService, OrderService, CookieService
-    , provideHttpClient(withInterceptorsFromDi())]
+    , provideHttpClient(withInterceptorsFromDi()),
+    {provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
+  ]
 })
 export class AppModule {
 }

@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 
@@ -11,12 +11,8 @@ import {CookieService} from "ngx-cookie-service";
 export class ProductService {
   fileArray!: File[];
   baseUrl: string = 'http://localhost:8080';
-  private readonly headers;
 
   constructor(private http: HttpClient, private cookies: CookieService) {
-    this.headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.cookies.get('access_token')
-    });
   }
 
   setFiles(file: FileList) {
@@ -56,7 +52,6 @@ export class ProductService {
               page: number | undefined,
               size: number | undefined): Observable<ResponseProductDto> {
     let params = new HttpParams();
-
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
     params = typeId == undefined ? params : params.set('typeId', typeId);
@@ -73,7 +68,7 @@ export class ProductService {
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
     return this.http.post<any>(this.baseUrl +
-      '/products/product', formData, {headers: this.headers});
+      '/products/product', formData);
   }
 
   editProduct(data: any): Observable<any> {
@@ -83,49 +78,47 @@ export class ProductService {
     formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
-    return this.http.put<any>(this.baseUrl + '/products/product', formData, {headers: this.headers});
+    return this.http.put<any>(this.baseUrl + '/products/product', formData);
   }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/product/' + productId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/products/product/' + productId);
   }
 
   addType(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
-    return this.http.post<any>(this.baseUrl + '/products/type', formData, {headers: this.headers});
+    return this.http.post<any>(this.baseUrl + '/products/type', formData);
   }
 
   editType(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("id", data.controls.id.value);
-
     formData.append("name", data.controls.name.value);
-    return this.http.put<any>(this.baseUrl + '/products/type', formData, {headers: this.headers});
+    return this.http.put<any>(this.baseUrl + '/products/type', formData);
   }
 
   deleteType(typeId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/type/' + typeId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/products/type/' + typeId);
   }
 
   addBrand(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("name", data.controls.name.value);
     formData.append("typeId", data.controls.typeId.value)
-    return this.http.post<any>(this.baseUrl + '/products/brand', formData, {headers: this.headers});
+    return this.http.post<any>(this.baseUrl + '/products/brand', formData);
   }
 
   editBrand(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("id", data.controls.id.value);
     formData.append("name", data.controls.name.value);
-
-    return this.http.put<any>(this.baseUrl + '/products/brand', formData, {headers: this.headers});
+    return this.http.put<any>(this.baseUrl + '/products/brand', formData);
   }
 
   deleteBrand(brandId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/brand/' + brandId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/products/brand/' + brandId);
   }
 
   addPhoto(data: any): Observable<any> {
@@ -136,10 +129,10 @@ export class ProductService {
     }
     this.deleteFiles();
     return this.http.post<any>(this.baseUrl +
-      '/products/photo', formData, {headers: this.headers});
+      '/products/photo', formData);
   }
 
   deletePhoto(photoId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/photo/' + photoId, {headers: this.headers});
+    return this.http.delete<any>(this.baseUrl + '/products/photo/' + photoId);
   }
 }
