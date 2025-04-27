@@ -2,8 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ItemDto} from "../dto/itemDto";
-
-import {CookieService} from "ngx-cookie-service";
 import {Cart} from "../model/cart";
 import {Order} from "../model/order";
 import {OrderDto} from "../dto/orderDto";
@@ -12,7 +10,7 @@ import {OrderDto} from "../dto/orderDto";
 export class OrderService {
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient, private cookies: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
   getCart(): Observable<Cart> {

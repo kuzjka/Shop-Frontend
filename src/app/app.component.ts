@@ -7,10 +7,10 @@ import {UserService} from "./service/userService";
 import {UserDto} from "./dto/userDto";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  standalone: false
 })
 export class AppComponent implements OnInit {
   title = 'angularFrontend';
@@ -47,9 +47,11 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
   getRole() {
     return this.userService.getRole();
   }
+
   addUser() {
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
@@ -64,6 +66,7 @@ export class AppComponent implements OnInit {
         })
     })
   }
+
   editUser() {
     this.dto.username = this.username;
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -79,11 +82,13 @@ export class AppComponent implements OnInit {
         })
     })
   }
+
   resendToken(token: string) {
     this.userService.resendRegistrationToken(token).subscribe(data => {
       this.snackBar.open(data.message, 'undo', {duration: 3000});
     })
   }
+
   ngOnInit(): void {
     this.getUser();
     let e = window.location.href.indexOf('token');

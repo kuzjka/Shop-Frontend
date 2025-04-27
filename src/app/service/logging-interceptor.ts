@@ -1,20 +1,17 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {HttpHandlerFn, HttpRequest} from "@angular/common/http";
+import {inject} from "@angular/core";
 import {UserService} from "./userService";
 
-@Injectable()
-export class LoggingInterceptor implements HttpInterceptor {
-  constructor(private auth: UserService) {
+export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
+  const token = inject(UserService).getToken();
+  if (token) {
+    req = req.clone({
+      setHeaders: {Authorization: `Bearer ${token}`}
+    });
   }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
-    if (token) {
-      request = request.clone({
-        setHeaders: {Authorization: `Bearer ${token}`}
-      });
-    }
-    return next.handle(request);
-  }
+  return next(req);
 }
+
+
+
+

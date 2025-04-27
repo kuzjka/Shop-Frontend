@@ -5,14 +5,13 @@ import {Observable} from "rxjs";
 import {Type} from "../model/type";
 import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
-import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class ProductService {
   fileArray!: File[];
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient, private cookies: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
   setFiles(file: FileList) {
@@ -35,8 +34,7 @@ export class ProductService {
     return this.http.get<Type[]>(`${this.baseUrl}/products/productType`);
   }
 
-  getAllBrands(typeId: number | undefined,
-               dir: string | undefined,
+  getAllBrands(typeId: number | undefined, dir: string | undefined,
                sort: string | undefined): Observable<Brand[]> {
     let params = new HttpParams();
     params = typeId == undefined ? params : params.set('typeId', typeId);
@@ -45,12 +43,9 @@ export class ProductService {
     return this.http.get<Brand[]>(`${this.baseUrl}/products/brand`, {params: params});
   }
 
-  getProducts(typeId: number | undefined,
-              brandId: number | undefined,
-              sort: string | undefined,
-              dir: string | undefined,
-              page: number | undefined,
-              size: number | undefined): Observable<ResponseProductDto> {
+  getProducts(typeId: number | undefined, brandId: number | undefined,
+              sort: string | undefined, dir: string | undefined,
+              page: number | undefined, size: number | undefined): Observable<ResponseProductDto> {
     let params = new HttpParams();
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
@@ -78,11 +73,11 @@ export class ProductService {
     formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
-    return this.http.put<any>(this.baseUrl + '/products/product', formData);
+    return this.http.put<any>(`${this.baseUrl}/products/product`, formData);
   }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/product/' + productId);
+    return this.http.delete<any>(`${this.baseUrl}/products/product/${productId}`);
   }
 
   addType(data: any): Observable<any> {
