@@ -13,14 +13,14 @@ import {Type} from "../../model/type";
 export class AddBrandComponent implements OnInit {
   title: string;
   types: Type[] = [];
-  hidden: boolean;
+
 
   constructor(public service: ProductService,
               public dialogRef: MatDialogRef<AddBrandComponent>,
               @Inject(MAT_DIALOG_DATA) public data: BrandDialogData
   ) {
     this.title = data.new ? 'Add brand' : 'Edit brand';
-    this.hidden = !data.new
+
   }
 
   getTypes() {

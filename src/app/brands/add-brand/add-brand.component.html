@@ -3,10 +3,11 @@
   <p align="center">
     <input formControlName="id" type="hidden">
   </p>
-  <p align="center" [hidden]="hidden">
+  <p align="center">
     <mat-form-field>
       <mat-label>Type:</mat-label>
       <mat-select formControlName="typeId">
+        <mat-option [value]="0">None</mat-option>
         @for (type of types; track type) {
           <mat-option [value]="type.id">{{ type.name }}</mat-option>
         }

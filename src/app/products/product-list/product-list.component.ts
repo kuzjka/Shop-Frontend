@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from "../../model/product";
 import {Type} from "../../model/type";
 import {Brand} from "../../model/brand";
-import {BrandDto} from "../../dto/brandDto";
-import {TypeDto} from "../../dto/typeDto";
 import {ProductService} from "../../service/productService";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -23,10 +21,10 @@ import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 
 @Component({
-    selector: 'app-product-list',
-    templateUrl: './product-list.component.html',
-    styleUrls: ['./product-list.component.css'],
-    standalone: false
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css'],
+  standalone: false
 })
 export class ProductListComponent implements OnInit {
   title = 'angularFrontend';
@@ -41,8 +39,6 @@ export class ProductListComponent implements OnInit {
   pageIndex: number | undefined = undefined;
   totalProducts = 0;
   pageSizeOptions = [2, 5, 10];
-  // brandDto: BrandDto;
-  // typeDto: TypeDto;
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
@@ -60,8 +56,6 @@ export class ProductListComponent implements OnInit {
               private userService: UserService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-    // this.brandDto = new BrandDto(0, 0, '');
-    // this.typeDto = new TypeDto(0, 0, '');
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
@@ -236,10 +230,23 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
+
+    let t;
+    let b;
+    if (product.type == null) {
+      t = 0;
+    } else {
+      t = product.type.id;
+    }
+    if (product.brand == null) {
+      b = 0;
+    } else {
+      b = product.brand.id;
+    }
     this.productForm = this.fb.group({
       id: [product.id],
-      typeId: [product.type.id],
-      brandId: [product.brand.id],
+      typeId: [t],
+      brandId: [b],
       name: [product.name],
       price: [product.price]
     })

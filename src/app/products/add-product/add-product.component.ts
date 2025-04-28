@@ -15,7 +15,8 @@ export class AddProductComponent implements OnInit {
   title: string;
   types!: Type[];
   brands!: Brand[];
-selectedType: number = 0;
+  selectedType!: number;
+  selectedBrand!: number;
   constructor(public productService: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ProductDialogData) {
@@ -27,16 +28,22 @@ selectedType: number = 0;
   }
 
   getTypes() {
-    this.productService.getAllTypes(undefined, undefined).subscribe(data => {
+    this.productService.getAllTypes('ASC', 'id').subscribe(data => {
       this.types = data;
       this.selectedType = this.types[0].id;
     });
   }
-
-  getBrands(event: any) {
-    this.selectedType = event.value;
-    this.productService.getAllBrands(this.selectedType, undefined, undefined).subscribe(data => {
+  getBrands(){
+    this.productService.getAllBrands(undefined, 'ASC', 'id').subscribe(data => {
       this.brands = data;
+
+    });
+  }
+  selectBrands(event: any) {
+    this.selectedType = event.value;
+    this.productService.getAllBrands(this.selectedType, 'ASC', 'id').subscribe(data => {
+      this.brands = data;
+
     });
   }
 
@@ -45,6 +52,7 @@ selectedType: number = 0;
   }
   ngOnInit(): void {
     this.getTypes();
+    this.getBrands();
   }
 }
 

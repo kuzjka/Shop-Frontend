@@ -80,7 +80,7 @@ export class BrandListComponent implements OnInit {
     this.brandForm = this.fb.group({
       id: [brand.id],
       name: [brand.name],
-
+      typeId: [0]
     })
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
