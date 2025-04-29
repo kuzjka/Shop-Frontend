@@ -50,12 +50,9 @@ export class ProductListComponent implements OnInit {
   orderDto: OrderDto;
   cart!: Cart;
 
-  constructor(private fb: FormBuilder,
-              private productService: ProductService,
-              private orderService: OrderService,
-              private userService: UserService,
-              private dialog: MatDialog,
-              private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private productService: ProductService,
+              private orderService: OrderService, private userService: UserService,
+              private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
@@ -67,13 +64,8 @@ export class ProductListComponent implements OnInit {
   sortProducts(sortState: Sort) {
     this.currentSort = sortState.active;
     this.currentDir = sortState.direction;
-    this.productService.getProducts(
-      this.currentTypeId,
-      this.currentBrandId,
-      this.currentSort,
-      this.currentDir,
-      this.pageIndex,
-      this.pageSize)
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId,
+      this.currentSort, this.currentDir, this.pageIndex, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -105,13 +97,8 @@ export class ProductListComponent implements OnInit {
     } else {
       this.filterBrands = [];
     }
-    this.productService.getProducts(
-      this.currentTypeId,
-      this.currentBrandId,
-      this.currentSort,
-      this.currentDir,
-      undefined,
-      undefined)
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId,
+      this.currentSort, this.currentDir, undefined, undefined)
       .subscribe(data => {
         this.products = data.products;
         this.totalProducts = data.totalProducts;
@@ -129,13 +116,8 @@ export class ProductListComponent implements OnInit {
     if (this.currentTypeId == undefined) {
       this.filterBrands = [];
     }
-    this.productService.getProducts(
-      this.currentTypeId,
-      this.currentBrandId,
-      this.currentSort,
-      this.currentDir,
-      undefined,
-      undefined)
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId,
+      this.currentSort, this.currentDir, undefined, undefined)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -145,13 +127,8 @@ export class ProductListComponent implements OnInit {
   }
 
   getProducts() {
-    this.productService.getProducts(
-      this.currentTypeId,
-      this.currentBrandId,
-      this.currentSort,
-      this.currentDir,
-      this.pageIndex,
-      this.pageSize)
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId,
+      this.currentSort, this.currentDir, this.pageIndex, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -164,13 +141,8 @@ export class ProductListComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.productService.getProducts(
-      this.currentTypeId,
-      this.currentBrandId,
-      this.currentSort,
-      this.currentDir,
-      this.pageIndex,
-      this.pageSize)
+    this.productService.getProducts(this.currentTypeId, this.currentBrandId,
+      this.currentSort, this.currentDir, this.pageIndex, this.pageSize)
       .subscribe(data => {
         this.products = data.products;
         this.pageSize = data.pageSize;
@@ -230,7 +202,6 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-
     let t;
     let b;
     if (product.type == null) {
