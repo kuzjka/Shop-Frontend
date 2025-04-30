@@ -3,17 +3,6 @@
   <p align="center">
     <input formControlName="id" type="hidden">
   </p>
-  <p align="center" [hidden]="hidden">
-    <mat-form-field>
-      <mat-label>Brand:</mat-label>
-      <mat-select formControlName="brandId">
-        <mat-option [value]="0">None</mat-option>
-        @for (brand of brands; track brand) {
-          <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </p>
   <p align="center">
     <mat-form-field>
       <mat-label>Name:</mat-label>

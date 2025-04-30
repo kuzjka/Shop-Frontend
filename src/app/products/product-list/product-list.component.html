@@ -11,9 +11,10 @@
 </mat-chip-listbox>
 <p></p>
 <p align="center">
-  <button (click)="openCart()" *ngIf="role=='admin' || role=='user'" mat-flat-button>
+  <button (click)="openCart()" *ngIf="role=='admin' || role=='user'"
+          mat-flat-button matBadge="{{totalQuantity}}" matBadgePosition="after" matBadgeSize="large">
     Cart
-    <mat-icon matBadge="{{totalQuantity}}" matBadgePosition="after" matBadgeSize="small">shopping_cart</mat-icon>
+    <mat-icon>shopping_cart</mat-icon>
   </button>
 </p>
 <table (matSortChange)="sortProducts($event)" [dataSource]="products" class="mat-elevation-z8" mat-table matSort>
@@ -52,10 +53,10 @@
   <ng-container matColumnDef="actions">
     <th *matHeaderCellDef mat-header-cell> Actions</th>
     <td *matCellDef="let product" mat-cell>
-      <button (click)="editProduct(product)" *ngIf="role=='admin'" color="primary" mat-icon-button>
+      <button (click)="editProduct(product)" *ngIf="role=='admin'" mat-icon-button>
         <mat-icon>create</mat-icon>
       </button>
-      <button (click)="deleteProduct(product)" *ngIf="role=='admin'" color="primary" mat-icon-button>
+      <button (click)="deleteProduct(product)" *ngIf="role=='admin'" mat-icon-button>
         <mat-icon>delete</mat-icon>
       </button>
     </td>
@@ -63,10 +64,9 @@
   <ng-container matColumnDef="cart">
     <th *matHeaderCellDef mat-header-cell> Item</th>
     <td *matCellDef="let product" mat-cell>
-      <button (click)="addItemToCart(product.id)"
-              *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)" color="primary"
-              mat-icon-button>
-        <mat-icon>shopping_cart</mat-icon>
+      <button mat-icon-button (click)="addItemToCart(product.id)"
+              *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)">
+        <mat-icon>add_shopping_cart</mat-icon>
       </button>
       <button (click)="login()"
               *ngIf="role=='none'" color="primary"

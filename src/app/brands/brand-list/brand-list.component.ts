@@ -55,8 +55,7 @@ export class BrandListComponent implements OnInit {
   addBrand() {
     this.brandForm = this.fb.group({
       id: [0],
-      name: [''],
-      typeId: [0]
+      name: ['']
     });
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
@@ -75,12 +74,10 @@ export class BrandListComponent implements OnInit {
       )
     });
   }
-
   editBrand(brand: Brand) {
     this.brandForm = this.fb.group({
       id: [brand.id],
-      name: [brand.name],
-      typeId: [0]
+      name: [brand.name]
     })
     const dialogRef = this.dialog.open(AddBrandComponent, {
       height: '500px',
