@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {CookieService} from "ngx-cookie-service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "./register/register.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -14,13 +13,12 @@ import {UserDto} from "./dto/userDto";
 })
 export class AppComponent implements OnInit {
   title = 'angularFrontend';
-  isLoggedIn = false;
+  isLoggedIn: string | null = null;
   dto: UserDto;
   username!: string;
   role!: string;
 
   constructor(private userService: UserService,
-              private cookies: CookieService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '', '');
@@ -32,8 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    this.cookies.delete('access_token');
-    this.cookies.delete('role');
+    this.userService.clearData();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
   }
@@ -42,15 +39,11 @@ export class AppComponent implements OnInit {
     this.userService.getUser().subscribe(data => {
         this.username = data.username;
         this.role = data.role;
-        this.cookies.set('role', data.role);
-        this.getRole();
+        this.userService.saveRole(this.role);
       }
     )
   }
 
-  getRole() {
-    return this.userService.getRole();
-  }
 
   addUser() {
     const dialogRef = this.dialog.open(RegisterComponent, {
@@ -83,21 +76,11 @@ export class AppComponent implements OnInit {
     })
   }
 
-  resendToken(token: string) {
-    this.userService.resendRegistrationToken(token).subscribe(data => {
-      this.snackBar.open(data.message, 'undo', {duration: 3000});
-    })
-  }
-
   ngOnInit(): void {
     this.getUser();
-    let e = window.location.href.indexOf('token');
-    if (e != -1) {
-      this.resendToken(window.location.href.substring(e + 6));
-    }
-    this.isLoggedIn = this.userService.checkCredentials();
+    this.isLoggedIn = this.userService.getToken();
     let i = window.location.href.indexOf('code');
-    if (!this.isLoggedIn && i != -1) {
+    if (this.isLoggedIn == null && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }

@@ -42,7 +42,7 @@ export class ProductListComponent implements OnInit {
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
-  role!: string;
+  role!: string | null;
   photoForm!: FormGroup;
   productForm!: FormGroup;
   totalPrice!: number;

@@ -18,7 +18,7 @@ import {Sort} from "@angular/material/sort";
 export class TypeListComponent implements OnInit {
   types: Type[] = [];
   displayedColumns: string[] = ['name', 'edit', 'delete'];
-  role!: string;
+  role!: string | null;
   typeForm!: FormGroup;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
@@ -80,7 +80,6 @@ export class TypeListComponent implements OnInit {
   editType(type: Type) {
     this.typeForm = this.fb.group({
       id: [type.id],
-
       name: [type.name]
     })
     const dialogRef = this.dialog.open(AddTypeComponent, {

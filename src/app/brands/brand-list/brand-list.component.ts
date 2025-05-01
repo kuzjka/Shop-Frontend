@@ -19,7 +19,7 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   brandForm!: FormGroup;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
-  role!: string;
+  role!: string | null;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
 

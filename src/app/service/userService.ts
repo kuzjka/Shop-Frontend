@@ -11,19 +11,26 @@ import {UserInfo} from "../dto/userInfo";
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient, private cookies: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
-  checkCredentials() {
-    return this.cookies.check('access_token');
-  }
+  saveToken(token: Token) {
+    localStorage.setItem('token', token.access_token);
 
+    window.location.href = 'http://localhost:4200/';
+  }
   getToken() {
-    return this.cookies.get('access_token')
+    return localStorage.getItem('token');
+  }
+  saveRole(role: string){
+    localStorage.setItem('role', role);
+  }
+  getRole() {
+    return localStorage.getItem('role');
   }
 
-  getRole() {
-    return this.cookies.get('role');
+  public clearData() {
+    localStorage.clear();
   }
 
   getUser(): Observable<UserInfo> {
@@ -55,11 +62,5 @@ export class UserService {
       .subscribe(data => {
         this.saveToken(data);
       })
-  }
-
-  saveToken(token: Token) {
-    let expireDate = new Date().getTime() + (1000 * token.expires_in);
-    this.cookies.set("access_token", token.access_token, expireDate);
-    window.location.href = 'http://localhost:4200/';
   }
 }

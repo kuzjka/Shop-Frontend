@@ -39,7 +39,7 @@ import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CookieService} from "ngx-cookie-service";
-import {loggingInterceptor} from "./service/logging-interceptor";
+import {authInterceptor} from "./service/auth-interceptor";
 
 @NgModule({
   declarations: [
@@ -86,7 +86,7 @@ import {loggingInterceptor} from "./service/logging-interceptor";
     MatMenuModule,
     MatBadgeModule,
     RouterModule], providers: [ProductService, UserService, OrderService, CookieService
-    , provideHttpClient(withInterceptors([loggingInterceptor])),
+    , provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })
 export class AppModule {
