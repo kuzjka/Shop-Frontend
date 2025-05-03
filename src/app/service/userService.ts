@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
@@ -19,12 +18,15 @@ export class UserService {
 
     window.location.href = 'http://localhost:4200/';
   }
+
   getToken() {
     return localStorage.getItem('token');
   }
-  saveRole(role: string){
+
+  saveRole(role: string) {
     localStorage.setItem('role', role);
   }
+
   getRole() {
     return localStorage.getItem('role');
   }
@@ -56,7 +58,6 @@ export class UserService {
     });
     let params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
-    params.append('redirect_uri', 'http://localhost:4200');
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {

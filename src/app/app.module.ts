@@ -40,10 +40,12 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {CheckoutComponent} from './checkout/checkout.component';
 import {CookieService} from "ngx-cookie-service";
 import {authInterceptor} from "./service/auth-interceptor";
+import {LoginComponent} from "./login/login.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     AddProductComponent,
     DeleteProductComponent,
     RegisterComponent,
