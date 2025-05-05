@@ -1,11 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 img {
   max-width: 150px;
   max-height: 150px;
 }
 
+#photos {
+  margin: 25px;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

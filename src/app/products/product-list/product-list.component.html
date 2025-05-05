@@ -29,15 +29,17 @@
   <ng-container matColumnDef="photo">
     <th *matHeaderCellDef mat-header-cell> Photo</th>
     <td *matCellDef="let product" mat-cell>
-      <span *ngFor="let photo of product.photos">
-        <img src="{{photo.url}}"/>
-        <button (click)="deletePhoto(photo)" *ngIf="role=='admin'" color="primary" mat-icon-button>
-        <mat-icon>delete</mat-icon>
-      </button>
-      </span>
-      <button (click)="addPhoto(product.id)" *ngIf="role=='admin'" color="primary" mat-icon-button>
-        <mat-icon>add</mat-icon>
-      </button>
+      <div id="photos">
+        @for (photo of product.photos; track photo) {
+          <img [src]="photo.url" alt="no photo"/>
+          <button (click)="deletePhoto(photo)" *ngIf="role=='admin'" color="primary" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        }
+        <button (click)="addPhoto(product.id)" *ngIf="role=='admin'" color="primary" mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
     </td>
   </ng-container>
   <ng-container matColumnDef="type">
@@ -64,8 +66,9 @@
   <ng-container matColumnDef="cart">
     <th *matHeaderCellDef mat-header-cell> Item</th>
     <td *matCellDef="let product" mat-cell>
-      <button mat-icon-button (click)="addItemToCart(product.id)"
-              *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)">
+      <button (click)="addItemToCart(product.id)"
+              *ngIf="(role=='user' || role=='admin') && !cartProductIds.includes(product.id)"
+              mat-icon-button>
         <mat-icon>add_shopping_cart</mat-icon>
       </button>
       <button (click)="login()"
