@@ -66,8 +66,7 @@ export class ProductService {
     }
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
-    return this.http.post<any>(this.baseUrl +
-      '/products/product', formData);
+    return this.http.post<any>(`${this.baseUrl}/products/product`, formData);
   }
 
   editProduct(data: any): Observable<any> {
@@ -91,35 +90,35 @@ export class ProductService {
   addType(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("name", data.controls.name.value);
-    return this.http.post<any>(this.baseUrl + '/products/type', formData);
+    return this.http.post<any>(`${this.baseUrl}/products/type`, formData);
   }
 
   editType(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("id", data.controls.id.value);
     formData.append("name", data.controls.name.value);
-    return this.http.put<any>(this.baseUrl + '/products/type', formData);
+    return this.http.put<any>(`${this.baseUrl}/products/type`, formData);
   }
 
   deleteType(typeId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/type/' + typeId);
+    return this.http.delete<any>(`${this.baseUrl}/products/type/${typeId}`);
   }
 
   addBrand(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("name", data.controls.name.value);
-    return this.http.post<any>(this.baseUrl + '/products/brand', formData);
+    return this.http.post<any>(`${this.baseUrl}/products/brand`, formData);
   }
 
   editBrand(data: any): Observable<any> {
     const formData = new FormData();
     formData.append("id", data.controls.id.value);
     formData.append("name", data.controls.name.value);
-    return this.http.put<any>(this.baseUrl + '/products/brand', formData);
+    return this.http.put<any>(`${this.baseUrl}/products/brand`, formData);
   }
 
   deleteBrand(brandId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/brand/' + brandId);
+    return this.http.delete<any>(`${this.baseUrl}/products/brand/${brandId}`);
   }
 
   addPhoto(data: any): Observable<any> {
@@ -129,11 +128,10 @@ export class ProductService {
       formData.append('photos', this.fileArray[i]);
     }
     this.deleteFiles();
-    return this.http.post<any>(this.baseUrl +
-      '/products/photo', formData);
+    return this.http.post<any>(`${this.baseUrl}/products/photo`, formData);
   }
 
   deletePhoto(photoId: number): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + '/products/photo/' + photoId);
+    return this.http.delete<any>(`${this.baseUrl}/products/photo/${photoId}`);
   }
 }
