@@ -38,9 +38,9 @@ import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component
 import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {CheckoutComponent} from './checkout/checkout.component';
-import {CookieService} from "ngx-cookie-service";
 import {authInterceptor} from "./service/auth-interceptor";
 import {LoginComponent} from "./login/login.component";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -75,6 +75,7 @@ import {LoginComponent} from "./login/login.component";
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -87,8 +88,8 @@ import {LoginComponent} from "./login/login.component";
     NgOptimizedImage,
     MatMenuModule,
     MatBadgeModule,
-    RouterModule], providers: [ProductService, UserService, OrderService, CookieService
-    , provideHttpClient(withInterceptors([authInterceptor])),
+    RouterModule], providers: [ProductService, UserService, OrderService,
+    provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })
 export class AppModule {
