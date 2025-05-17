@@ -178,8 +178,8 @@ export class ProductListComponent implements OnInit {
   addProduct() {
     this.productForm = this.fb.group({
       id: [undefined],
-      typeId: [0],
-      brandId: [0],
+      typeId: [1],
+      brandId: [1],
       name: [''],
       price: [1000]
     })
@@ -203,22 +203,11 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-    let t;
-    let b;
-    if (product.type == null) {
-      t = 0;
-    } else {
-      t = product.type.id;
-    }
-    if (product.brand == null) {
-      b = 0;
-    } else {
-      b = product.brand.id;
-    }
+
     this.productForm = this.fb.group({
       id: [product.id],
-      typeId: [t],
-      brandId: [b],
+      typeId: [product.type.id],
+      brandId: [product.brand.id],
       name: [product.name],
       price: [product.price]
     })

@@ -33,22 +33,27 @@ export class ProductService {
   getProductTypes(): Observable<Type[]> {
     return this.http.get<Type[]>(`${this.baseUrl}/products/productType`);
   }
+
   getAllBrands(typeId: number, dir: string | undefined,
                sort: string | undefined): Observable<Brand[]> {
     let params = new HttpParams();
+
     params = params.set('typeId', typeId);
     params = dir == undefined ? params : params.set('dir', dir);
     params = sort == undefined ? params : params.set('sort', sort);
     return this.http.get<Brand[]>(`${this.baseUrl}/products/brand`, {params: params});
   }
+
   getProducts(typeId: number, brandId: number,
               sort: string | undefined, dir: string | undefined,
               page: number | undefined, size: number | undefined): Observable<ResponseProductDto> {
     let params = new HttpParams();
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
-    params = params.set('typeId', typeId);
-    params = params.set('brandId', brandId);
+    if(typeId>0){
+    params = params.set('typeId', typeId);}
+    if(brandId>0){
+    params = params.set('brandId', brandId);}
     params = page == undefined ? params : params.set('page', page);
     params = size == undefined ? params : params.set('size', size);
     return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product`, {params: params});
