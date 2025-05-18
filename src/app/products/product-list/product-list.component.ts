@@ -203,7 +203,6 @@ export class ProductListComponent implements OnInit {
   }
 
   editProduct(product: Product) {
-
     this.productForm = this.fb.group({
       id: [product.id],
       typeId: [product.type.id],
@@ -252,12 +251,12 @@ export class ProductListComponent implements OnInit {
     this.pageSize = undefined;
   }
 
-  deletePhoto(photo: Photo) {
+  deletePhoto(product: Product) {
     this.dialog.open(DeletePhotoComponent, {
       height: '500px',
       width: '500px',
       data: {
-        photo: photo
+        product: product
       }
     }).afterClosed().subscribe(data => {
       this.productService.deletePhoto(data).subscribe(data => {

@@ -37,7 +37,6 @@ export class ProductService {
   getAllBrands(typeId: number, dir: string | undefined,
                sort: string | undefined): Observable<Brand[]> {
     let params = new HttpParams();
-
     params = params.set('typeId', typeId);
     params = dir == undefined ? params : params.set('dir', dir);
     params = sort == undefined ? params : params.set('sort', sort);
@@ -50,10 +49,12 @@ export class ProductService {
     let params = new HttpParams();
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
-    if(typeId>0){
-    params = params.set('typeId', typeId);}
-    if(brandId>0){
-    params = params.set('brandId', brandId);}
+    if (typeId > 0) {
+      params = params.set('typeId', typeId);
+    }
+    if (brandId > 0) {
+      params = params.set('brandId', brandId);
+    }
     params = page == undefined ? params : params.set('page', page);
     params = size == undefined ? params : params.set('size', size);
     return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product`, {params: params});
@@ -134,7 +135,7 @@ export class ProductService {
     return this.http.post<any>(`${this.baseUrl}/products/photo`, formData);
   }
 
-  deletePhoto(photoId: number): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/products/photo/${photoId}`);
+  deletePhoto(productId: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/products/photo/${productId}`);
   }
 }

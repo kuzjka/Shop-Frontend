@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {Photo} from "../../model/photo";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Product} from "../../model/product";
 
 @Component({
     selector: 'app-delete-photo',
@@ -14,8 +15,8 @@ export class DeletePhotoComponent {
 
   constructor(private dialogRef: MatDialogRef<DeletePhotoComponent>,
               @Inject(MAT_DIALOG_DATA) data: DeletePhotoData) {
-    this.title = 'delete photo with name: ' + data.photo.name + ' ?';
-    this.id = data.photo.id;
+    this.title = 'delete photos for product: ' + data.product.name + '?';
+    this.id = data.product.id;
   }
 
   onNoClick(): void {
@@ -24,5 +25,5 @@ export class DeletePhotoComponent {
 }
 
 export interface DeletePhotoData {
-  photo: Photo;
+  product: Product;
 }

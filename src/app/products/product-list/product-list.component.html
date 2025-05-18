@@ -30,13 +30,13 @@
     <td *matCellDef="let product" mat-cell>
       <div id="photos">
         @for (photo of product.photos; track photo) {
-          <img [src]="photo.url" alt="no photo"/>
-          <button (click)="deletePhoto(photo)" *ngIf="role=='admin'" color="primary" mat-icon-button>
-            <mat-icon>delete</mat-icon>
-          </button>
+          <img src="{{photo.url}}"/>
         }
         <button (click)="addPhoto(product.id)" *ngIf="role=='admin'" color="primary" mat-icon-button>
           <mat-icon>add</mat-icon>
+        </button>
+        <button (click)="deletePhoto(product)" *ngIf="role=='admin'" color="primary" mat-icon-button>
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
     </td>
