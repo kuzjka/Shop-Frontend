@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {UserDto} from "../dto/userDto";
 import {UserService} from "../service/userService";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
+import {AuthGoogleService} from "../service/authGoogleService";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,15 +18,32 @@ export class LoginComponent implements OnInit {
   dto: UserDto;
   username!: string;
   role!: string;
+  googleId = signal<any>(null);
+  profile = this.authService.profile;
 
   constructor(private userService: UserService,
+              private authService: AuthGoogleService,
+              private router: Router,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
+  reload() {
+    window.location.reload();
+  }
+
   login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&client_id=app-client';
+  }
+
+  signInWithGoogle() {
+    this.authService.login();
+  }
+
+  googleLogout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   logout() {
@@ -75,10 +94,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+    this.googleId = this.authService.profile;
     this.isLoggedIn = this.userService.getToken();
     let i = window.location.href.indexOf('code');
     if (this.isLoggedIn == null && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
+
+
+  protected readonly JSON = JSON;
 }

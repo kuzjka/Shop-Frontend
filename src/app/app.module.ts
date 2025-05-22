@@ -41,6 +41,7 @@ import {CheckoutComponent} from './checkout/checkout.component';
 import {authInterceptor} from "./service/auth-interceptor";
 import {LoginComponent} from "./login/login.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {OAuthModule} from "angular-oauth2-oidc";
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
       {path: 'checkout', component: CheckoutComponent},
       {path: 'orders', component: ListOrdersComponent},
     ]),
+    OAuthModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,

@@ -1,15 +1,39 @@
 <div align="right">
+  <div class="dashboard">
+    <h1>Dashboard - user has logged in</h1>
+    <p>
+      {{ profile() | json }}
+    </p>
+  </div>
+  <div class="login-button">
+    <button (click)="signInWithGoogle()" mat-raised-button>
+      <img
+        alt="Google"
+        class="google-icon"
+        src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+      />
+      Sign in with Google
+    </button>
+    <button (click)="googleLogout()" color="primary" mat-raised-button><img
+      alt="Google"
+      class="google-icon"
+      src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+    />
+      Logout from Google
+    </button>
+    <button (click)="reload()">reload</button>
+  </div>
   <button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
     {{ username }} : {{ role }}
   </button>
   <mat-menu #menu="matMenu">
-    <button (click)="editUser()" *ngIf="isLoggedIn" color="primary" mat-stroked-button>Change password</button>
-    <button (click)="logout()" *ngIf="isLoggedIn" color="primary" mat-stroked-button>
+    <button (click)="editUser()" color="primary" mat-stroked-button>Change password</button>
+    <button (click)="logout()" color="primary" mat-stroked-button>
       <mat-icon>logout</mat-icon>
       Logout
     </button>
   </mat-menu>
-  <button (click)="login()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>
+  <button (click)="login()" *ngIf="!isLoggedIn && googleId()==null" color="primary" mat-stroked-button>
     <mat-icon>login</mat-icon>
     Log In
   </button>

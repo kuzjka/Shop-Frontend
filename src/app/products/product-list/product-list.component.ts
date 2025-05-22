@@ -19,6 +19,7 @@ import {Photo} from "../../model/photo";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
+import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
   selector: 'app-product-list',
@@ -49,14 +50,19 @@ export class ProductListComponent implements OnInit {
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
-
-  constructor(private fb: FormBuilder, private productService: ProductService,
-              private orderService: OrderService, private userService: UserService,
+openIdToken!: string;
+  constructor(private fb: FormBuilder,
+              private oAuthService: OAuthService,
+              private productService: ProductService,
+              private orderService: OrderService,
+              private userService: UserService,
               private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
-
+getProfile(){
+    this.openIdToken = this.oAuthService.getAccessToken();
+}
   getRole() {
     this.role = this.userService.getRole();
   }
@@ -319,7 +325,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+this.getProfile();
     this.getRole();
     this.getUser();
     this.getFilterTypes();
