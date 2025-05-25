@@ -39,11 +39,13 @@ export class LoginComponent implements OnInit {
 
   signInWithGoogle() {
     this.authService.login();
+
   }
 
   googleLogout() {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.userService.clearData();
+    window.location.href = '/';
   }
 
   logout() {
@@ -101,7 +103,4 @@ export class LoginComponent implements OnInit {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
-
-
-  protected readonly JSON = JSON;
 }

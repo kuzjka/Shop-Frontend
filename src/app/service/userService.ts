@@ -12,10 +12,14 @@ export class UserService {
 
   constructor(private http: HttpClient) {
   }
-saveGoogleId(token: string){
-    localStorage.setItem('token', token)
 
-}
+  saveGoogleId(token: string) {
+    localStorage.setItem('idToken', token)
+
+  }
+  getGoogleId(){
+    return localStorage.getItem('idToken')
+  }
   saveToken(token: Token) {
     localStorage.setItem('token', token.access_token);
 
