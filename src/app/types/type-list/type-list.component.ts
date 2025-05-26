@@ -32,7 +32,7 @@ export class TypeListComponent implements OnInit {
   }
 
   getRole() {
-    this.role = this.userService.getRole();
+    this.role = localStorage.getItem('role');
   }
 
   sortTypes(sortState: Sort) {

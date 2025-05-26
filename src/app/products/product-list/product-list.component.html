@@ -70,11 +70,6 @@
               mat-icon-button>
         <mat-icon>add_shopping_cart</mat-icon>
       </button>
-      <button (click)="login()"
-              *ngIf="role=='none'" color="primary"
-              mat-icon-button>
-        <mat-icon>add_shopping_cart</mat-icon>
-      </button>
       <p *ngIf="(role=='user' || role=='admin') && cartProductIds.includes(product.id)">product in cart</p>
     </td>
   </ng-container>

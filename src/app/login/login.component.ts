@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserDto} from "../dto/userDto";
 import {UserService} from "../service/userService";
 import {MatDialog} from "@angular/material/dialog";
@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn: string | null = null;
   dto: UserDto;
   username!: string;
-  role!: string;
-  googleId = signal<any>(null);
+  role!: string | null;
   profile = this.authService.profile;
 
   constructor(private userService: UserService,
@@ -29,13 +28,10 @@ export class LoginComponent implements OnInit {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
-  reload() {
-    window.location.reload();
-  }
-
-  login() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&client_id=app-client';
-  }
+  // login() {
+  //
+  //   window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&client_id=app-client';
+  // }
 
   signInWithGoogle() {
     this.authService.login();
@@ -45,20 +41,21 @@ export class LoginComponent implements OnInit {
   googleLogout() {
     this.authService.logout();
     this.userService.clearData();
-    window.location.href = '/';
+    window.location.reload();
   }
 
-  logout() {
-    this.userService.clearData();
-    window.location.href = "http://localhost:8080/logout";
-    window.location.href = '/';
-  }
+  // logout() {
+  //   window.location.href = "http://localhost:8080/logout";
+  //   this.userService.clearData();
+  //   window.location.href = '/';
+  //
+  // }
 
   getUser() {
     this.userService.getUser().subscribe(data => {
         this.username = data.username;
         this.role = data.role;
-        this.userService.saveRole(this.role);
+        localStorage.setItem('role', this.role);
       }
     )
   }
@@ -94,13 +91,16 @@ export class LoginComponent implements OnInit {
     })
   }
 
+
   ngOnInit(): void {
     this.getUser();
-    this.googleId = this.authService.profile;
+    this.profile = this.authService.profile;
     this.isLoggedIn = this.userService.getToken();
     let i = window.location.href.indexOf('code');
     if (this.isLoggedIn == null && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
+
+
 }

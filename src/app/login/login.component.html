@@ -21,21 +21,20 @@
     />
       Logout from Google
     </button>
-    <button (click)="reload()">reload</button>
   </div>
-  <button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
+  <button color="primary" mat-stroked-button>
     {{ username }} : {{ role }}
   </button>
-  <mat-menu #menu="matMenu">
-    <button (click)="editUser()" color="primary" mat-stroked-button>Change password</button>
-    <button (click)="logout()" color="primary" mat-stroked-button>
-      <mat-icon>logout</mat-icon>
-      Logout
-    </button>
-  </mat-menu>
-  <button (click)="login()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>
-    <mat-icon>login</mat-icon>
-    Log In
-  </button>
-  <button (click)="addUser()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>Sign Up</button>
+  <!--    <mat-menu #menu="matMenu">-->
+  <!--      <button (click)="editUser()" color="primary" mat-stroked-button>Change password</button>-->
+  <!--      <button (click)="logout()" color="primary" mat-stroked-button>-->
+  <!--        <mat-icon>logout</mat-icon>-->
+  <!--        Logout-->
+  <!--      </button>-->
+  <!--    </mat-menu>-->
+  <!--    <button (click)="login()"  color="primary" mat-stroked-button>-->
+  <!--      <mat-icon>login</mat-icon>-->
+  <!--      Log In-->
+  <!--    </button>-->
+  <!--    <button (click)="addUser()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>Sign Up</button>-->
 </div>

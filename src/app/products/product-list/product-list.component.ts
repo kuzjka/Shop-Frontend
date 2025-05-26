@@ -15,7 +15,6 @@ import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
-import {Photo} from "../../model/photo";
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
@@ -50,7 +49,8 @@ export class ProductListComponent implements OnInit {
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
-openIdToken!: string;
+  openIdToken!: string;
+
   constructor(private fb: FormBuilder,
               private oAuthService: OAuthService,
               private productService: ProductService,
@@ -60,11 +60,13 @@ openIdToken!: string;
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
-getProfile(){
+
+  getProfile() {
     this.openIdToken = this.oAuthService.getAccessToken();
-}
+  }
+
   getRole() {
-    this.role = this.userService.getRole();
+    this.role = localStorage.getItem('role');
   }
 
   sortProducts(sortState: Sort) {
@@ -325,7 +327,7 @@ getProfile(){
   }
 
   ngOnInit(): void {
-this.getProfile();
+
     this.getRole();
     this.getUser();
     this.getFilterTypes();
@@ -333,8 +335,4 @@ this.getProfile();
     this.getCart();
   }
 
-  login() {
-    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code' +
-      '&client_id=app-client&redirect_uri=http://localhost:4200';
-  }
 }

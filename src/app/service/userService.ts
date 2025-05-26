@@ -13,33 +13,16 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  saveGoogleId(token: string) {
-    localStorage.setItem('idToken', token)
-
-  }
-  getGoogleId(){
-    return localStorage.getItem('idToken')
-  }
-  saveToken(token: Token) {
-    localStorage.setItem('token', token.access_token);
-
-    window.location.href = 'http://localhost:4200/';
+  saveToken(token: string) {
+    localStorage.setItem('token', token);
+    window.location.reload();
   }
 
+  clearData(){
+    localStorage.clear();
+  }
   getToken() {
     return localStorage.getItem('token');
-  }
-
-  saveRole(role: string) {
-    localStorage.setItem('role', role);
-  }
-
-  getRole() {
-    return localStorage.getItem('role');
-  }
-
-  public clearData() {
-    localStorage.clear();
   }
 
   getUser(): Observable<UserInfo> {
@@ -66,9 +49,10 @@ export class UserService {
     let params = new URLSearchParams();
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
+
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
-        this.saveToken(data);
+        this.saveToken(data.access_token);
       })
   }
 }

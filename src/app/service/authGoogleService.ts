@@ -12,7 +12,7 @@ export class AuthGoogleService {
 
   constructor(private oAuthService: OAuthService,
               private userService: UserService
-              ) {
+  ) {
     this.initConfiguration();
   }
 
@@ -22,7 +22,7 @@ export class AuthGoogleService {
     this.oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
       if (this.oAuthService.hasValidIdToken()) {
         this.profile.set(this.oAuthService.getIdentityClaims());
-        this.userService.saveGoogleId(this.oAuthService.getIdToken());
+        this.userService.saveToken(this.oAuthService.getIdToken());
       }
     });
   }
