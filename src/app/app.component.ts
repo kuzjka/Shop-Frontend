@@ -7,8 +7,6 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css'],
   standalone: false
 })
-export class AppComponent implements OnInit {
-  ngOnInit(): void {
-  }
+export class AppComponent  {
 
 }

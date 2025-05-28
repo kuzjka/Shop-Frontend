@@ -10,6 +10,7 @@ import {UserService} from "./userService";
 export class AuthGoogleService {
   profile = signal<any>(null);
 
+
   constructor(private oAuthService: OAuthService,
               private userService: UserService
   ) {
@@ -21,8 +22,8 @@ export class AuthGoogleService {
     this.oAuthService.setupAutomaticSilentRefresh();
     this.oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
       if (this.oAuthService.hasValidIdToken()) {
-        this.profile.set(this.oAuthService.getIdentityClaims());
         this.userService.saveToken(this.oAuthService.getIdToken());
+        this.profile.set(this.oAuthService.getIdentityClaims());
       }
     });
   }
@@ -35,7 +36,7 @@ export class AuthGoogleService {
   logout() {
     this.oAuthService.revokeTokenAndLogout();
     this.oAuthService.logOut();
-    this.profile.set(null);
+    this.profile = signal<any>(null);
   }
 
 }

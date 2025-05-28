@@ -39,14 +39,14 @@ import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {CheckoutComponent} from './checkout/checkout.component';
 import {authInterceptor} from "./service/auth-interceptor";
-import {LoginComponent} from "./login/login.component";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
+import {CookieService} from "ngx-cookie-service";
+import {LoginComponent} from "./login/login.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     AddProductComponent,
     DeleteProductComponent,
     RegisterComponent,
@@ -62,6 +62,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
     DeletePhotoComponent,
     ListOrdersComponent,
     CheckoutComponent,
+    LoginComponent,
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     RouterModule.forRoot([
@@ -90,7 +91,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
     NgOptimizedImage,
     MatMenuModule,
     MatBadgeModule,
-    RouterModule], providers: [ProductService, UserService, OrderService,
+    RouterModule], providers: [ProductService, UserService, CookieService, OrderService,
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })

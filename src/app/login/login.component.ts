@@ -1,23 +1,23 @@
 import {Component, OnInit} from '@angular/core';
 import {UserDto} from "../dto/userDto";
 import {UserService} from "../service/userService";
+import {AuthGoogleService} from "../service/authGoogleService";
+import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
-import {AuthGoogleService} from "../service/authGoogleService";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
+  standalone: false,
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  standalone: false
+  styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-  isLoggedIn: string | null = null;
+  isLoggedIn!: boolean;
   dto: UserDto;
   username!: string;
-  role!: string | null;
+  role!: string;
   profile = this.authService.profile;
 
   constructor(private userService: UserService,
@@ -28,34 +28,16 @@ export class LoginComponent implements OnInit {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
-  // login() {
-  //
-  //   window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&client_id=app-client';
-  // }
-
-  signInWithGoogle() {
-    this.authService.login();
+  login() {
+    window.location.href = 'http://localhost:8080/oauth2/authorize?response_type=code&client_id=app-client';
 
   }
-
-  googleLogout() {
-    this.authService.logout();
-    this.userService.clearData();
-    window.location.reload();
-  }
-
-  // logout() {
-  //   window.location.href = "http://localhost:8080/logout";
-  //   this.userService.clearData();
-  //   window.location.href = '/';
-  //
-  // }
 
   getUser() {
     this.userService.getUser().subscribe(data => {
         this.username = data.username;
         this.role = data.role;
-        localStorage.setItem('role', this.role);
+        this.userService.setRole(data.role);
       }
     )
   }
@@ -91,16 +73,30 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  signInWithGoogle() {
+    this.authService.login();
+  }
+
+  googleLogout() {
+    this.authService.logout();
+    this.userService.clearData();
+    window.location.href = '/';
+  }
+
+  logout() {
+    window.location.href = "http://localhost:8080/logout";
+    this.userService.clearData();
+    window.location.href = '/';
+  }
 
   ngOnInit(): void {
     this.getUser();
+
     this.profile = this.authService.profile;
-    this.isLoggedIn = this.userService.getToken();
+    this.isLoggedIn = this.userService.checkCredentials();
     let i = window.location.href.indexOf('code');
-    if (this.isLoggedIn == null && i != -1) {
+    if (!this.isLoggedIn && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
-
-
 }

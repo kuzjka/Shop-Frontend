@@ -19,6 +19,7 @@ import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 import {OAuthService} from "angular-oauth2-oidc";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-product-list',
@@ -42,7 +43,7 @@ export class ProductListComponent implements OnInit {
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
-  role!: string | null;
+  role!: string;
   photoForm!: FormGroup;
   productForm!: FormGroup;
   totalPrice!: number;
@@ -53,6 +54,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private oAuthService: OAuthService,
+              private cookieService: CookieService,
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
@@ -61,12 +63,12 @@ export class ProductListComponent implements OnInit {
     this.orderDto = new OrderDto('', '', '');
   }
 
-  getProfile() {
-    this.openIdToken = this.oAuthService.getAccessToken();
-  }
+  // getProfile() {
+  //   this.openIdToken = this.oAuthService.getAccessToken();
+  // }
 
   getRole() {
-    this.role = localStorage.getItem('role');
+    this.role = this.userService.getRole();
   }
 
   sortProducts(sortState: Sort) {
@@ -289,8 +291,8 @@ export class ProductListComponent implements OnInit {
 
   getUser() {
     this.userService.getUser().subscribe(data => {
-      this.orderDto.username = data.username;
-      this.orderDto.email = data.email;
+      this.role = data.role;
+
     })
   }
 

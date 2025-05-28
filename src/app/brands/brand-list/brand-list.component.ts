@@ -31,7 +31,7 @@ export class BrandListComponent implements OnInit {
   }
 
   getRole() {
-    this.role = localStorage.getItem('role');
+    this.role = this.userService.getRole();
   }
 
   sortBrands(sortState: Sort) {
