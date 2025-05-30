@@ -10,16 +10,13 @@ import {UserService} from "./userService";
 export class AuthGoogleService {
   profile = signal<any>(null);
 
-
   constructor(private oAuthService: OAuthService,
-              private userService: UserService
-  ) {
+              private userService: UserService) {
     this.initConfiguration();
   }
 
   initConfiguration() {
     this.oAuthService.configure(authConfig);
-    this.oAuthService.setupAutomaticSilentRefresh();
     this.oAuthService.loadDiscoveryDocumentAndTryLogin().then(() => {
       if (this.oAuthService.hasValidIdToken()) {
         this.userService.saveToken(this.oAuthService.getIdToken());
@@ -30,13 +27,10 @@ export class AuthGoogleService {
 
   login() {
     this.oAuthService.initImplicitFlow();
-
   }
 
   logout() {
-    this.oAuthService.revokeTokenAndLogout();
     this.oAuthService.logOut();
     this.profile = signal<any>(null);
   }
-
 }

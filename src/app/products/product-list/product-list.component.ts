@@ -18,8 +18,6 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
-import {OAuthService} from "angular-oauth2-oidc";
-import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-product-list',
@@ -43,7 +41,7 @@ export class ProductListComponent implements OnInit {
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
-  role!: string;
+  role!: string | null;
   photoForm!: FormGroup;
   productForm!: FormGroup;
   totalPrice!: number;
@@ -53,8 +51,6 @@ export class ProductListComponent implements OnInit {
   openIdToken!: string;
 
   constructor(private fb: FormBuilder,
-              private oAuthService: OAuthService,
-              private cookieService: CookieService,
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
@@ -63,9 +59,6 @@ export class ProductListComponent implements OnInit {
     this.orderDto = new OrderDto('', '', '');
   }
 
-  // getProfile() {
-  //   this.openIdToken = this.oAuthService.getAccessToken();
-  // }
 
   getRole() {
     this.role = this.userService.getRole();
@@ -292,7 +285,7 @@ export class ProductListComponent implements OnInit {
   getUser() {
     this.userService.getUser().subscribe(data => {
       this.role = data.role;
-
+      this.userService.setRole(data.role);
     })
   }
 
@@ -329,12 +322,10 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.getRole();
     this.getUser();
+    this.getRole();
     this.getFilterTypes();
     this.getProducts();
     this.getCart();
   }
-
 }

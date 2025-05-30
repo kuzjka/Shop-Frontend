@@ -91,7 +91,7 @@ import {LoginComponent} from "./login/login.component";
     NgOptimizedImage,
     MatMenuModule,
     MatBadgeModule,
-    RouterModule], providers: [ProductService, UserService, CookieService, OrderService,
+    RouterModule], providers: [ProductService, UserService, OrderService,
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })

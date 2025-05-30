@@ -4,7 +4,7 @@ export const authConfig: AuthConfig = {
 
   issuer: 'https://accounts.google.com',
 
-  redirectUri: window.location.origin,
+  redirectUri: 'http://localhost:4200',
 
   clientId: '660020767759-1jfkvejafgf0lgv1pvio1912gk52piqm.apps.googleusercontent.com',
 

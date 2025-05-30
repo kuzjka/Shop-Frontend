@@ -5,41 +5,36 @@ import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
-import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
   saveToken(token: string) {
-    this.cookieService.set('token', token);
-
+    localStorage.setItem('token', token);
   }
 
   getToken() {
-    return this.cookieService.get('token');
+    return localStorage.getItem('token');
   }
 
   setRole(role: string) {
-    this.cookieService.set('role', role);
-
+    localStorage.setItem('role', role);
   }
 
-  getRole(): string {
-    return this.cookieService.get('role');
+  getRole() {
+    return localStorage.getItem('role');
   }
 
   clearData() {
-    this.cookieService.delete('token');
-    this.cookieService.delete('role');
-
+    localStorage.clear();
   }
 
   checkCredentials() {
-    return this.cookieService.check('token');
+    return localStorage.getItem('token');
   }
 
   getUser(): Observable<UserInfo> {
@@ -64,13 +59,12 @@ export class UserService {
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
-    params.append('redirect_uri', 'http://localhost:4200')
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
         this.saveToken(data.access_token);
-        window.location.href = '/';
+        window.location.href = '/'
       })
   }
 }
