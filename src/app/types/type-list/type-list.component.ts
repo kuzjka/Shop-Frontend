@@ -27,8 +27,7 @@ export class TypeListComponent implements OnInit {
               private productService: ProductService,
               private fb: FormBuilder,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar
-  ) {
+              private snackBar: MatSnackBar) {
   }
 
   getRole() {

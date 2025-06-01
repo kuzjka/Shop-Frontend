@@ -14,9 +14,7 @@ import {FormGroup} from "@angular/forms";
 export class AddProductComponent implements OnInit {
   title: string;
   types!: Type[];
-  productTypesIds: number[] = [];
   brands!: Brand[];
-  selectedType = 0;
 
   constructor(public productService: ProductService,
               public dialogRef: MatDialogRef<AddProductComponent>,
@@ -34,28 +32,8 @@ export class AddProductComponent implements OnInit {
     });
   }
 
-  getProductTypes() {
-    this.productService.getProductTypes().subscribe(data => {
-      this.productTypesIds = [];
-      for (let i = 0; i < data.length; i++) {
-        this.productTypesIds.push(data[i].id);
-      }
-    })
-  }
-
   getBrands() {
-    this.productService.getAllBrands(this.selectedType, undefined, undefined).subscribe(data => {
-      this.brands = data;
-    });
-  }
-
-  selectBrands(event: any) {
-    this.getProductTypes();
-    this.selectedType = event.value;
-    if (!this.productTypesIds.includes(this.selectedType)) {
-      this.selectedType = 0;
-    }
-    this.productService.getAllBrands(this.selectedType, undefined, undefined).subscribe(data => {
+    this.productService.getAllBrands(0, undefined, undefined).subscribe(data => {
       this.brands = data;
     });
   }
@@ -67,7 +45,6 @@ export class AddProductComponent implements OnInit {
   ngOnInit(): void {
     this.getTypes();
     this.getBrands();
-    this.getProductTypes();
   }
 }
 

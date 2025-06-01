@@ -49,12 +49,8 @@ export class ProductService {
     let params = new HttpParams();
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
-    if (typeId > 0) {
-      params = params.set('typeId', typeId);
-    }
-    if (brandId > 0) {
-      params = params.set('brandId', brandId);
-    }
+    params = params.set('typeId', typeId);
+    params = params.set('brandId', brandId);
     params = page == undefined ? params : params.set('page', page);
     params = size == undefined ? params : params.set('size', size);
     return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product`, {params: params});
@@ -62,12 +58,8 @@ export class ProductService {
 
   addProduct(data: any): Observable<any> {
     const formData = new FormData();
-    if (data.controls.typeId.value > 0) {
-      formData.append("typeId", data.controls.typeId.value);
-    }
-    if (data.controls.brandId.value > 0) {
-      formData.append("brandId", data.controls.brandId.value);
-    }
+    formData.append("typeId", data.controls.typeId.value);
+    formData.append("brandId", data.controls.brandId.value);
     formData.append("name", data.controls.name.value);
     formData.append("price", data.controls.price.value);
     return this.http.post<any>(`${this.baseUrl}/products/product`, formData);
