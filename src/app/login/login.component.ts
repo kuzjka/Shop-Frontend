@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   dto: UserDto;
   username!: string;
   role!: string;
-  profile = this.authService.profile;
+
 
   constructor(private userService: UserService,
               private authService: AuthGoogleService,
@@ -89,7 +89,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
-    this.profile = this.authService.profile;
     this.isLoggedIn = this.userService.checkCredentials();
     let i = window.location.href.indexOf('code');
     if (this.isLoggedIn == null && i != -1) {

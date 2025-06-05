@@ -1,40 +1,23 @@
 <div align="right">
-  <div class="dashboard">
-    <h1>user has logged in</h1>
+  <button [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
+    {{ username }} : {{ role }}
+  </button>
+  <mat-menu #menu="matMenu">
     <p>
-      {{ profile() | json }}
+      <button (click)="editUser()" *ngIf="isLoggedIn!=null" color="primary" mat-stroked-button>Change password
+      </button>
     </p>
-  </div>
-  <div class="login-button">
-    <button (click)="signInWithGoogle()" mat-raised-button>
-      <img alt="Google" class="google-icon"
-           src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"/>
-      Sign in with Google
-    </button>
-    <button (click)="googleLogout()" color="primary" mat-raised-button>
-      <img alt="Google" class="google-icon"
-           src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"/>
-      Logout from Google
-    </button>
-    <button [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
-      {{ username }} : {{ role }}
-    </button>
-    <mat-menu #menu="matMenu">
-      <p>
-        <button (click)="editUser()" *ngIf="isLoggedIn!=null" color="primary" mat-stroked-button>Change password
-        </button>
-      </p>
-      <p>
-        <button (click)="logout()" *ngIf="isLoggedIn!=null" color="primary" mat-stroked-button>
-          <mat-icon>logout</mat-icon>
-          Logout
-        </button>
-      </p>
-    </mat-menu>
-    <button (click)="login()" *ngIf="isLoggedIn==null" color="primary" mat-stroked-button>
-      <mat-icon>login</mat-icon>
-      Log In
-    </button>
-    <button (click)="addUser()" *ngIf="isLoggedIn==null" color="primary" mat-stroked-button>Sign Up</button>
-  </div>
+    <p>
+      <button (click)="logout()" *ngIf="isLoggedIn!=null" color="primary" mat-stroked-button>
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </p>
+  </mat-menu>
+  <button (click)="login()" *ngIf="isLoggedIn==null" color="primary" mat-stroked-button>
+    <mat-icon>login</mat-icon>
+    Log In
+  </button>
+  <button (click)="addUser()" *ngIf="isLoggedIn==null" color="primary" mat-stroked-button>Sign Up</button>
 </div>
+

@@ -2,14 +2,13 @@ import {AuthConfig} from "angular-oauth2-oidc";
 
 export const authConfig: AuthConfig = {
 
-  issuer: 'https://accounts.google.com',
+  issuer: 'http://localhost:8080',
 
   redirectUri: 'http://localhost:4200',
 
-  clientId: '660020767759-1jfkvejafgf0lgv1pvio1912gk52piqm.apps.googleusercontent.com',
-
-  scope: 'openid profile email',
-
-  strictDiscoveryDocumentValidation: false
+  clientId: 'app-client',
+  responseType: 'code',
+  scope: 'openid',
+  requireHttps: false
 
 };
