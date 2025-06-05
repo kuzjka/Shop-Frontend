@@ -48,7 +48,6 @@ export class ProductListComponent implements OnInit {
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
-  openIdToken!: string;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -58,7 +57,6 @@ export class ProductListComponent implements OnInit {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }
-
 
   getRole() {
     this.role = this.userService.getRole();
@@ -283,12 +281,6 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  getUser() {
-    this.userService.getUser().subscribe(data => {
-      this.role = data.role;
-      this.userService.setRole(data.role);
-    })
-  }
 
   addItemToCart(productId: number) {
     this.itemDto.productId = productId;
@@ -323,7 +315,6 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUser();
     this.getRole();
     this.getFilterTypes();
     this.getProducts();
