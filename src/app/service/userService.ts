@@ -19,13 +19,6 @@ export class UserService {
     this.cookie.set('token', token);
   }
 
-  setOidc() {
-    this.cookie.set('oidc', 'true');
-  }
-
-  checkOidc() {
-    return this.cookie.check('oidc');
-  }
 
   getToken() {
     return this.cookie.get('token');
@@ -46,7 +39,6 @@ export class UserService {
   clearData() {
     this.cookie.delete('token');
     this.cookie.delete('role');
-    this.cookie.delete('oidc');
   }
 
   getUser(): Observable<UserInfo> {
@@ -71,6 +63,7 @@ export class UserService {
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
+    params.append('redirect_uri', 'http://localhost:4200');
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})

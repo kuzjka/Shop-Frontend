@@ -14,7 +14,6 @@ import {RegisterComponent} from "../register/register.component";
 })
 export class LoginComponent implements OnInit {
   isLoggedIn = false;
-  isOidc = false;
   dto: UserDto;
   username!: string;
   role!: string;
@@ -32,8 +31,9 @@ export class LoginComponent implements OnInit {
   }
 
   login2() {
-    this.userService.setOidc();
-    this.authService.login();
+
+    window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
+      '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
   getUser() {
@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
       if (this.role != 'none') {
         this.userService.setRole(this.role);
       }
+
     })
   }
 
@@ -87,9 +88,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.isLoggedIn = this.userService.checkCredentials();
-    this.isOidc = this.userService.checkOidc();
     let i = window.location.href.indexOf('code');
-    if (!this.isLoggedIn && i != -1 && !this.isOidc) {
+    if (!this.isLoggedIn && i != -1) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
     }
   }
