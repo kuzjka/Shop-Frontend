@@ -19,6 +19,14 @@ export class UserService {
     this.cookie.set('token', token);
   }
 
+  setOidc() {
+    this.cookie.set('oidc', 'true');
+  }
+
+  checkOidc() {
+    return this.cookie.check('oidc');
+  }
+
   getToken() {
     return this.cookie.get('token');
   }
@@ -38,6 +46,7 @@ export class UserService {
   clearData() {
     this.cookie.delete('token');
     this.cookie.delete('role');
+    this.cookie.delete('oidc');
   }
 
   getUser(): Observable<UserInfo> {

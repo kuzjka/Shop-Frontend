@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   login2() {
+    this.userService.setOidc();
     this.authService.login();
   }
 
@@ -86,6 +87,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.isLoggedIn = this.userService.checkCredentials();
+    this.isOidc = this.userService.checkOidc();
     let i = window.location.href.indexOf('code');
     if (!this.isLoggedIn && i != -1 && !this.isOidc) {
       this.userService.retrieveToken(window.location.href.substring(i + 5));
