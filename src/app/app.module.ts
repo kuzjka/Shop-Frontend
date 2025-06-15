@@ -42,7 +42,6 @@ import {authInterceptor} from "./service/auth-interceptor";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {LoginComponent} from "./login/login.component";
-import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -92,7 +91,7 @@ import {CookieService} from "ngx-cookie-service";
     MatMenuModule,
     MatBadgeModule,
     RouterModule],
-  providers: [ProductService, UserService, CookieService, OrderService,
+  providers: [ProductService, UserService, OrderService,
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })

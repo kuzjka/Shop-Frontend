@@ -26,12 +26,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code';
   }
 
   login2() {
-
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
@@ -43,8 +41,7 @@ export class LoginComponent implements OnInit {
       if (this.role != 'none') {
         this.userService.setRole(this.role);
       }
-
-    })
+    });
   }
 
   addUser() {
@@ -88,9 +85,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.isLoggedIn = this.userService.checkCredentials();
-    let i = window.location.href.indexOf('code');
-    if (!this.isLoggedIn && i != -1) {
-      this.userService.retrieveToken(window.location.href.substring(i + 5));
+    let url = new URLSearchParams(window.location.search);
+    let code = url.get('code');
+    if (!this.isLoggedIn && code != null) {
+      this.userService.retrieveToken(code);
     }
   }
 }

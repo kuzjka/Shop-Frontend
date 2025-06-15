@@ -5,40 +5,36 @@ import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
-import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient,
-              private cookie: CookieService) {
+  constructor(private http: HttpClient) {
   }
 
   saveToken(token: string) {
-    this.cookie.set('token', token);
+    localStorage.setItem('token', token);
   }
 
-
   getToken() {
-    return this.cookie.get('token');
+    return localStorage.getItem('token');
   }
 
   checkCredentials() {
-    return this.cookie.check('token');
+    return localStorage.getItem('token') != null;
   }
 
   setRole(role: string) {
-    this.cookie.set('role', role);
+    localStorage.setItem('role', role);
   }
 
   getRole() {
-    return this.cookie.get('role');
+    return localStorage.getItem('role');
   }
 
   clearData() {
-    this.cookie.delete('token');
-    this.cookie.delete('role');
+    localStorage.clear();
   }
 
   getUser(): Observable<UserInfo> {
@@ -68,8 +64,9 @@ export class UserService {
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
-        this.saveToken(data.access_token);
-        window.location.href = '/';
-      });
+          this.saveToken(data.access_token);
+          window.location.href = '/';
+        }
+      )
   }
 }
