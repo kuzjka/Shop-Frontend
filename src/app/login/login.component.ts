@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   login2() {
+    this.authService.init();
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
@@ -81,6 +82,7 @@ export class LoginComponent implements OnInit {
     this.getUser();
     window.location.href = '/';
   }
+
 
   ngOnInit(): void {
     this.getUser();

@@ -1,16 +1,18 @@
 import {Injectable} from "@angular/core";
 import {OAuthService} from "angular-oauth2-oidc";
-import {UserService} from "./userService";
+import {authConfig} from "./auth-config";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private oAuthService: OAuthService,
-              private userService: UserService) {
-    // this.oAuthService.configure(authConfig);
-    // this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+  constructor(private oAuthService: OAuthService) {
+  }
+
+  init() {
+    this.oAuthService.configure(authConfig);
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   login() {
