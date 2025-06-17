@@ -8,9 +8,6 @@ import {authConfig} from "./auth-config";
 })
 export class AuthService {
   constructor(private oAuthService: OAuthService) {
-  }
-
-  init() {
     this.oAuthService.configure(authConfig);
     this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
