@@ -26,13 +26,13 @@ export class AppComponent implements OnInit {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
-  // login() {
-  //   window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code';
-  // }
-
-  login2() {
+  login() {
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200';
+  }
+
+  login2() {
+    this.authService.login();
   }
 
   getUser() {
