@@ -27,11 +27,13 @@ export class AppComponent implements OnInit {
   }
 
   login() {
+    this.userService.setLoginVariant('manual');
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
   login2() {
+    this.userService.setLoginVariant('library');
     this.authService.login();
   }
 

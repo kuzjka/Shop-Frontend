@@ -5,12 +5,26 @@ import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
+import { OAuthService } from "angular-oauth2-oidc";
+
+type LoginVariant = 'manual' | 'library'
 
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private oauthService: OAuthService) {
+  }
+
+  setLoginVariant(variant: LoginVariant) {
+    localStorage.setItem('loginVariant', variant);
+  }
+
+  getLoginVariant(): LoginVariant {
+    const variant = localStorage.getItem('loginVariant');
+    if (variant === 'library') return variant;
+    return 'manual'
   }
 
   saveToken(token: string) {
@@ -18,6 +32,9 @@ export class UserService {
   }
 
   getToken() {
+    if (this.getLoginVariant() === 'library') {
+      return this.oauthService.getAccessToken()
+    }
     return localStorage.getItem('token');
   }
 
