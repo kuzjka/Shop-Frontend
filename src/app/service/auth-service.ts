@@ -8,8 +8,8 @@ import {authConfig} from "./auth-config";
 })
 export class AuthService {
   constructor(private oAuthService: OAuthService) {
-    this.oAuthService.configure(authConfig);
-    this.oAuthService.loadDiscoveryDocumentAndTryLogin();
+    // this.oAuthService.configure(authConfig);
+    // this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
 
   login() {

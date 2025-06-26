@@ -26,9 +26,11 @@ export class AppComponent implements OnInit {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
-  login() {
+  async login() {
+    await this.userService.generatePkce();
+    const challenge = await this.userService.getPkceChallenge();
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
-      '&scope=openid&redirect_uri=http://localhost:4200';
+      `&scope=openid&redirect_uri=http://localhost:4200&code_challenge=${challenge}&code_challenge_method=S256`;
   }
 
   login2() {
