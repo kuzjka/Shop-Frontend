@@ -18,6 +18,7 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
+import {AuthService} from "../../service/auth-service";
 
 @Component({
   selector: 'app-product-list',
@@ -53,7 +54,8 @@ export class ProductListComponent implements OnInit {
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
-              private dialog: MatDialog, private snackBar: MatSnackBar) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
   }

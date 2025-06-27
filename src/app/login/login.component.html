@@ -1,0 +1,26 @@
+<div align="right">
+  <button [matMenuTriggerFor]="menu" color="primary" mat-stroked-button>
+    {{ username }} : {{ role }}
+  </button>
+  <mat-menu #menu="matMenu">
+    <p>
+      <button (click)="editUser()" color="primary" mat-stroked-button>Change password
+      </button>
+    </p>
+    <p>
+      <button (click)="logout()" color="primary" mat-stroked-button>
+        <mat-icon>logout</mat-icon>
+        logout
+      </button>
+    </p>
+  </mat-menu>
+  <button (click)="login()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>
+    <mat-icon>login</mat-icon>
+    manual login
+  </button>
+  <button (click)="login2()" *ngIf="!isLoggedIn" color="primary" mat-stroked-button>
+    <mat-icon>login</mat-icon>
+    library login
+  </button>
+  <button (click)="addUser()" color="primary" mat-stroked-button>Sign Up</button>
+</div>
