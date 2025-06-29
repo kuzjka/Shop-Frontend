@@ -7,7 +7,7 @@ import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
 import {OAuthService} from "angular-oauth2-oidc";
 
-type LoginVariant = 'manual' | 'library'
+type LoginVariant = 'manual' | 'library';
 
 @Injectable()
 export class UserService {
@@ -23,8 +23,11 @@ export class UserService {
 
   getLoginVariant(): LoginVariant {
     const variant = localStorage.getItem('loginVariant');
-    if (variant === 'library') return variant;
-    return 'manual';
+    if (variant === 'manual' || variant === 'library') {
+      return variant;
+    } else {
+      return 'manual';
+    }
   }
 
   saveToken(token: string) {
@@ -39,9 +42,6 @@ export class UserService {
   }
 
   checkCredentials(): boolean {
-    if (this.getLoginVariant() === 'library') {
-      return this.oauthService.getAccessToken() != null;
-    }
     return localStorage.getItem('token') != null;
   }
 
@@ -54,8 +54,7 @@ export class UserService {
   }
 
   clearData() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.clear();
   }
 
   getUser(): Observable<UserInfo> {
@@ -75,19 +74,18 @@ export class UserService {
   }
 
   retrieveToken(code: string) {
-    alert(code);
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + btoa('app-client:app-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
-    params.append('redirect_uri', 'http://localhost:4200');
+    params.append('redirect_uri', 'http://localhost:4200/products');
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
           this.saveToken(data.access_token);
-          window.location.href = '/';
+          window.location.href = '/products';
         }
       )
   }

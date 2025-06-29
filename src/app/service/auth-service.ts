@@ -11,10 +11,8 @@ export class AuthService {
     this.oAuthService.configure(authConfig);
     this.oAuthService.loadDiscoveryDocumentAndTryLogin();
   }
-
   login() {
     this.oAuthService.initCodeFlow();
-
   }
 
   logout() {

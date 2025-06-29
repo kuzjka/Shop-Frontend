@@ -18,7 +18,6 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
-import {AuthService} from "../../service/auth-service";
 
 @Component({
   selector: 'app-product-list',
