@@ -16,7 +16,13 @@
     <p>
       <button (click)="logout()" color="primary" mat-stroked-button>
         <mat-icon>logout</mat-icon>
-        logout
+        logout with redirect
+      </button>
+    </p>
+    <p>
+      <button (click)="logout2()" color="primary" mat-stroked-button>
+        <mat-icon>logout</mat-icon>
+        logout without redirect
       </button>
     </p>
   </mat-menu>
@@ -24,7 +30,7 @@
     <mat-icon>login</mat-icon>
     manual login
   </button>
-  <button (click)="login2()"  color="primary" mat-stroked-button>
+  <button (click)="login2()" color="primary" mat-stroked-button>
     <mat-icon>login</mat-icon>
     library login
   </button>

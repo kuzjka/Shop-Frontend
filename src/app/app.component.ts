@@ -13,7 +13,7 @@ import {RegisterComponent} from "./register/register.component";
   styleUrls: ['./app.component.css'],
   standalone: false
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   isLoggedIn = false;
   dto: UserDto;
   username!: string;
@@ -31,10 +31,12 @@ export class AppComponent implements OnInit{
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200/products';
   }
+
   login2() {
     this.userService.setLoginVariant('library');
     this.authService.login();
   }
+
   getUser() {
     this.userService.getUser().subscribe(data => {
       this.username = data.username;
@@ -44,6 +46,7 @@ export class AppComponent implements OnInit{
       }
     });
   }
+
   addUser() {
     const dialogRef = this.dialog.open(RegisterComponent, {
       height: '500px',
@@ -78,8 +81,12 @@ export class AppComponent implements OnInit{
   logout() {
     window.location.href = 'http://localhost:8080/logout';
     this.userService.clearData();
-    this.authService.logout();
     window.location.href = '/products';
+  }
+
+  logout2() {
+    window.location.href = 'http://localhost:8080/logout';
+    this.userService.clearData();
   }
 
   ngOnInit(): void {
