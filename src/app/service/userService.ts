@@ -73,19 +73,20 @@ export class UserService {
     return this.http.get<SuccessResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
   }
 
+
   retrieveToken(code: string) {
     const tokenHeaders = new HttpHeaders({
       'Authorization': 'Basic ' + btoa('app-client:app-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     });
     let params = new URLSearchParams();
-    params.append('redirect_uri', 'http://localhost:4200/products');
+    params.append('redirect_uri', 'http://localhost:4200');
     params.append('grant_type', 'authorization_code');
     params.append('code', code);
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
           this.saveToken(data.access_token);
-          window.location.href = '/products';
+          window.location.reload();
         }
       )
   }

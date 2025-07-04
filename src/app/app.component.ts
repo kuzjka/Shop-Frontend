@@ -29,12 +29,13 @@ export class AppComponent implements OnInit {
   login() {
     this.userService.setLoginVariant('manual');
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
-      '&scope=openid&redirect_uri=http://localhost:4200/products';
+      '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
   login2() {
     this.userService.setLoginVariant('library');
     this.authService.login();
+
   }
 
   getUser() {
@@ -79,19 +80,14 @@ export class AppComponent implements OnInit {
   }
 
   logout() {
-    window.location.href = 'http://localhost:8080/logout';
     this.userService.clearData();
-    window.location.href = '/products';
-  }
-
-  logout2() {
+    this.authService.logout();
     window.location.href = 'http://localhost:8080/logout';
-    this.userService.clearData();
+    window.location.reload();
   }
 
   ngOnInit(): void {
     this.getUser();
-
     this.isLoggedIn = this.userService.checkCredentials();
     let url = new URLSearchParams(window.location.search);
     let code = url.get('code');

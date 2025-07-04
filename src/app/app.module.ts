@@ -65,7 +65,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
   bootstrap: [AppComponent], imports: [BrowserModule,
     RouterModule.forRoot([
       {path: 'login', component: AppComponent},
-      {path: 'products', component: ProductListComponent},
+      {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
       {path: 'checkout', component: CheckoutComponent},
