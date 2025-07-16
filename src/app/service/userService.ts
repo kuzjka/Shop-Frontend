@@ -23,7 +23,7 @@ export class UserService {
 
   getLoginVariant(): LoginVariant {
     const variant = localStorage.getItem('loginVariant');
-    if (variant === 'manual' || variant === 'library') {
+    if (variant === 'library') {
       return variant;
     } else {
       return 'manual';
@@ -86,7 +86,6 @@ export class UserService {
     this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
       .subscribe(data => {
           this.saveToken(data.access_token);
-          window.location.reload();
         }
       )
   }

@@ -8,7 +8,8 @@
     <mat-chip-option (click)="brandFilter(brand.id)">{{ brand.name }}</mat-chip-option>
   }
 </mat-chip-listbox>
-<p></p>
+<p align="center"><button mat-flat-button (click)="getUser()">get user</button></p>
+
 <p align="center">
   <button (click)="openCart()" *ngIf="role=='admin' || role=='user'"
           mat-flat-button matBadge="{{totalQuantity}}" matBadgePosition="after" matBadgeSize="large">

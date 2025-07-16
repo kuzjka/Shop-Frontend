@@ -18,6 +18,9 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
+import {UserInfo} from "../../dto/userInfo";
+import {lastValueFrom} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -48,8 +51,10 @@ export class ProductListComponent implements OnInit {
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
+  userInfo!: UserInfo;
 
   constructor(private fb: FormBuilder,
+              private router: Router,
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
@@ -57,11 +62,17 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
+
   }
 
-  getRole() {
-    this.role = this.userService.getRole();
+  getUser() {
+    this.userService.getUser().subscribe(data => {
+      this.role = data.role;
+      this.userService.setRole(this.role);
+    });
   }
+
+
 
   sortProducts(sortState: Sort) {
     this.currentSort = sortState.active;
@@ -138,7 +149,7 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
-        this.getRole();
+
       });
   }
 
@@ -316,7 +327,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRole();
+    this.getUser();
     this.getFilterTypes();
     this.getProducts();
     this.getCart();

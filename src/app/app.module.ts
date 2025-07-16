@@ -41,11 +41,14 @@ import {CheckoutComponent} from './checkout/checkout.component';
 import {authInterceptor} from "./service/auth-interceptor";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
+import {LoginComponent} from "./login/login.component";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     AddProductComponent,
     DeleteProductComponent,
     RegisterComponent,
@@ -64,7 +67,7 @@ import {OAuthModule} from "angular-oauth2-oidc";
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     RouterModule.forRoot([
-      {path: 'login', component: AppComponent},
+      {path: 'login', component: LoginComponent},
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},
