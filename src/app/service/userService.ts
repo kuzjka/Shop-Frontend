@@ -1,20 +1,28 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {filter, map, Observable, Subject} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
 import {OAuthService} from "angular-oauth2-oidc";
 
+
 type LoginVariant = 'manual' | 'library';
 
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-
+     subject= new Subject<Token>();
+  isLoggedIn: Observable<boolean> | undefined;
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
+    this.subject.subscribe({
+      next: value => this.saveToken(value.access_token)
+    });
+
+    this.isLoggedIn  = this.oauthService.events.pipe(filter(event => event.type === 'token_received'),
+      map(this.oauthService.hasValidAccessToken));
   }
 
   setLoginVariant(variant: LoginVariant) {
@@ -49,7 +57,7 @@ export class UserService {
     localStorage.setItem('role', role);
   }
 
-  getRole() {
+  fetchRole() {
     return localStorage.getItem('role');
   }
 
@@ -60,6 +68,7 @@ export class UserService {
   getUser(): Observable<UserInfo> {
     return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
+
 
   addUser(dto: UserDto): Observable<SuccessResponse> {
     return this.http.post<any>(this.baseUrl + '/user', dto);

@@ -19,8 +19,6 @@ import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 import {UserInfo} from "../../dto/userInfo";
-import {lastValueFrom} from "rxjs";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-list',
@@ -54,7 +52,6 @@ export class ProductListComponent implements OnInit {
   userInfo!: UserInfo;
 
   constructor(private fb: FormBuilder,
-              private router: Router,
               private productService: ProductService,
               private orderService: OrderService,
               private userService: UserService,
@@ -327,6 +324,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getUser();
     this.getFilterTypes();
     this.getProducts();

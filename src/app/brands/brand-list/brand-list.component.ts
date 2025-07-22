@@ -31,7 +31,7 @@ export class BrandListComponent implements OnInit {
   }
 
   getRole() {
-    this.role = this.userService.getRole();
+    this.role = this.userService.fetchRole();
   }
 
   sortBrands(sortState: Sort) {
