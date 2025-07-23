@@ -52,6 +52,7 @@ export class ProductListComponent implements OnInit {
   cart!: Cart;
   userInfo!: UserInfo;
   showAdmin!: Observable<boolean>;
+  showUser!: Observable<boolean>;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -66,9 +67,10 @@ export class ProductListComponent implements OnInit {
   getUser() {
     this.userService.getUser().subscribe(data => {
       this.role = data.role;
-      if (this.role === "admin")
-        this.showAdmin = this.userService.getRoleAdmin().pipe(map(role => role.name === 'admin'));
-    });
+      if (data.role === 'admin') {
+        this.showAdmin = this.userService.getRoleAdmin().pipe(map(role => role.name === 'admin'))
+      }
+    })
   }
 
   sortProducts(sortState: Sort) {
@@ -147,7 +149,7 @@ export class ProductListComponent implements OnInit {
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
         this.getUser();
-      });
+      })
   }
 
   pageChangeEvent(event: PageEvent) {
@@ -324,6 +326,7 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUser();
     this.getFilterTypes();
     this.getProducts();
     this.getCart();
