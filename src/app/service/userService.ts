@@ -6,6 +6,7 @@ import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
 import {UserInfo} from "../dto/userInfo";
 import {OAuthService} from "angular-oauth2-oidc";
+import {RoleInfo} from "../dto/roleInfo";
 
 
 type LoginVariant = 'manual' | 'library';
@@ -68,7 +69,9 @@ export class UserService {
   getUser(): Observable<UserInfo> {
     return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
-
+  getRoleAdmin(): Observable<RoleInfo> {
+    return this.http.get<RoleInfo>(this.baseUrl + '/user/admin');
+  }
 
   addUser(dto: UserDto): Observable<SuccessResponse> {
     return this.http.post<any>(this.baseUrl + '/user', dto);

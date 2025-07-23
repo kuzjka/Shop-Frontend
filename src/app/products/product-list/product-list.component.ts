@@ -19,6 +19,7 @@ import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 import {UserInfo} from "../../dto/userInfo";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-product-list',
@@ -50,6 +51,7 @@ export class ProductListComponent implements OnInit {
   orderDto: OrderDto;
   cart!: Cart;
   userInfo!: UserInfo;
+  showAdmin!: Observable<boolean>;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -59,17 +61,15 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
-
   }
 
   getUser() {
     this.userService.getUser().subscribe(data => {
       this.role = data.role;
-      this.userService.setRole(this.role);
+      if (this.role === "admin")
+        this.showAdmin = this.userService.getRoleAdmin().pipe(map(role => role.name === 'admin'));
     });
   }
-
-
 
   sortProducts(sortState: Sort) {
     this.currentSort = sortState.active;
@@ -146,7 +146,7 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
-
+        this.getUser();
       });
   }
 
@@ -324,8 +324,6 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.getUser();
     this.getFilterTypes();
     this.getProducts();
     this.getCart();
