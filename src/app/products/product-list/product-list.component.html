@@ -1,6 +1,6 @@
-<p align="center">
-  <button (click)="getUser()" mat-flat-button>get user</button>
-</p>
+<!--<p align="center">-->
+<!--  <button (click)="getUser()" mat-flat-button>get user</button>-->
+<!--</p>-->
 <mat-chip-listbox>
   @for (type of filterTypes; track type) {
     <mat-chip-option (click)="typeFilter(type.id)">{{ type.name }}</mat-chip-option>
@@ -71,11 +71,13 @@
   <ng-container matColumnDef="cart">
     <th *matHeaderCellDef mat-header-cell> Item</th>
     <td *matCellDef="let product" mat-cell>
+      @if ((showCart | async) || (showAdmin | async)) {
         <button (click)="addItemToCart(product.id)"
-                *ngIf="(role==='user' || role==='admin') && !cartProductIds.includes(product.id)" mat-icon-button>
+                *ngIf="!cartProductIds.includes(product.id)" mat-icon-button>
           <mat-icon>add_shopping_cart</mat-icon>
         </button>
-        <p *ngIf="(role==='user' || role==='admin') && cartProductIds.includes(product.id)">product in cart</p>
+        <p *ngIf="cartProductIds.includes(product.id)">product in cart</p>
+      }
     </td>
   </ng-container>
   <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>

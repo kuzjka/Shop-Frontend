@@ -18,7 +18,6 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
-import {UserInfo} from "../../dto/userInfo";
 import {map, Observable} from "rxjs";
 
 @Component({
@@ -50,9 +49,9 @@ export class ProductListComponent implements OnInit {
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
-  userInfo!: UserInfo;
+
   showAdmin!: Observable<boolean>;
-  showUser!: Observable<boolean>;
+  showCart!: Observable<boolean>;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -68,7 +67,10 @@ export class ProductListComponent implements OnInit {
     this.userService.getUser().subscribe(data => {
       this.role = data.role;
       if (data.role === 'admin') {
-        this.showAdmin = this.userService.getRoleAdmin().pipe(map(role => role.name === 'admin'))
+        this.showAdmin = this.userService.getRole().pipe(map(role => role.name === 'admin'))
+      }
+      if (data.role === 'user') {
+        this.showCart = this.userService.getRole().pipe(map(role => role.name === 'user'))
       }
     })
   }
@@ -148,7 +150,7 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
-        this.getUser();
+
       })
   }
 
@@ -326,7 +328,9 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUser();
+    setTimeout(() => {
+      this.getUser()
+    }, 2500);
     this.getFilterTypes();
     this.getProducts();
     this.getCart();

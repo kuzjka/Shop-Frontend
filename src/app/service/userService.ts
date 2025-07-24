@@ -15,15 +15,14 @@ type LoginVariant = 'manual' | 'library';
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
      subject= new Subject<Token>();
-  isLoggedIn: Observable<boolean> | undefined;
+
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
     this.subject.subscribe({
       next: value => this.saveToken(value.access_token)
     });
 
-    this.isLoggedIn  = this.oauthService.events.pipe(filter(event => event.type === 'token_received'),
-      map(this.oauthService.hasValidAccessToken));
+
   }
 
   setLoginVariant(variant: LoginVariant) {
@@ -47,6 +46,7 @@ export class UserService {
     if (this.getLoginVariant() === 'library') {
       return this.oauthService.getAccessToken();
     }
+
     return localStorage.getItem('token');
   }
 
@@ -69,7 +69,7 @@ export class UserService {
   getUser(): Observable<UserInfo> {
     return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
-  getRoleAdmin(): Observable<RoleInfo> {
+  getRole(): Observable<RoleInfo> {
     return this.http.get<RoleInfo>(this.baseUrl + '/user/admin');
   }
 

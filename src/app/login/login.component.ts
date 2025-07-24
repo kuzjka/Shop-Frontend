@@ -5,6 +5,7 @@ import {AuthService} from "../service/auth-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService,
               private authService: AuthService,
               private dialog: MatDialog,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private router: Router) {
     this.dto = new UserDto('', '', '', '', '', '');
   }
 
@@ -83,7 +85,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUser();
+    setTimeout(() => {
+      this.getUser()
+    }, 2500);
     this.isLoggedIn = this.userService.checkCredentials();
     let url = new URLSearchParams(window.location.search);
     let code = url.get('code');
