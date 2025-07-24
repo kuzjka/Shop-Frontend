@@ -61,19 +61,24 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
+    setTimeout(() => {
+      this.getUser();
+    }, 2000)
   }
 
   getUser() {
     this.userService.getUser().subscribe(data => {
       this.role = data.role;
-      if (data.role === 'admin') {
+      if (data.role === "admin") {
         this.showAdmin = this.userService.getRole().pipe(map(role => role.name === 'admin'))
       }
       if (data.role === 'user') {
         this.showCart = this.userService.getRole().pipe(map(role => role.name === 'user'))
       }
-    })
+      this.userService.setRole(data.role)
+    });
   }
+
 
   sortProducts(sortState: Sort) {
     this.currentSort = sortState.active;
@@ -328,9 +333,6 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.getUser()
-    }, 2500);
     this.getFilterTypes();
     this.getProducts();
     this.getCart();

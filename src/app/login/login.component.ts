@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
 import {Router} from "@angular/router";
+import {map, Observable} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -19,12 +20,14 @@ export class LoginComponent implements OnInit {
   username!: string;
   role!: string;
 
+
   constructor(private userService: UserService,
               private authService: AuthService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar,
               private router: Router) {
     this.dto = new UserDto('', '', '', '', '', '');
+    this.getUser();
   }
 
   login() {
@@ -85,9 +88,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.getUser()
-    }, 2500);
     this.isLoggedIn = this.userService.checkCredentials();
     let url = new URLSearchParams(window.location.search);
     let code = url.get('code');

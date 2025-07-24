@@ -14,16 +14,11 @@ type LoginVariant = 'manual' | 'library';
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-     subject= new Subject<Token>();
+
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
-    this.subject.subscribe({
-      next: value => this.saveToken(value.access_token)
-    });
-
-
-  }
+      }
 
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
@@ -70,7 +65,7 @@ export class UserService {
     return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
   getRole(): Observable<RoleInfo> {
-    return this.http.get<RoleInfo>(this.baseUrl + '/user/admin');
+    return this.http.get<RoleInfo>(this.baseUrl + '/user/role');
   }
 
   addUser(dto: UserDto): Observable<SuccessResponse> {

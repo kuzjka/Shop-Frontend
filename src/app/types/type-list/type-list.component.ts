@@ -8,6 +8,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
+import {map, Observable} from "rxjs";
 
 @Component({
     selector: 'app-type-list',
@@ -22,16 +23,18 @@ export class TypeListComponent implements OnInit {
   typeForm!: FormGroup;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
-
+  showAdmin!: Observable<boolean>;
   constructor(private userService: UserService,
               private productService: ProductService,
               private fb: FormBuilder,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
   }
-
   getRole() {
     this.role = this.userService.fetchRole();
+    if(this.role==='admin'){
+      this.showAdmin = this.userService.getRole().pipe(map(role=> role.name==='admin'))
+    }
   }
 
   sortTypes(sortState: Sort) {

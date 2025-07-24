@@ -1,6 +1,6 @@
-<!--<p align="center">-->
-<!--  <button (click)="getUser()" mat-flat-button>get user</button>-->
-<!--</p>-->
+<p align="center">
+  <button (click)="getUser()" mat-flat-button>get user</button>
+</p>
 <mat-chip-listbox>
   @for (type of filterTypes; track type) {
     <mat-chip-option (click)="typeFilter(type.id)">{{ type.name }}</mat-chip-option>
