@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit {
   cart!: Cart;
 
   showAdmin!: Observable<boolean>;
-  showCart!: Observable<boolean>;
+  showUser!: Observable<boolean>;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -62,23 +62,14 @@ export class ProductListComponent implements OnInit {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
     setTimeout(() => {
-      this.getUser();
-    }, 2000)
+      this.getRole()
+    }, 2000);
   }
 
-  getUser() {
-    this.userService.getUser().subscribe(data => {
-      this.role = data.role;
-      if (data.role === "admin") {
-        this.showAdmin = this.userService.getRole().pipe(map(role => role.name === 'admin'))
-      }
-      if (data.role === 'user') {
-        this.showCart = this.userService.getRole().pipe(map(role => role.name === 'user'))
-      }
-      this.userService.setRole(data.role)
-    });
+  getRole() {
+    this.showAdmin = this.userService.getRole().pipe(map(role => role.name === 'admin'));
+    this.showUser = this.userService.getRole().pipe(map(role => role.name === 'user' || role.name === 'admin'));
   }
-
 
   sortProducts(sortState: Sort) {
     this.currentSort = sortState.active;
@@ -94,7 +85,6 @@ export class ProductListComponent implements OnInit {
   getFilterTypes() {
     this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
-
     })
   }
 
@@ -155,7 +145,6 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
-
       })
   }
 
@@ -333,8 +322,8 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getFilterTypes();
     this.getProducts();
+    this.getFilterTypes();
     this.getCart();
   }
 }

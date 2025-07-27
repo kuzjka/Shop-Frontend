@@ -1,9 +1,8 @@
 <nav>
-  <a class="button" routerLink="/login">Login</a> |
   <a class="button" routerLink="/">Products</a> |
   <a class="button" routerLink="/types">Types</a> |
   <a class="button" routerLink="/brands">Brands</a> |
   <a class="button" routerLink="/orders">Orders</a>
 </nav>
 <app-login></app-login>
-<router-outlet *ngIf="!window.location.href.endsWith('/login')"></router-outlet>
+<router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 <p align="center">
-  <button (click)="getUser()" mat-flat-button>get user</button>
+  <button (click)="getRole()" mat-flat-button>get user</button>
 </p>
 <mat-chip-listbox>
   @for (type of filterTypes; track type) {
@@ -12,11 +12,13 @@
   }
 </mat-chip-listbox>
 <p align="center">
-  <button (click)="openCart()" *ngIf="role=='admin' || role=='user'"
-          mat-flat-button matBadge="{{totalQuantity}}" matBadgePosition="after" matBadgeSize="large">
-    Cart
-    <mat-icon>shopping_cart_checkout</mat-icon>
-  </button>
+  @if (showUser | async) {
+    <button (click)="openCart()" mat-flat-button matBadge="{{totalQuantity}}" matBadgePosition="after"
+            matBadgeSize="large">
+      Cart
+      <mat-icon>shopping_cart_checkout</mat-icon>
+    </button>
+  }
 </p>
 <table (matSortChange)="sortProducts($event)" [dataSource]="products" class="mat-elevation-z8" mat-table matSort>
   <ng-container matColumnDef="name">
@@ -71,7 +73,7 @@
   <ng-container matColumnDef="cart">
     <th *matHeaderCellDef mat-header-cell> Item</th>
     <td *matCellDef="let product" mat-cell>
-      @if ((showCart | async) || (showAdmin | async)) {
+      @if (showUser | async) {
         <button (click)="addItemToCart(product.id)"
                 *ngIf="!cartProductIds.includes(product.id)" mat-icon-button>
           <mat-icon>add_shopping_cart</mat-icon>

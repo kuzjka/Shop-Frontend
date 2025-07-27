@@ -69,7 +69,6 @@ import {LoginComponent} from "./login/login.component";
   ],
   bootstrap: [AppComponent], imports: [BrowserModule,
     RouterModule.forRoot([
-      {path: 'login', component: LoginComponent},
       {path: '', component: ProductListComponent},
       {path: 'types', component: TypeListComponent},
       {path: 'brands', component: BrandListComponent},

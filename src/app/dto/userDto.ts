@@ -1,6 +1,6 @@
 export class UserDto {
   role: string;
-  username: string;
+  username: string | null;
   email: string;
   oldPassword: string;
   password: string;

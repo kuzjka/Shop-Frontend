@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {filter, map, Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -18,7 +18,7 @@ export class UserService {
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
-      }
+  }
 
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
@@ -64,6 +64,7 @@ export class UserService {
   getUser(): Observable<UserInfo> {
     return this.http.get<UserInfo>(this.baseUrl + '/user');
   }
+
   getRole(): Observable<RoleInfo> {
     return this.http.get<RoleInfo>(this.baseUrl + '/user/role');
   }
