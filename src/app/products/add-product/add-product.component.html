@@ -1,44 +1,42 @@
 <div align="center">
-<h1>{{ title }}</h1>
-<form [formGroup]="data.productForm">
-  <input formControlName="id" type="hidden"/>
-  <p align="center">
-    <mat-form-field>
-      <mat-label>Type</mat-label>
-      <mat-select formControlName="typeId">
-
-        @for (type of types; track type) {
-          <mat-option [value]="type.id">{{ type.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </p>
-  <p align="center">
-    <mat-form-field>
-      <mat-label>Brand</mat-label>
-      <mat-select formControlName="brandId">
-
-        @for (brand of brands; track brand) {
-          <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </p>
-  <p align="center">
-    <mat-form-field>
-      <mat-label>Name</mat-label>
-      <input formControlName="name" matInput>
-    </mat-form-field>
-  </p>
-  <p align="center">
-    <mat-form-field>
-      <mat-label>Price:</mat-label>
-      <input formControlName="price" matInput>
-    </mat-form-field>
-  </p>
-</form>
-<div align="center" mat-dialog-actions>
-  <button (click)="onNoClick()" mat-button>No Thanks</button>
-  <button [mat-dialog-close]="data.productForm" cdkFocusInitial mat-flat-button>Ok</button>
-</div>
+  <h1>{{ title }}</h1>
+  <form [formGroup]="data.productForm">
+    <input formControlName="id" type="hidden"/>
+    <p align="center">
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="typeId">
+          @for (type of types; track type) {
+            <mat-option [value]="type.id">{{ type.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p align="center">
+      <mat-form-field>
+        <mat-label>Brand</mat-label>
+        <mat-select formControlName="brandId">
+          @for (brand of brands; track brand) {
+            <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p align="center">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput>
+      </mat-form-field>
+    </p>
+    <p align="center">
+      <mat-form-field>
+        <mat-label>Price:</mat-label>
+        <input formControlName="price" matInput>
+      </mat-form-field>
+    </p>
+  </form>
+  <div align="center" mat-dialog-actions>
+    <button (click)="onNoClick()" mat-button>No Thanks</button>
+    <button [mat-dialog-close]="data.productForm" cdkFocusInitial mat-flat-button>Ok</button>
+  </div>
 </div>

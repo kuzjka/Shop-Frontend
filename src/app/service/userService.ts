@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -13,7 +13,7 @@ type LoginVariant = 'manual' | 'library';
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-  userSubject = new Subject<UserInfo>;
+  userSubject = new BehaviorSubject(new UserInfo('', ''));
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
@@ -45,6 +45,9 @@ export class UserService {
   }
 
   checkCredentials(): boolean {
+    if (this.getLoginVariant() === 'library') {
+      return this.oauthService.hasValidAccessToken();
+    }
     return localStorage.getItem('token') != null;
   }
 

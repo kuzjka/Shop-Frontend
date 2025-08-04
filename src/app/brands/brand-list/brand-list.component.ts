@@ -8,6 +8,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
+import {Observable} from "rxjs";
+import {UserInfo} from "../../dto/userInfo";
 
 @Component({
   selector: 'app-brand-list',
@@ -22,7 +24,7 @@ export class BrandListComponent implements OnInit {
   role!: string | null;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
-
+  user!: Observable<UserInfo>;
   constructor(private userService: UserService,
               private productService: ProductService,
               private fb: FormBuilder,
@@ -31,7 +33,8 @@ export class BrandListComponent implements OnInit {
   }
 
   getRole() {
-    this.role = this.userService.fetchRole();
+    this.userService.getUser();
+    this.user = this.userService.userSubject.pipe();
   }
 
   sortBrands(sortState: Sort) {

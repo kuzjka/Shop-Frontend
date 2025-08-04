@@ -8,6 +8,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../service/userService";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
+import {Observable} from "rxjs";
+import {UserInfo} from "../../dto/userInfo";
 
 @Component({
   selector: 'app-type-list',
@@ -22,6 +24,7 @@ export class TypeListComponent implements OnInit {
   typeForm!: FormGroup;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
+  user!: Observable<UserInfo>;
 
   constructor(private userService: UserService,
               private productService: ProductService,
@@ -31,7 +34,8 @@ export class TypeListComponent implements OnInit {
   }
 
   getRole() {
-    this.role = this.userService.fetchRole();
+    this.userService.getUser();
+    this.user = this.userService.userSubject.pipe();
   }
 
   sortTypes(sortState: Sort) {

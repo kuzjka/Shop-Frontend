@@ -18,6 +18,8 @@ import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.compo
 import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
+import {Observable} from "rxjs";
+import {UserInfo} from "../../dto/userInfo";
 
 @Component({
   selector: 'app-product-list',
@@ -41,14 +43,13 @@ export class ProductListComponent implements OnInit {
   itemDto!: ItemDto;
   displayedColumns: string[] = ['name', 'price', 'photo', 'type', 'brand', 'actions', 'cart'];
   cartProductIds!: number[];
-  role!: string | null;
   photoForm!: FormGroup;
   productForm!: FormGroup;
   totalPrice!: number;
   totalQuantity!: number;
   orderDto: OrderDto;
   cart!: Cart;
-
+  user!: Observable<UserInfo>;
 
   constructor(private fb: FormBuilder,
               private productService: ProductService,
@@ -58,17 +59,11 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
-    if (!this.userService.checkCredentials()) {
-      this.getUser();
-    } else {
-      this.role = this.userService.fetchRole();
-    }
   }
 
-  getUser() {
-    this.userService.userSubject.subscribe(data => {
-      this.role = data.role;
-    })
+  getRole() {
+    this.userService.getUser();
+    this.user = this.userService.userSubject.pipe();
   }
 
   sortProducts(sortState: Sort) {
@@ -85,14 +80,14 @@ export class ProductListComponent implements OnInit {
   getFilterTypes() {
     this.productService.getProductTypes().subscribe(data => {
       this.filterTypes = data;
-    })
+    });
   }
 
   getFilterBrands(typeId: number) {
     this.currentTypeId = typeId;
     this.productService.getAllBrands(this.currentTypeId, undefined, undefined).subscribe(data => {
       this.filterBrands = data;
-    })
+    });
   }
 
   typeFilter(typeId: number) {
@@ -115,7 +110,7 @@ export class ProductListComponent implements OnInit {
         this.totalProducts = data.totalProducts;
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
-      })
+      });
   }
 
   brandFilter(brandId: number) {
@@ -145,7 +140,7 @@ export class ProductListComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.pageIndex = data.currentPage;
         this.totalProducts = data.totalProducts;
-      })
+      });
   }
 
   pageChangeEvent(event: PageEvent) {
@@ -165,7 +160,7 @@ export class ProductListComponent implements OnInit {
     this.photoForm = this.fb.group({
       productId: [productId],
       photo: [null]
-    })
+    });
     const dialogRef = this.dialog.open(AddPhotoComponent, {
       height: '500px',
       width: '500px',
@@ -288,7 +283,6 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-
   addItemToCart(productId: number) {
     this.itemDto.productId = productId;
     this.itemDto.itemId = 0;
@@ -322,9 +316,9 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRole();
     this.getProducts();
     this.getFilterTypes();
-
     this.getCart();
   }
 }
