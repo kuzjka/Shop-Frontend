@@ -17,6 +17,11 @@ export class UserService {
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
+    this.oauthService.events.subscribe(event=>{
+      if(event.type === 'token_received'){
+        this.getUser();
+      }
+    });
   }
 
   setLoginVariant(variant: LoginVariant) {
@@ -51,17 +56,13 @@ export class UserService {
     return localStorage.getItem('token') != null;
   }
 
-  setUser(user: UserInfo) {
-    localStorage.setItem('username', user.username);
-    localStorage.setItem('role', user.role);
+  setUsername(username: string) {
+    localStorage.setItem('username', username);
+
   }
 
   fetchUsername() {
     return localStorage.getItem('username');
-  }
-
-  fetchRole() {
-    return localStorage.getItem('role');
   }
 
   clearData() {
@@ -71,7 +72,7 @@ export class UserService {
   getUser() {
     this.http.get<UserInfo>(this.baseUrl + '/user').subscribe(data => {
       this.userSubject.next(data);
-      this.setUser(data);
+      this.setUsername(data.username);
     });
   }
 
