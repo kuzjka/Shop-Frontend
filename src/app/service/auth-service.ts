@@ -16,7 +16,7 @@ export class AuthService {
     this.oauthService.initCodeFlow();
   }
 
-  logout() {
+  logout(){
     this.oauthService.logOut();
   }
 }

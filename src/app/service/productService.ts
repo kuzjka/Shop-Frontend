@@ -51,13 +51,11 @@ export class ProductService {
     let params = new HttpParams();
     params = sort == undefined ? params : params.set('sort', sort);
     params = dir == undefined ? params : params.set('dir', dir);
-    if (typeId > 0) {
-      params = params.set('typeId', typeId);
-    }
-    if (brandId > 0) {
+    if(typeId>0){
+      params = params.set('typeId', typeId);}
+    if(brandId>0){
       params = params.set('brandId', brandId);
-    }
-    params = page == undefined ? params : params.set('page', page);
+    params = page == undefined ? params : params.set('page', page);}
     params = size == undefined ? params : params.set('size', size);
     return this.http.get<ResponseProductDto>(`${this.baseUrl}/products/product`, {params: params});
   }

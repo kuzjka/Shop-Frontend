@@ -76,9 +76,12 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.userService.clearData();
-    this.authService.logout();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
+  }
+
+  logout2() {
+    this.authService.logout();
   }
 
   ngOnInit(): void {

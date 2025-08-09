@@ -23,11 +23,9 @@ export class UserService {
       }
     });
   }
-
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
   }
-
   getLoginVariant(): LoginVariant {
     const variant = localStorage.getItem('loginVariant');
     if (variant === 'library') {
@@ -36,12 +34,10 @@ export class UserService {
       return 'manual';
     }
   }
-
   saveToken(token: string) {
     localStorage.setItem('token', token);
     this.getUser();
   }
-
   getToken() {
     if (this.getLoginVariant() === 'library') {
       return this.oauthService.getAccessToken();

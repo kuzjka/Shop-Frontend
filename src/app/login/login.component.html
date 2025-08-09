@@ -3,17 +3,21 @@
     {{ (user | async)?.username }} : {{ (user | async)?.role }}
   </button>
   <mat-menu #menu="matMenu">
-    @if ((user | async)?.username !== 'none') {
-      <p>
-        <button (click)="editUser()" color="primary" mat-stroked-button>Change password</button>
-      </p>
-      <p>
-        <button (click)="logout()" color="primary" mat-stroked-button>
-          <mat-icon>logout</mat-icon>
-          logout
-        </button>
-      </p>
-    }
+    <p>
+      <button (click)="editUser()" color="primary" mat-stroked-button>Change password</button>
+    </p>
+    <p>
+      <button (click)="logout()" color="primary" mat-stroked-button>
+        <mat-icon>logout</mat-icon>
+        manual logout
+      </button>
+    </p>
+    <p>
+      <button (click)="logout2()" color="primary" mat-stroked-button>
+        <mat-icon>logout</mat-icon>
+        library logout
+      </button>
+    </p>
   </mat-menu>
   @if ((user | async)?.username === 'none') {
     <button (click)="login()" color="primary" mat-stroked-button>
