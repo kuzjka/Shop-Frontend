@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -13,19 +13,23 @@ type LoginVariant = 'manual' | 'library';
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-  userSubject = new BehaviorSubject(new UserInfo('', ''));
+  userSubject = new ReplaySubject<UserInfo>();
+  isLoggedIn = false;
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
-    this.oauthService.events.subscribe(event=>{
-      if(event.type === 'token_received'){
+    this.isLoggedIn = this.checkCredentials();
+    this.oauthService.events.subscribe(event => {
+      if (event.type === 'token_received') {
         this.getUser();
       }
     });
   }
+
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
   }
+
   getLoginVariant(): LoginVariant {
     const variant = localStorage.getItem('loginVariant');
     if (variant === 'library') {
@@ -34,10 +38,12 @@ export class UserService {
       return 'manual';
     }
   }
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
     this.getUser();
   }
+
   getToken() {
     if (this.getLoginVariant() === 'library') {
       return this.oauthService.getAccessToken();
@@ -54,7 +60,6 @@ export class UserService {
 
   setUsername(username: string) {
     localStorage.setItem('username', username);
-
   }
 
   fetchUsername() {

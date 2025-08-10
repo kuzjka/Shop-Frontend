@@ -15,7 +15,7 @@ import {UserInfo} from "../dto/userInfo";
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-  isLoggedIn = false;
+
   dto: UserDto;
   user!: Observable<UserInfo>;
 
@@ -75,6 +75,14 @@ export class LoginComponent implements OnInit {
   }
 
   logout() {
+    if (this.userService.getLoginVariant() === "manual") {
+      this.logout1();
+    } else {
+      this.logout2();
+    }
+  }
+
+  logout1() {
     this.userService.clearData();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
@@ -85,10 +93,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.userService.checkCredentials();
     let url = new URLSearchParams(window.location.search);
     let code = url.get('code');
-    if (!this.isLoggedIn && code != null && this.userService.getLoginVariant() === 'manual') {
+    if (!this.userService.isLoggedIn && code != null && this.userService.getLoginVariant() === 'manual') {
       this.userService.retrieveToken(code);
     }
   }
