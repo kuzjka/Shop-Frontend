@@ -59,10 +59,6 @@ export class ProductListComponent implements OnInit {
               private snackBar: MatSnackBar) {
     this.itemDto = new ItemDto(0, 0, 0);
     this.orderDto = new OrderDto('', '', '');
-  }
-
-  getRole() {
-    this.userService.getUser();
     this.user = this.userService.userSubject.pipe();
   }
 
@@ -316,7 +312,6 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRole();
     this.getProducts();
     this.getFilterTypes();
     this.getCart();

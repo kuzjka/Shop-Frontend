@@ -20,7 +20,6 @@ import {UserInfo} from "../../dto/userInfo";
 export class TypeListComponent implements OnInit {
   types: Type[] = [];
   displayedColumns: string[] = ['name', 'edit', 'delete'];
-  role!: string | null;
   typeForm!: FormGroup;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
@@ -31,10 +30,6 @@ export class TypeListComponent implements OnInit {
               private fb: FormBuilder,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-  }
-
-  getRole() {
-    this.userService.getUser();
     this.user = this.userService.userSubject.pipe();
   }
 
@@ -118,7 +113,6 @@ export class TypeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRole();
     this.getTypes();
   }
 }

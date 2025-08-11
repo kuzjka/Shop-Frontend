@@ -21,19 +21,15 @@ export class BrandListComponent implements OnInit {
   brands: Brand[] = [];
   brandForm!: FormGroup;
   displayedColumns: string[] = ['name', 'edit', 'delete'];
-  role!: string | null;
   currentSort: string | undefined = undefined;
   currentDir: string | undefined = undefined;
   user!: Observable<UserInfo>;
+
   constructor(private userService: UserService,
               private productService: ProductService,
               private fb: FormBuilder,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
-  }
-
-  getRole() {
-    this.userService.getUser();
     this.user = this.userService.userSubject.pipe();
   }
 
@@ -119,7 +115,6 @@ export class BrandListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getRole();
     this.getBrands();
   }
 }

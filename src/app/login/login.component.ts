@@ -24,13 +24,9 @@ export class LoginComponent implements OnInit {
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '');
-    this.getUser();
-  }
-
-  getUser() {
-    this.userService.getUser();
     this.user = this.userService.userSubject.pipe();
   }
+
 
   login() {
     this.userService.setLoginVariant('manual');
