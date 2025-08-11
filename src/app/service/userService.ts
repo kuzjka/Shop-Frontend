@@ -25,7 +25,11 @@ export class UserService {
       }
     });
   }
-
+  login() {
+    this.setLoginVariant('manual');
+    window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
+      '&scope=openid&redirect_uri=http://localhost:4200';
+  }
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
   }
