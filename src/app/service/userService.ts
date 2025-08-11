@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, ReplaySubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {UserDto} from "../dto/userDto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
@@ -13,7 +13,7 @@ type LoginVariant = 'manual' | 'library';
 @Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-  userSubject = new ReplaySubject<UserInfo>();
+  userSubject = new BehaviorSubject<UserInfo>(new UserInfo('none', 'none', 'none'));
   isLoggedIn = false;
 
   constructor(private http: HttpClient,
@@ -72,7 +72,8 @@ export class UserService {
 
   getUser() {
     this.http.get<UserInfo>(this.baseUrl + '/user').subscribe(data => {
-      this.userSubject.next(data);
+      if (data != null)
+        this.userSubject.next(data);
       this.setUsername(data.username);
     });
   }
