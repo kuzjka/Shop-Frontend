@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {Type} from "../../model/type";
-import {ProductService} from "../../service/productService";
+import {ProductService} from "../../service/product-service";
 import {AddTypeComponent} from "../add-type/add-type.component";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteTypeComponent} from "../delete-type/delete-type.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "../../service/userService";
+import {UserService} from "../../service/user-service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
 import {Observable} from "rxjs";
-import {UserInfo} from "../../dto/userInfo";
+import {UserInfo} from "../../dto/user-info";
 
 @Component({
   selector: 'app-type-list',

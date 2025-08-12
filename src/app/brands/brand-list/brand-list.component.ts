@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from "../../service/productService";
+import {ProductService} from "../../service/product-service";
 import {Brand} from "../../model/brand";
 import {AddBrandComponent} from "../add-brand/add-brand.component";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteBrandComponent} from "../delete-brand/delete-brand.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {UserService} from "../../service/userService";
+import {UserService} from "../../service/user-service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Sort} from "@angular/material/sort";
 import {Observable} from "rxjs";
-import {UserInfo} from "../../dto/userInfo";
+import {UserInfo} from "../../dto/user-info";
 
 @Component({
   selector: 'app-brand-list',

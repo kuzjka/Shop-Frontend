@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {ItemDto} from "../dto/itemDto";
-import {OrderService} from "../service/orderService";
+import {OrderService} from "../service/order-service";
 import {Item} from "../model/item";
 import {OrderDto} from "../dto/orderDto";
 import {Cart} from "../model/cart";

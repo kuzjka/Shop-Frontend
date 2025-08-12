@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {UserDto} from "../dto/userDto";
-import {UserService} from "../service/userService";
+import {UserDto} from "../dto/user-dto";
+import {UserService} from "../service/user-service";
 import {AuthService} from "../service/auth-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
 import {Observable} from "rxjs";
-import {UserInfo} from "../dto/userInfo";
+import {UserInfo} from "../dto/user-info";
 
 @Component({
   selector: 'app-login',
@@ -77,9 +77,7 @@ export class LoginComponent implements OnInit {
   }
 
   logout1() {
-    this.userService.clearData();
-    window.location.href = 'http://localhost:8080/logout';
-    window.location.reload();
+    this.userService.logout();
   }
 
   logout2() {
@@ -89,7 +87,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     let url = new URLSearchParams(window.location.search);
     let code = url.get('code');
-    if (!this.userService.isLoggedIn && code != null && this.userService.getLoginVariant() === 'manual') {
+    if (!this.userService.isLoggedIn && this.userService.getLoginVariant() === 'manual') {
       this.userService.retrieveToken(code);
     }
   }

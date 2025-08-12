@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {ProductService} from "./service/productService";
+import {ProductService} from "./service/product-service";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -29,10 +29,10 @@ import {ProductListComponent} from './products/product-list/product-list.compone
 import {DeleteTypeComponent} from './types/delete-type/delete-type.component';
 import {DeleteBrandComponent} from './brands/delete-brand/delete-brand.component';
 import {NgOptimizedImage} from "@angular/common";
-import {UserService} from "./service/userService";
+import {UserService} from "./service/user-service";
 import {MatMenuModule} from "@angular/material/menu";
 import {CartComponent} from './cart/cart.component';
-import {OrderService} from "./service/orderService";
+import {OrderService} from "./service/order-service";
 import {AddPhotoComponent} from './photos/add-photo/add-photo.component';
 import {DeletePhotoComponent} from './photos/delete-photo/delete-photo.component';
 import {ListOrdersComponent} from './orders/list-orders/list-orders.component';
@@ -95,7 +95,7 @@ import {LoginComponent} from "./login/login.component";
     MatMenuModule,
     MatBadgeModule,
     RouterModule],
-  providers: [ProductService, UserService, OrderService,
+  providers: [ProductService, OrderService,
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })

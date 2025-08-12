@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ProductService} from "../../service/productService";
+import {ProductService} from "../../service/product-service";
 import {Brand} from "../../model/brand";
 import {Type} from "../../model/type";
 import {FormGroup} from "@angular/forms";

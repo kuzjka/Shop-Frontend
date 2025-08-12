@@ -2,16 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {Product} from "../../model/product";
 import {Type} from "../../model/type";
 import {Brand} from "../../model/brand";
-import {ProductService} from "../../service/productService";
+import {ProductService} from "../../service/product-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AddProductComponent} from "../add-product/add-product.component";
 import {PageEvent} from "@angular/material/paginator";
 import {DeleteProductComponent} from "../delete-product/delete-product.component";
 import {Sort} from "@angular/material/sort";
-import {OrderService} from "../../service/orderService";
+import {OrderService} from "../../service/order-service";
 import {ItemDto} from "../../dto/itemDto";
-import {UserService} from "../../service/userService";
+import {UserService} from "../../service/user-service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AddPhotoComponent} from "../../photos/add-photo/add-photo.component";
 import {DeletePhotoComponent} from "../../photos/delete-photo/delete-photo.component";
@@ -19,7 +19,7 @@ import {CartComponent} from "../../cart/cart.component";
 import {OrderDto} from "../../dto/orderDto";
 import {Cart} from "../../model/cart";
 import {Observable} from "rxjs";
-import {UserInfo} from "../../dto/userInfo";
+import {UserInfo} from "../../dto/user-info";
 
 @Component({
   selector: 'app-product-list',

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {OrderService} from "../service/orderService";
+import {OrderService} from "../service/order-service";
 import {Cart} from "../model/cart";
 import {OrderDto} from "../dto/orderDto";
 import {MatDialog} from "@angular/material/dialog";

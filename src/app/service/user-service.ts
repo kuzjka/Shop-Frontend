@@ -1,19 +1,19 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
-import {UserDto} from "../dto/userDto";
+import {UserDto} from "../dto/user-dto";
 import {SuccessResponse} from "../model/successResponse";
 import {Token} from "../model/token";
-import {UserInfo} from "../dto/userInfo";
+import {UserInfo} from "../dto/user-info";
 import {OAuthService} from "angular-oauth2-oidc";
 
 
 type LoginVariant = 'manual' | 'library';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
-  userSubject = new BehaviorSubject<UserInfo>(new UserInfo('none', 'none', 'none'));
+  userSubject = new BehaviorSubject<UserInfo>(new UserInfo('none', 'none'));
   isLoggedIn = false;
 
   constructor(private http: HttpClient,
@@ -25,11 +25,19 @@ export class UserService {
       }
     });
   }
+
   login() {
     this.setLoginVariant('manual');
     window.location.href = 'http://localhost:8080/oauth2/authorize?client_id=app-client&response_type=code' +
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
+
+  logout() {
+    this.clearData();
+    window.location.href = 'http://localhost:8080/logout';
+    window.location.reload();
+  }
+
   setLoginVariant(variant: LoginVariant) {
     localStorage.setItem('loginVariant', variant);
   }
@@ -45,7 +53,6 @@ export class UserService {
 
   saveToken(token: string) {
     localStorage.setItem('token', token);
-    this.getUser();
   }
 
   getToken() {
@@ -58,6 +65,7 @@ export class UserService {
   checkCredentials(): boolean {
     if (this.getLoginVariant() === 'library') {
       return this.oauthService.hasValidAccessToken();
+
     }
     return localStorage.getItem('token') != null;
   }
@@ -76,9 +84,10 @@ export class UserService {
 
   getUser() {
     this.http.get<UserInfo>(this.baseUrl + '/user').subscribe(data => {
-      if (data != null)
+      if (data != null) {
         this.userSubject.next(data);
-      this.setUsername(data.username);
+        this.setUsername(data.username);
+      }
     });
   }
 
@@ -94,19 +103,22 @@ export class UserService {
     return this.http.get<SuccessResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
   }
 
-  retrieveToken(code: string) {
-    const tokenHeaders = new HttpHeaders({
-      'Authorization': 'Basic ' + btoa('app-client:app-secret'),
-      'Content-type': 'application/x-www-form-urlencoded'
-    });
-    let params = new URLSearchParams();
-    params.append('redirect_uri', 'http://localhost:4200');
-    params.append('grant_type', 'authorization_code');
-    params.append('code', code);
-    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
-      .subscribe(data => {
-          this.saveToken(data.access_token);
-        }
-      )
+  retrieveToken(code: string | null) {
+    if (code != null) {
+      const tokenHeaders = new HttpHeaders({
+        'Authorization': 'Basic ' + btoa('app-client:app-secret'),
+        'Content-type': 'application/x-www-form-urlencoded'
+      });
+      let params = new URLSearchParams();
+      params.append('redirect_uri', 'http://localhost:4200');
+      params.append('grant_type', 'authorization_code');
+      params.append('code', code);
+      this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
+        .subscribe(data => {
+            this.saveToken(data.access_token);
+            this.getUser();
+          }
+        )
+    }
   }
 }
