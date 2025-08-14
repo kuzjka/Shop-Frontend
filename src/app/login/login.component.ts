@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {UserDto} from "../dto/user-dto";
 import {UserService} from "../service/user-service";
-import {AuthService} from "../service/auth-service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RegisterComponent} from "../register/register.component";
 import {Observable} from "rxjs";
 import {UserInfo} from "../dto/user-info";
+import {AuthService} from "../service/auth-service";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   user!: Observable<UserInfo>;
 
   constructor(private userService: UserService,
-              private authService: AuthService,
+
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '');
@@ -33,8 +33,8 @@ export class LoginComponent implements OnInit {
 
 
   login2() {
-    this.userService.setLoginVariant('library');
-    this.authService.login();
+    this.userService.login2();
+
   }
 
   addUser() {
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
   }
 
   logout2() {
-    this.authService.logout();
+    this.userService.logout2();
   }
 
   ngOnInit(): void {

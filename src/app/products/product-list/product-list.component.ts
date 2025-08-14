@@ -21,6 +21,7 @@ import {Cart} from "../../model/cart";
 import {Observable} from "rxjs";
 import {UserInfo} from "../../dto/user-info";
 
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',

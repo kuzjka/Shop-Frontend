@@ -42,10 +42,6 @@ import {authInterceptor} from "./service/auth-interceptor";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {LoginComponent} from "./login/login.component";
-import {AuthService} from "./service/auth-service";
-
-
-
 
 
 @NgModule({
@@ -96,8 +92,11 @@ import {AuthService} from "./service/auth-service";
     MatMenuModule,
     MatBadgeModule,
     RouterModule],
-  providers: [ProductService, OrderService, UserService, AuthService,
-    provideHttpClient(withInterceptors([authInterceptor])),
+  providers: [
+    ProductService,
+    OrderService,
+    UserService,
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 })
 export class AppModule {

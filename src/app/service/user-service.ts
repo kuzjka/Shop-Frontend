@@ -18,7 +18,6 @@ export class UserService {
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
-
     this.oauthService.events.subscribe(event => {
       if (event.type === 'token_received') {
         this.getUser();
@@ -32,10 +31,19 @@ export class UserService {
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
+  login2() {
+    this.setLoginVariant('library');
+    this.oauthService.initCodeFlow();
+  }
+
   logout() {
     this.clearData();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
+  }
+
+  logout2() {
+    this.oauthService.logOut();
   }
 
   setLoginVariant(variant: LoginVariant) {
