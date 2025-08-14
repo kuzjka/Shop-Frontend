@@ -42,6 +42,7 @@ import {authInterceptor} from "./service/auth-interceptor";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
 import {LoginComponent} from "./login/login.component";
+import {AuthService} from "./service/auth-service";
 
 
 
@@ -95,7 +96,7 @@ import {LoginComponent} from "./login/login.component";
     MatMenuModule,
     MatBadgeModule,
     RouterModule],
-  providers: [ProductService, OrderService,
+  providers: [ProductService, OrderService, UserService, AuthService,
     provideHttpClient(withInterceptors([authInterceptor])),
   ]
 })

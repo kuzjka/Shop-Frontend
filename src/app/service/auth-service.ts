@@ -3,9 +3,7 @@ import {OAuthService} from "angular-oauth2-oidc";
 import {authConfig} from "./auth-config";
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
   constructor(private oauthService: OAuthService) {
     this.oauthService.configure(authConfig);

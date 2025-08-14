@@ -10,7 +10,7 @@ import {OAuthService} from "angular-oauth2-oidc";
 
 type LoginVariant = 'manual' | 'library';
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
   userSubject = new BehaviorSubject<UserInfo>(new UserInfo('none', 'none'));
@@ -18,7 +18,7 @@ export class UserService {
 
   constructor(private http: HttpClient,
               private oauthService: OAuthService) {
-    this.isLoggedIn = this.checkCredentials();
+
     this.oauthService.events.subscribe(event => {
       if (event.type === 'token_received') {
         this.getUser();
@@ -103,22 +103,29 @@ export class UserService {
     return this.http.get<SuccessResponse>(this.baseUrl + '/user/resendRegistrationToken?token=' + token);
   }
 
-  retrieveToken(code: string | null) {
-    if (code != null) {
-      const tokenHeaders = new HttpHeaders({
-        'Authorization': 'Basic ' + btoa('app-client:app-secret'),
-        'Content-type': 'application/x-www-form-urlencoded'
-      });
-      let params = new URLSearchParams();
-      params.append('redirect_uri', 'http://localhost:4200');
-      params.append('grant_type', 'authorization_code');
-      params.append('code', code);
-      this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
-        .subscribe(data => {
-            this.saveToken(data.access_token);
-            this.getUser();
-          }
-        )
+  getAuthCode() {
+    this.isLoggedIn = this.checkCredentials();
+    let url = new URLSearchParams(window.location.search);
+    let code = url.get('code');
+    if (!this.isLoggedIn && code != null && this.getLoginVariant() === 'manual') {
+      this.retrieveToken(code);
     }
+  }
+
+  retrieveToken(code: string) {
+    const tokenHeaders = new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('app-client:app-secret'),
+      'Content-type': 'application/x-www-form-urlencoded'
+    });
+    let params = new URLSearchParams();
+    params.append('redirect_uri', 'http://localhost:4200');
+    params.append('grant_type', 'authorization_code');
+    params.append('code', code);
+    this.http.post<Token>(this.baseUrl + '/oauth2/token', params, {headers: tokenHeaders})
+      .subscribe(data => {
+          this.saveToken(data.access_token);
+          this.getUser();
+        }
+      );
   }
 }

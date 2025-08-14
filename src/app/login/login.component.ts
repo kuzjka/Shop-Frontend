@@ -85,10 +85,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let url = new URLSearchParams(window.location.search);
-    let code = url.get('code');
-    if (!this.userService.isLoggedIn && this.userService.getLoginVariant() === 'manual') {
-      this.userService.retrieveToken(code);
-    }
+    this.userService.getAuthCode();
   }
 }
