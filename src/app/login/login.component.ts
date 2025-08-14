@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   user!: Observable<UserInfo>;
 
   constructor(private userService: UserService,
-
+              private authService: AuthService,
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.dto = new UserDto('', '', '', '', '');
@@ -31,10 +31,9 @@ export class LoginComponent implements OnInit {
     this.userService.login();
   }
 
-
   login2() {
-    this.userService.login2();
-
+    this.userService.setLoginVariant('library');
+    this.authService.login();
   }
 
   addUser() {
@@ -81,7 +80,7 @@ export class LoginComponent implements OnInit {
   }
 
   logout2() {
-    this.userService.logout2();
+    this.authService.logout();
   }
 
   ngOnInit(): void {

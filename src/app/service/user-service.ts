@@ -31,19 +31,11 @@ export class UserService {
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
-  login2() {
-    this.setLoginVariant('library');
-    this.oauthService.initCodeFlow();
-  }
 
   logout() {
     this.clearData();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
-  }
-
-  logout2() {
-    this.oauthService.logOut();
   }
 
   setLoginVariant(variant: LoginVariant) {

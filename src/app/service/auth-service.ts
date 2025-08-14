@@ -9,4 +9,12 @@ export class AuthService {
     this.oauthService.configure(authConfig);
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
+
+  login() {
+    this.oauthService.initCodeFlow();
+  }
+
+  logout() {
+    this.oauthService.logOut();
+  }
 }
