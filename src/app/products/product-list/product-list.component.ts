@@ -82,7 +82,7 @@ export class ProductListComponent implements OnInit {
 
   getFilterBrands(typeId: number) {
     this.currentTypeId = typeId;
-    this.productService.getAllBrands(this.currentTypeId, undefined, undefined).subscribe(data => {
+    this.productService.getProductBrands(this.currentTypeId).subscribe(data => {
       this.filterBrands = data;
     });
   }
