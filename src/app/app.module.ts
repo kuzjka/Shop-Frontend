@@ -41,13 +41,12 @@ import {CheckoutComponent} from './checkout/checkout.component';
 import {authInterceptor} from "./service/auth-interceptor";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {OAuthModule} from "angular-oauth2-oidc";
-import {LoginComponent} from "./login/login.component";
+import {AuthService} from "./service/auth-service";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     AddProductComponent,
     DeleteProductComponent,
     RegisterComponent,
@@ -93,9 +92,6 @@ import {LoginComponent} from "./login/login.component";
     MatBadgeModule,
     RouterModule],
   providers: [
-    ProductService,
-    OrderService,
-    UserService,
     provideHttpClient(withInterceptors([authInterceptor]))
   ]
 })

@@ -10,7 +10,7 @@ import {OAuthService} from "angular-oauth2-oidc";
 
 type LoginVariant = 'manual' | 'library';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UserService {
   baseUrl: string = 'http://localhost:8080';
   userSubject = new BehaviorSubject<UserInfo>(new UserInfo('none', 'none'));
@@ -31,11 +31,19 @@ export class UserService {
       '&scope=openid&redirect_uri=http://localhost:4200';
   }
 
+  login2() {
+    this.setLoginVariant('library');
+    this.oauthService.initCodeFlow();
+  }
 
   logout() {
     this.clearData();
     window.location.href = 'http://localhost:8080/logout';
     window.location.reload();
+  }
+
+  logout2() {
+    this.oauthService.logOut();
   }
 
   setLoginVariant(variant: LoginVariant) {

@@ -6,7 +6,7 @@ import {Type} from "../model/type";
 import {Brand} from "../model/brand";
 import {ResponseProductDto} from "../dto/ResponseProductDto";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ProductService {
   fileArray!: File[];
   baseUrl: string = 'http://localhost:8080';

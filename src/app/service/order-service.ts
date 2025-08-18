@@ -6,7 +6,7 @@ import {Cart} from "../model/cart";
 import {Order} from "../model/order";
 import {OrderDto} from "../dto/orderDto";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class OrderService {
   baseUrl: string = 'http://localhost:8080';
 
